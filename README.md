@@ -12,7 +12,9 @@
 #### Backend database
 Schema:
 user_information_E(userid = wallet address, trading_history)
+
 posts_E(post_id, user_id, post, date, buy_or_sell, crypto, amount)
+
 trading_history_R(post_id, buyer, seller, date)
 
 
