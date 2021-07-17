@@ -1,27 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from "react";
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
+import {UserContext, defaultUserData} from "./contexts";
+import AppBar from './components/AppBar';
 
 function App() {
+  const [userState, setUserState] = useState({
+    ...defaultUserData,
+    // Methods to modify user context.
+    login: () => {
+      // TODO
+    },
+    logout: () => {
+      // TODO
+    },
+  });
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <UserContext.Provider value={userState}>
+        <AppBar>
+
+        </AppBar>
+      </UserContext.Provider>
     </div>
   );
 }
