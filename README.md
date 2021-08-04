@@ -50,11 +50,11 @@ Pages:
  
  (recommand sign up with email, but also support wallet)
 
-4.courserating LSY
+4. courserating LSY
  
  (评价，基本信息，选择是否上链，可以点赞和踩，打赏）
 
-5.coursematerials Kevin
+5. coursematerials Kevin
  
 （文件，可以打赏，点赞，踩，下载（付钱窗口，登陆后可上传））
 
