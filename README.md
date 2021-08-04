@@ -39,7 +39,7 @@ Pages:
 1. homepage （不登陆也可以看到）LLX
 (搜索栏，搜索栏旁边有checkbox，dashborad/log in button)
 
-2.dashoborad（登陆后能看到）Lester
+2. dashoborad（登陆后能看到）Lester
 profile（邮箱，余额。。。）我的资料、我的评价，充值，上传资料
 
 3. sign up/log in Dino
