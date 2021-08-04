@@ -38,14 +38,19 @@ Reference List:
 Pages:
 1. homepage （不登陆也可以看到）
 (搜索栏，搜索栏旁边有checkbox，dashborad/log in button)
+
 2.dashoborad（登陆后能看到）
 profile（邮箱，余额。。。）我的资料、我的评价，充值，上传资料
+
 3. sign up/log in
 (recommand sign up with email, but also support wallet)
+
 4.courserating 
 （评价，基本信息，选择是否上链，可以点赞和踩，打赏）
+
 5.coursematerials
 （文件，可以打赏，点赞，踩，下载（付钱窗口，登陆后可上传））
+
 6.upload
 （课程名字，年份，价格）
 
