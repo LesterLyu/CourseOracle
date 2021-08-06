@@ -1,9 +1,13 @@
 import React from 'react';
 import {USER_TYPE} from '../constants';
 
+const localData = JSON.parse(localStorage.getItem('userData'));
+
 export const defaultUserData = {
   username: "",
+  email: '',
   type: USER_TYPE.GUEST,
+  ...(localData || {}),
   // ...
 
   // Methods to modify user context.
@@ -13,7 +17,8 @@ export const defaultUserData = {
   },
   logout: () => {
   },
-
 };
+
+
 
 export const UserContext = React.createContext(defaultUserData);
