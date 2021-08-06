@@ -14,26 +14,22 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [14.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
     steps:
     - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: Use Node.js 14
       uses: actions/setup-node@v2
       with:
-        working-directory: frontend
-        node-version: ${{ matrix.node-version }}
+        node-version: 14
+        cache-dependency-path: frontend/yarn-lock.json
         cache: 'npm'
+
     - name: Install Dependencies
       working-directory: frontend
-      run: npm install
+      run: yarn install --frozen-lockfile
       
     - name: Build
       working-directory: frontend
-      run: CI=false npm build
+      run: CI=false yarn build
       
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
