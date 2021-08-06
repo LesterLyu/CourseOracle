@@ -2,7 +2,7 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://lesterlyu.github.io/ConfluxP2PTrading",
+  "homepage": "https://lesterlyu.github.io/CourseOracle",
   "dependencies": {
     "@emotion/react": "^11.4.0",
     "@emotion/styled": "^11.3.0",
