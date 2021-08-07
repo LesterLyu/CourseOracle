@@ -15,7 +15,7 @@ import {USER_TYPE} from "./constants";
 import DashboardRoute from "./routes/DashboardRoute";
 
 const theme = createTheme({});
-
+const isOnGithubIO = window.location.hostname.toLowerCase() === 'lesterlyu.github.io';
 
 function App() {
   const [userState, setUserState] = useState({
@@ -40,7 +40,7 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline/>
         <UserContext.Provider value={userState}>
-          <Router>
+          <Router basename={isOnGithubIO ? '/CourseOracle' : undefined}>
             <AppBar/>
             <Switch>
               <Route path="/dashboard" component={DashboardRoute}/>
