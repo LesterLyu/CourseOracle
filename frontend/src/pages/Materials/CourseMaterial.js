@@ -7,38 +7,17 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/styles'
+import { styled } from '@material-ui/core'
 import Container from '@material-ui/core/Container';
 import Popover from '@material-ui/core/Popover'
 import Checkout from './Checkout.js'
 import RateMaterial from './RateMaterial.js'
 import RewardOfferer from './RewardOfferer'
 
-const useStyles = makeStyles((theme) => ({
-  icon: {
-    marginRight: 2,
-  },
-  heroContent: {
-    padding: 8,
-  },
-  heroButtons: {
-    marginTop: 4,
-  },
-  cardGrid: {
-    paddingTop: 4,
-    paddingBottom: 4,
-  },
-  materials: {
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  cardMedia: {
-    paddingTop: '56.25%', // 16:9
-  },
-  cardContent: {
-    flexGrow: 1,
-  },
+const StyledCard = styled(Card)(() => ({
+  height: '100%',
+  display: 'flex',
+  flexDirection: 'column',
 }));
 
 const DATA = [  
@@ -121,7 +100,6 @@ const DATA = [
 
 
 export default function CourseMaterial() {
-  const classes = useStyles();
   const [courseInfo, setCourseInfo] = useState({
     name: window.location.href.split('/')[window.location.href.split('/').length - 1],
     school: 'University of Toronto',
@@ -214,7 +192,7 @@ export default function CourseMaterial() {
     <React.Fragment>
       <CssBaseline />
       <main>
-        <div className={classes.heroContent}>
+        <div style={{padding: "10px"}}>
           <Container maxWidth="sm">
             <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
               {courseInfo.name}
@@ -231,7 +209,7 @@ export default function CourseMaterial() {
             <Typography variant="h5" align="center" color="textSecondary" paragraph>
               {courseInfo.description}
             </Typography>
-            <div className={classes.heroButtons}>
+            <div style={{marginTop: "5px"}}>
               <Grid container spacing={2} justifyContent="center">
               <Grid item>
                   <Button variant={buttonVariant1} color="primary" onClick={buttonHandler1}>
@@ -262,17 +240,17 @@ export default function CourseMaterial() {
             </div>
           </Container>
         </div>
-        <Container className={classes.cardGrid} maxWidth="md">
+        <Container style={{paddingTop: "5px", paddingBottom: "5px"}} maxWidth="md">
           <Grid container spacing={4}>
             {materials.map((m) => (
               <Grid item key={m.id} xs={12} sm={6} md={4}>
-                <Card className={classes.materials}>
+                <StyledCard>
                   <CardMedia
-                    className={classes.cardMedia}
+                    style={{paddingTop: '56.25%'}}
                     image={m.cover_page}
                     title="Image title"
                   />
-                  <CardContent className={classes.cardContent}>
+                  <CardContent style={{flexGrow: 1}}>
                     <Typography gutterBottom variant="h5" component="h2">
                       semester: {m.year} {m.semester}
                     </Typography>
@@ -351,7 +329,7 @@ export default function CourseMaterial() {
                     }
                     </Popover>
                   </CardActions>
-                </Card>
+                </StyledCard>
               </Grid>
             ))}
           </Grid>

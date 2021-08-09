@@ -1,5 +1,4 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/styles';
 import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -7,22 +6,14 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Button from '@material-ui/core/Button';
 import RateMaterial from './RateMaterial'
 import RewardOfferer from './RewardOfferer'
+import { styled } from '@material-ui/core'
 
-const useStyles = makeStyles((theme) => ({
-  listItem: {
+const StyledListItem = styled(ListItem)(() => ({
     padding: 20, 
-  },
-  total: {
-    fontWeight: 700,
-  },
-  title: {
-    marginTop: 2,
-  },
-}));
+  }));
 
 export default function Checkout(props) {
   const {product, handleClose, materials, setMaterials} = props;
-  const classes = useStyles();
 
   const submitCheckoutHandle = (e) => {
     var newMaterials = []
@@ -43,25 +34,25 @@ export default function Checkout(props) {
         Order summary
       </Typography>
       <List >
-        <ListItem className={classes.listItem} key={product.id}>
+        <StyledListItem key={product.id}>
         <ListItemText primary={product.school + ' ' + product.course + ' ' + product.year + ' ' + product.semester + ' ' + product.prof[0]} 
                     secondary={product.type} />
         <Typography variant="body1">{product.price}</Typography>
-        </ListItem>
-        <ListItem className={classes.listItem}>
+        </StyledListItem>
+        <StyledListItem>
           <ListItemText primary="Total" />
-          <Typography variant="subtitle1" className={classes.total}>
+          <Typography variant="subtitle1" style={{fontWeight: 700}}>
             <span>{product.price}</span>
           </Typography>
-        </ListItem>
-        <ListItem className={classes.listItem}>
+        </StyledListItem>
+        <StyledListItem>
                 <Button
                     variant="outlined"
                     color="primary"
                     onClick={handleClose}>
                     Close          
                 </Button>
-            <Typography  className={classes.total}>
+            <Typography  style={{fontWeight: 700}}>
                 <Button
                     variant="contained"
                     color="primary"
@@ -69,7 +60,7 @@ export default function Checkout(props) {
                     Buy            
                 </Button>
             </Typography>
-      </ListItem>
+      </StyledListItem>
       </List>
     </React.Fragment>
     }
