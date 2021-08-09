@@ -8,7 +8,6 @@ import {UserContext} from "../../contexts";
 
 export default function DashboardRoute() {
   const userContext = useContext(UserContext);
-
   return (
     <Container>
       <Box sx={{paddingTop: 3}}/>

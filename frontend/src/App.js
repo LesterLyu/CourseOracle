@@ -13,6 +13,7 @@ import AppBar from './components/AppBar';
 import HomeRoute from "./routes/HomeRoute";
 import {USER_TYPE} from "./constants";
 import DashboardRoute from "./routes/DashboardRoute";
+import MaterialRoute from "./routes/MaterialRoute"
 
 const theme = createTheme({});
 const isOnGithubIO = window.location.hostname.toLowerCase() === 'lesterlyu.github.io';
@@ -43,6 +44,7 @@ function App() {
           <Router basename={isOnGithubIO ? '/CourseOracle' : undefined}>
             <AppBar/>
             <Switch>
+              <Route path="/material" component={MaterialRoute}/>
               <Route path="/dashboard" component={DashboardRoute}/>
               <Route path="/" component={HomeRoute}/>
             </Switch>
