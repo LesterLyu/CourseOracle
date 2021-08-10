@@ -1,29 +1,29 @@
 {
   "files": {
     "main.css": "/CourseOracle/static/css/main.6dea0f05.chunk.css",
-    "main.js": "/CourseOracle/static/js/main.aebe6244.chunk.js",
-    "main.js.map": "/CourseOracle/static/js/main.aebe6244.chunk.js.map",
-    "runtime-main.js": "/CourseOracle/static/js/runtime-main.52196f4c.js",
-    "runtime-main.js.map": "/CourseOracle/static/js/runtime-main.52196f4c.js.map",
+    "main.js": "/CourseOracle/static/js/main.c573d3ae.chunk.js",
+    "main.js.map": "/CourseOracle/static/js/main.c573d3ae.chunk.js.map",
+    "runtime-main.js": "/CourseOracle/static/js/runtime-main.9ddaa292.js",
+    "runtime-main.js.map": "/CourseOracle/static/js/runtime-main.9ddaa292.js.map",
     "static/css/2.9454d74e.chunk.css": "/CourseOracle/static/css/2.9454d74e.chunk.css",
-    "static/js/2.4b52459c.chunk.js": "/CourseOracle/static/js/2.4b52459c.chunk.js",
-    "static/js/2.4b52459c.chunk.js.map": "/CourseOracle/static/js/2.4b52459c.chunk.js.map",
-    "static/js/3.ebde0f63.chunk.js": "/CourseOracle/static/js/3.ebde0f63.chunk.js",
-    "static/js/3.ebde0f63.chunk.js.map": "/CourseOracle/static/js/3.ebde0f63.chunk.js.map",
+    "static/js/2.4a3b080f.chunk.js": "/CourseOracle/static/js/2.4a3b080f.chunk.js",
+    "static/js/2.4a3b080f.chunk.js.map": "/CourseOracle/static/js/2.4a3b080f.chunk.js.map",
+    "static/js/3.acd8899a.chunk.js": "/CourseOracle/static/js/3.acd8899a.chunk.js",
+    "static/js/3.acd8899a.chunk.js.map": "/CourseOracle/static/js/3.acd8899a.chunk.js.map",
     "index.html": "/CourseOracle/index.html",
     "static/css/2.9454d74e.chunk.css.map": "/CourseOracle/static/css/2.9454d74e.chunk.css.map",
     "static/css/main.6dea0f05.chunk.css.map": "/CourseOracle/static/css/main.6dea0f05.chunk.css.map",
-    "static/js/2.4b52459c.chunk.js.LICENSE.txt": "/CourseOracle/static/js/2.4b52459c.chunk.js.LICENSE.txt",
+    "static/js/2.4a3b080f.chunk.js.LICENSE.txt": "/CourseOracle/static/js/2.4a3b080f.chunk.js.LICENSE.txt",
     "static/media/300.css": "/CourseOracle/static/media/roboto-vietnamese-300-normal.af9afdc1.woff2",
     "static/media/400.css": "/CourseOracle/static/media/roboto-vietnamese-400-normal.c0bec65d.woff2",
     "static/media/500.css": "/CourseOracle/static/media/roboto-vietnamese-500-normal.b8e494da.woff2",
     "static/media/700.css": "/CourseOracle/static/media/roboto-vietnamese-700-normal.3096f18a.woff2"
   },
   "entrypoints": [
-    "static/js/runtime-main.52196f4c.js",
+    "static/js/runtime-main.9ddaa292.js",
     "static/css/2.9454d74e.chunk.css",
-    "static/js/2.4b52459c.chunk.js",
+    "static/js/2.4a3b080f.chunk.js",
     "static/css/main.6dea0f05.chunk.css",
-    "static/js/main.aebe6244.chunk.js"
+    "static/js/main.c573d3ae.chunk.js"
   ]
 }
