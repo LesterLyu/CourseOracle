@@ -18,6 +18,7 @@ import ArrowForwardSharpIcon from '@material-ui/icons/ArrowForwardSharp';
 import Icon from '@material-ui/core/Icon';
 
 import {Grid} from '@material-ui/core';
+import {HomeBackgroundWrapper} from "../components/Background";
 
 
 const Search = styled('div')(({theme}) => ({
@@ -61,6 +62,13 @@ const StyledInputBase = styled(InputBase)(({theme}) => ({
   },
 }));
 
+const StyledCheckbox = styled(Checkbox)(({
+  color: '#ccc',
+  '&.Mui-checked': {
+    color: '#ccc',
+  },
+}));
+
 // const FormGroup2 = styled('div')(({theme}) => ({
 //   position: 'cnter',
 //   borderRadius: theme.shape.borderRadius,
@@ -81,129 +89,137 @@ export default function HomePage() {
   };
 
   return (
-    <Container justify="center">
+    <HomeBackgroundWrapper>
+      <Container justify="center">
 
-      <Box sx={{display: 'flex'}}>
-        <Typography variant={"h1"} fontStyle={'sans-serif'} fontSize={40} sx={{pt: 5}}>
-          Course Oracle
-        </Typography>
-      </Box>
+        <Box sx={{display: 'flex'}}>
+          <Typography variant={"h1"} fontFamily={'sans-serif'} fontSize={60}
+                      sx={{pt: 5, color: "#eee", fontWeight: 500, pb: 5}}>
+            Course Oracle
+          </Typography>
+        </Box>
+
+        <Paper sx={{height: '300px', pt: 5, borderRadius: 10, bgcolor: 'rgb(36,36,36, 0.85)'}}>
+
+          <Grid container spacing={4} sx={{marginTop: '50px'}} justifyContent="center">
+            <Grid direction={'column'}>
+              <Grid item xs={6} md={8}>
+                <Paper>
+                  <Search>
+                    <SearchIconWrapper>
+                      <SearchIcon/>
+                    </SearchIconWrapper>
+                    <StyledInputBase
+                      placeholder="Search for course…"
+                    />
+                  </Search>
+                </Paper>
+              </Grid>
+
+              <Grid item>
+                <Box sx={{pt: 2}}>
+                  <FormGroup row sx={{justifyContent: 'center'}}>
+                    <FormControlLabel
+                      sx={{color: 'white'}}
+                      control={
+                        <StyledCheckbox
+                          checked={state.checkedA}
+                          onChange={handleChange}
+                          name="checkedA"
+                          color="primary"
+                        />
+                      }
+                      label="Course Materials"
+                    />
 
 
-      <Grid container spacing={4} sx={{marginTop: '50px'}} justifyContent="center">
-        <Grid direction={'column'}>
-          <Grid item xs={6} md={8}>
-            <Paper>
-              <Search>
-                <SearchIconWrapper>
-                  <SearchIcon/>
-                </SearchIconWrapper>
-                <StyledInputBase
-                  placeholder="Search for course…"
-                />
-              </Search>
-            </Paper>
+                    <FormControlLabel
+                      sx={{color: 'white'}}
+                      control={
+                        <StyledCheckbox
+                          checked={state.checkedB}
+                          onChange={handleChange}
+                          name="checkedB"
+                        />
+                      }
+                      label="Course Past Exams"
+                    />
+
+                    <FormControlLabel
+                      sx={{color: 'white'}}
+                      control={
+                        <StyledCheckbox
+                          checked={state.checkedC}
+                          onChange={handleChange}
+                          name="checkedC"
+                          color="primary"
+                        />
+                      }
+                      label="Course Ratings"
+                    />
+                  </FormGroup>
+                </Box>
+              </Grid>
+
+            </Grid>
+
+            <Grid item xs={6} md={2} sx={{mt: '-34px'}}>
+              <Box sx={{display: 'flex'}}>
+                <Button
+                  size="large"
+                  variant="contained"
+                  color="primary"
+                  endIcon={<ArrowForwardSharpIcon/>}
+                >
+                  Search
+                </Button>
+              </Box>
+            </Grid>
           </Grid>
-
-          <Grid item>
-            <Box sx={{margin: 'auto'}}>
-              <FormGroup row sx={{justifyContent: 'center'}}>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={state.checkedA}
-                      onChange={handleChange}
-                      name="checkedA"
-                      color="primary"
-                    />
-                  }
-                  label="Course Materials"
-                />
+        </Paper>
 
 
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={state.checkedB}
-                      onChange={handleChange}
-                      name="checkedB"
-                      color="primary"
-                    />
-                  }
-                  label="Course Past Exams"
-                />
-
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={state.checkedC}
-                      onChange={handleChange}
-                      name="checkedC"
-                      color="primary"
-                    />
-                  }
-                  label="Course Ratings"
-                />
-              </FormGroup>
-            </Box>
-          </Grid>
-
-        </Grid>
-
-        <Grid item xs={6} md={2} sx={{mt: '-28px'}}>
-          <Box sx={{display: 'flex'}}>
-            <Button
-              size="small"
-              variant="contained"
-              color="primary"
-              endIcon={<ArrowForwardSharpIcon/>}
-            >
-              Search
-            </Button>
-          </Box>
-        </Grid>
-      </Grid>
-
-      {/*<Box sx={{margin: 'auto'}}>*/}
-      {/*  <FormGroup row sx={{justifyContent: 'center'}}>*/}
-      {/*    <FormControlLabel*/}
-      {/*      control={*/}
-      {/*        <Checkbox*/}
-      {/*          checked={state.checkedA}*/}
-      {/*          onChange={handleChange}*/}
-      {/*          name="checkedA"*/}
-      {/*          color="primary"*/}
-      {/*        />*/}
-      {/*      }*/}
-      {/*      label="Course Materials"*/}
-      {/*    />*/}
+        {/*<Box sx={{margin: 'auto'}}>*/}
+        {/*  <FormGroup row sx={{justifyContent: 'center'}}>*/}
+        {/*    <FormControlLabel*/}
+        {/*      control={*/}
+        {/*        <Checkbox*/}
+        {/*          checked={state.checkedA}*/}
+        {/*          onChange={handleChange}*/}
+        {/*          name="checkedA"*/}
+        {/*          color="primary"*/}
+        {/*        />*/}
+        {/*      }*/}
+        {/*      label="Course Materials"*/}
+        {/*    />*/}
 
 
-      {/*    <FormControlLabel*/}
-      {/*      control={*/}
-      {/*        <Checkbox*/}
-      {/*          checked={state.checkedB}*/}
-      {/*          onChange={handleChange}*/}
-      {/*          name="checkedB"*/}
-      {/*          color="primary"*/}
-      {/*        />*/}
-      {/*      }*/}
-      {/*      label="Course Past Exams"*/}
-      {/*    />*/}
+        {/*    <FormControlLabel*/}
+        {/*      control={*/}
+        {/*        <Checkbox*/}
+        {/*          checked={state.checkedB}*/}
+        {/*          onChange={handleChange}*/}
+        {/*          name="checkedB"*/}
+        {/*          color="primary"*/}
+        {/*        />*/}
+        {/*      }*/}
+        {/*      label="Course Past Exams"*/}
+        {/*    />*/}
 
-      {/*    <FormControlLabel*/}
-      {/*      control={*/}
-      {/*        <Checkbox*/}
-      {/*          checked={state.checkedC}*/}
-      {/*          onChange={handleChange}*/}
-      {/*          name="checkedC"*/}
-      {/*          color="primary"*/}
-      {/*        />*/}
-      {/*      }*/}
-      {/*      label="Course Ratings"*/}
-      {/*    />*/}
-      {/*  </FormGroup>*/}
-      {/*</Box>*/}
-    </Container>
+        {/*    <FormControlLabel*/}
+        {/*      control={*/}
+        {/*        <Checkbox*/}
+        {/*          checked={state.checkedC}*/}
+        {/*          onChange={handleChange}*/}
+        {/*          name="checkedC"*/}
+        {/*          color="primary"*/}
+        {/*        />*/}
+        {/*      }*/}
+        {/*      label="Course Ratings"*/}
+        {/*    />*/}
+        {/*  </FormGroup>*/}
+        {/*</Box>*/}
+      </Container>
+    </HomeBackgroundWrapper>
   )
 }
