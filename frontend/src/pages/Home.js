@@ -30,10 +30,6 @@ const Search = styled('div')(({theme}) => ({
   },
   marginLeft: 0,
   width: '100%',
-  [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(1),
-    width: 'auto',
-  },
 }));
 
 const SearchIconWrapper = styled('div')(({theme}) => ({
@@ -51,14 +47,7 @@ const StyledInputBase = styled(InputBase)(({theme}) => ({
     padding: theme.spacing(1, 1, 1, 0),
     // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
     width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      width: '50ch',
-      '&:focus': {
-        width: '52ch',
-      },
-    },
   },
 }));
 
@@ -102,9 +91,9 @@ export default function HomePage() {
         <Paper sx={{height: '300px', pt: 5, borderRadius: 10, bgcolor: 'rgb(36,36,36, 0.85)'}}>
 
           <Grid container spacing={4} sx={{marginTop: '40px'}} justifyContent="center">
-            <Grid item xs={6}>
-              <Grid container direction={'column'}>
-                <Grid item xs={6} md={8}>
+            <Grid item xs={6} md={8}>
+              <Grid container direction={'column'} alignItems="stretch">
+                <Grid item>
                   <Paper>
                     <Search>
                       <SearchIconWrapper>
@@ -119,7 +108,7 @@ export default function HomePage() {
 
                 <Grid item>
                   <Box sx={{pt: 2}}>
-                    <FormGroup row sx={{justifyContent: 'center'}}>
+                    <FormGroup row>
                       <FormControlLabel
                         sx={{color: 'white'}}
                         control={
@@ -165,62 +154,20 @@ export default function HomePage() {
               </Grid>
             </Grid>
 
-            <Grid item xs={6} md={2}>
-              <Box sx={{display: 'flex'}}>
-                <Button
-                  size="large"
-                  variant="contained"
-                  color="primary"
-                  endIcon={<ArrowForwardSharpIcon/>}
-                >
-                  Search
-                </Button>
-              </Box>
+            <Grid item xs={4} md={2}>
+              <Button
+                sx={{mt: '-1px'}}
+                size="large"
+                variant="contained"
+                color="primary"
+                endIcon={<ArrowForwardSharpIcon/>}
+              >
+                Search
+              </Button>
             </Grid>
           </Grid>
         </Paper>
 
-
-        {/*<Box sx={{margin: 'auto'}}>*/}
-        {/*  <FormGroup row sx={{justifyContent: 'center'}}>*/}
-        {/*    <FormControlLabel*/}
-        {/*      control={*/}
-        {/*        <Checkbox*/}
-        {/*          checked={state.checkedA}*/}
-        {/*          onChange={handleChange}*/}
-        {/*          name="checkedA"*/}
-        {/*          color="primary"*/}
-        {/*        />*/}
-        {/*      }*/}
-        {/*      label="Course Materials"*/}
-        {/*    />*/}
-
-
-        {/*    <FormControlLabel*/}
-        {/*      control={*/}
-        {/*        <Checkbox*/}
-        {/*          checked={state.checkedB}*/}
-        {/*          onChange={handleChange}*/}
-        {/*          name="checkedB"*/}
-        {/*          color="primary"*/}
-        {/*        />*/}
-        {/*      }*/}
-        {/*      label="Course Past Exams"*/}
-        {/*    />*/}
-
-        {/*    <FormControlLabel*/}
-        {/*      control={*/}
-        {/*        <Checkbox*/}
-        {/*          checked={state.checkedC}*/}
-        {/*          onChange={handleChange}*/}
-        {/*          name="checkedC"*/}
-        {/*          color="primary"*/}
-        {/*        />*/}
-        {/*      }*/}
-        {/*      label="Course Ratings"*/}
-        {/*    />*/}
-        {/*  </FormGroup>*/}
-        {/*</Box>*/}
       </Container>
     </HomeBackgroundWrapper>
   )
