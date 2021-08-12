@@ -8,3 +8,13 @@ export function LoginBackgroundWrapper({children}) {
     {children}
   </Box>
 }
+
+export function HomeBackgroundWrapper({children}) {
+  return <Box sx={{
+    height: 'calc(100vh - 64px)',
+    backgroundImage: `url("${process.env.PUBLIC_URL}/homepage_bg-min.jpg")`,
+    backgroundSize: '1920px 1280px'
+  }}>
+    {children}
+  </Box>
+}

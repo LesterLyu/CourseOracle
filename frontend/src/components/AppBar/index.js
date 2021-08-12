@@ -19,6 +19,7 @@ export default function AppBar() {
     <Box sx={{flexGrow: 1}}>
       <MuiAppBar position="static" sx={{bgcolor: "#242424"}}>
         <Toolbar>
+          <img src={process.env.PUBLIC_URL + '/logo3.png'} height={30} style={{paddingRight: 8}}/>
           <Typography variant="h6" component="div" sx={{pr: 6, cursor: 'pointer'}} onClick={navigateTo('/')}>
             Course Oracle
           </Typography>

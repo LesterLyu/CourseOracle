@@ -5,6 +5,20 @@ import {Container, InputBase, Paper} from "@material-ui/core";
 import {Search as SearchIcon} from "@material-ui/icons";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@material-ui/icons/CheckBox';
+import Favorite from '@material-ui/icons/Favorite';
+import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
+import {useState} from 'react';
+import Button from '@material-ui/core/Button';
+import ArrowForwardSharpIcon from '@material-ui/icons/ArrowForwardSharp';
+import Icon from '@material-ui/core/Icon';
+
+import {Grid} from '@material-ui/core';
+import {HomeBackgroundWrapper} from "../components/Background";
 
 
 const Search = styled('div')(({theme}) => ({
@@ -16,10 +30,6 @@ const Search = styled('div')(({theme}) => ({
   },
   marginLeft: 0,
   width: '100%',
-  [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(1),
-    width: 'auto',
-  },
 }));
 
 const SearchIconWrapper = styled('div')(({theme}) => ({
@@ -27,8 +37,7 @@ const SearchIconWrapper = styled('div')(({theme}) => ({
   height: '100%',
   position: 'absolute',
   pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
+  display: 'flex', alignItems: 'center',
   justifyContent: 'center',
 }));
 
@@ -38,39 +47,128 @@ const StyledInputBase = styled(InputBase)(({theme}) => ({
     padding: theme.spacing(1, 1, 1, 0),
     // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
     width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      width: '50ch',
-      '&:focus': {
-        width: '50ch',
-      },
-    },
   },
 }));
 
+const StyledCheckbox = styled(Checkbox)(({
+  color: '#ccc',
+  '&.Mui-checked': {
+    color: '#ccc',
+  },
+}));
+
+// const FormGroup2 = styled('div')(({theme}) => ({
+//   position: 'cnter',
+//   borderRadius: theme.shape.borderRadius,
+
+//   marginLeft: 0,
+//   width: '100%',
+// }));
 
 export default function HomePage() {
-  return (
-    <Container>
-      <Box sx={{display: 'flex'}}>
-        <Typography variant={"h1"} fontSize={40} sx={{pt: 5}}>
-          Homepage Placeholder
-        </Typography>
-      </Box>
-      <Box sx={{display: 'flex'}}>
-        <Paper sx={{margin: 'auto', marginTop: '50px'}}>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon/>
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-            />
-          </Search>
-        </Paper>
-      </Box>
+  const [state, setState] = React.useState({
+    checkedA: true,
+    checkedB: true,
+    checkedC: true,
+  });
 
-    </Container>
+  const handleChange = (event) => {
+    setState({...state, [event.target.name]: event.target.checked});
+  };
+
+  return (
+    <HomeBackgroundWrapper>
+      <Container justify="center">
+
+        <Box sx={{display: 'flex'}}>
+          <Typography variant={"h1"} fontFamily={'sans-serif'} fontSize={60}
+                      sx={{pt: 5, color: "#eee", fontWeight: 500, pb: 5}}>
+            Course Oracle
+          </Typography>
+        </Box>
+
+        <Paper sx={{height: '300px', pt: 5, borderRadius: 10, bgcolor: 'rgb(36,36,36, 0.85)'}}>
+
+          <Grid container spacing={4} sx={{marginTop: '40px'}} justifyContent="center">
+            <Grid item xs={6} md={8}>
+              <Grid container direction={'column'} alignItems="stretch">
+                <Grid item>
+                  <Paper>
+                    <Search>
+                      <SearchIconWrapper>
+                        <SearchIcon/>
+                      </SearchIconWrapper>
+                      <StyledInputBase
+                        placeholder="Search for course…"
+                      />
+                    </Search>
+                  </Paper>
+                </Grid>
+
+                <Grid item>
+                  <Box sx={{pt: 2}}>
+                    <FormGroup row>
+                      <FormControlLabel
+                        sx={{color: 'white'}}
+                        control={
+                          <StyledCheckbox
+                            checked={state.checkedA}
+                            onChange={handleChange}
+                            name="checkedA"
+                            color="primary"
+                          />
+                        }
+                        label="Course Materials"
+                      />
+
+
+                      <FormControlLabel
+                        sx={{color: 'white'}}
+                        control={
+                          <StyledCheckbox
+                            checked={state.checkedB}
+                            onChange={handleChange}
+                            name="checkedB"
+                          />
+                        }
+                        label="Course Past Exams"
+                      />
+
+                      <FormControlLabel
+                        sx={{color: 'white'}}
+                        control={
+                          <StyledCheckbox
+                            checked={state.checkedC}
+                            onChange={handleChange}
+                            name="checkedC"
+                            color="primary"
+                          />
+                        }
+                        label="Course Ratings"
+                      />
+                    </FormGroup>
+                  </Box>
+                </Grid>
+
+              </Grid>
+            </Grid>
+
+            <Grid item xs={4} md={2}>
+              <Button
+                sx={{mt: '-1px'}}
+                size="large"
+                variant="contained"
+                color="primary"
+                endIcon={<ArrowForwardSharpIcon/>}
+              >
+                Search
+              </Button>
+            </Grid>
+          </Grid>
+        </Paper>
+
+      </Container>
+    </HomeBackgroundWrapper>
   )
 }
