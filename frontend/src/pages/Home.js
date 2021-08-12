@@ -101,69 +101,71 @@ export default function HomePage() {
 
         <Paper sx={{height: '300px', pt: 5, borderRadius: 10, bgcolor: 'rgb(36,36,36, 0.85)'}}>
 
-          <Grid container spacing={4} sx={{marginTop: '50px'}} justifyContent="center">
-            <Grid direction={'column'}>
-              <Grid item xs={6} md={8}>
-                <Paper>
-                  <Search>
-                    <SearchIconWrapper>
-                      <SearchIcon/>
-                    </SearchIconWrapper>
-                    <StyledInputBase
-                      placeholder="Search for course…"
-                    />
-                  </Search>
-                </Paper>
+          <Grid container spacing={4} sx={{marginTop: '40px'}} justifyContent="center">
+            <Grid item xs={6}>
+              <Grid container direction={'column'}>
+                <Grid item xs={6} md={8}>
+                  <Paper>
+                    <Search>
+                      <SearchIconWrapper>
+                        <SearchIcon/>
+                      </SearchIconWrapper>
+                      <StyledInputBase
+                        placeholder="Search for course…"
+                      />
+                    </Search>
+                  </Paper>
+                </Grid>
+
+                <Grid item>
+                  <Box sx={{pt: 2}}>
+                    <FormGroup row sx={{justifyContent: 'center'}}>
+                      <FormControlLabel
+                        sx={{color: 'white'}}
+                        control={
+                          <StyledCheckbox
+                            checked={state.checkedA}
+                            onChange={handleChange}
+                            name="checkedA"
+                            color="primary"
+                          />
+                        }
+                        label="Course Materials"
+                      />
+
+
+                      <FormControlLabel
+                        sx={{color: 'white'}}
+                        control={
+                          <StyledCheckbox
+                            checked={state.checkedB}
+                            onChange={handleChange}
+                            name="checkedB"
+                          />
+                        }
+                        label="Course Past Exams"
+                      />
+
+                      <FormControlLabel
+                        sx={{color: 'white'}}
+                        control={
+                          <StyledCheckbox
+                            checked={state.checkedC}
+                            onChange={handleChange}
+                            name="checkedC"
+                            color="primary"
+                          />
+                        }
+                        label="Course Ratings"
+                      />
+                    </FormGroup>
+                  </Box>
+                </Grid>
+
               </Grid>
-
-              <Grid item>
-                <Box sx={{pt: 2}}>
-                  <FormGroup row sx={{justifyContent: 'center'}}>
-                    <FormControlLabel
-                      sx={{color: 'white'}}
-                      control={
-                        <StyledCheckbox
-                          checked={state.checkedA}
-                          onChange={handleChange}
-                          name="checkedA"
-                          color="primary"
-                        />
-                      }
-                      label="Course Materials"
-                    />
-
-
-                    <FormControlLabel
-                      sx={{color: 'white'}}
-                      control={
-                        <StyledCheckbox
-                          checked={state.checkedB}
-                          onChange={handleChange}
-                          name="checkedB"
-                        />
-                      }
-                      label="Course Past Exams"
-                    />
-
-                    <FormControlLabel
-                      sx={{color: 'white'}}
-                      control={
-                        <StyledCheckbox
-                          checked={state.checkedC}
-                          onChange={handleChange}
-                          name="checkedC"
-                          color="primary"
-                        />
-                      }
-                      label="Course Ratings"
-                    />
-                  </FormGroup>
-                </Box>
-              </Grid>
-
             </Grid>
 
-            <Grid item xs={6} md={2} sx={{mt: '-34px'}}>
+            <Grid item xs={6} md={2}>
               <Box sx={{display: 'flex'}}>
                 <Button
                   size="large"
