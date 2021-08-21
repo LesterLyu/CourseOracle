@@ -1,13 +1,10 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const userSchema = new Schema(
+const profSchema = new Schema(
     {
-        first_name: { type: String, required: true },
-        last_name: { type: String },
-        email: {type: String},
-        description: { type: String, default: "" },
-        profile_picture: { type: String },
+        name: {type: String},
+        institute: { type: Number, default: "" },
     },
     {
         timestamps: {

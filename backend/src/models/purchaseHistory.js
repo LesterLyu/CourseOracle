@@ -1,13 +1,13 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const userSchema = new Schema(
+const purchaseHistorySchema = new Schema(
     {
-        first_name: { type: String, required: true },
-        last_name: { type: String },
-        email: {type: String},
-        description: { type: String, default: "" },
-        profile_picture: { type: String },
+        user: {type: Number},
+        material: {type: Number},
+        price: {type: Number},
+        tip: {type: Number},
+        rate: {type: Number},
     },
     {
         timestamps: {

@@ -1,13 +1,13 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const userSchema = new Schema(
+const courseSchema = new Schema(
     {
-        first_name: { type: String, required: true },
-        last_name: { type: String },
-        email: {type: String},
+        code: { type: String },
+        name: { type: String, required: true },
         description: { type: String, default: "" },
-        profile_picture: { type: String },
+        institute: { type: String },
+        profs: {type: Array}
     },
     {
         timestamps: {
