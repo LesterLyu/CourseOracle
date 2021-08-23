@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const courseMaterialSchema = new Schema(
+const courseRatingSchema = new Schema(
     {
         course: { type: String }, // course id
         year: { type: String, required: true },
@@ -23,6 +23,6 @@ const courseMaterialSchema = new Schema(
     }
 );
 
-const User = mongoose.model("User", userSchema, "users");
+const courseRating = mongoose.model("CourseRating", courseRatingSchema, "CourseRatings");
 
-module.exports = User;
+module.exports = courseRating;

@@ -17,6 +17,6 @@ const instituteSchema = new Schema(
     }
 );
 
-const User = mongoose.model("User", instituteSchema, "users");
+const institute= mongoose.model("Institute", instituteSchema, "Institutes");
 
-module.exports = User;
+module.exports = institute;

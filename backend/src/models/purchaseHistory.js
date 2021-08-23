@@ -18,6 +18,6 @@ const purchaseHistorySchema = new Schema(
     }
 );
 
-const User = mongoose.model("User", userSchema, "users");
+const purchaseHistory = mongoose.model("PurchaseHistory", purchaseHistorySchema, "PurchaseHistorys");
 
-module.exports = User;
+module.exports = purchaseHistory;
