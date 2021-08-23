@@ -7,7 +7,7 @@ const courseSchema = new Schema(
         name: { type: String, required: true },
         description: { type: String, default: "" },
         institute: { type: String },
-        profs: {type: Array}
+        profs: {type: Array} // prof id
     },
     {
         timestamps: {
@@ -18,6 +18,6 @@ const courseSchema = new Schema(
     }
 );
 
-const course = mongoose.model("CourseSchema", courseSchema, "CourseSchemas");
+const course = mongoose.model("Course", courseSchema, "courses");
 
 module.exports = course;

@@ -23,6 +23,6 @@ const courseRatingSchema = new Schema(
     }
 );
 
-const courseRating = mongoose.model("CourseRating", courseRatingSchema, "CourseRatings");
+const courseRating = mongoose.model("CourseRating", courseRatingSchema, "courseRatings");
 
 module.exports = courseRating;

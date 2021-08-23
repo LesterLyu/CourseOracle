@@ -25,6 +25,6 @@ const courseMaterialSchema = new Schema(
     }
 );
 
-const courseMaterial = mongoose.model("CourseMaterial", courseMaterialSchema, "CourseMaterials");
+const courseMaterial = mongoose.model("CourseMaterial", courseMaterialSchema, "courseMaterials");
 
 module.exports = courseMaterial;
