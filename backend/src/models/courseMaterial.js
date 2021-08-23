@@ -9,7 +9,7 @@ const courseMaterialSchema = new Schema(
         description: { type: String, default: "" },
         institute: { type: String },
         profs: {type: Array}, // prof ids
-        coverPage: { type: String, default: "" },
+        coverPage: { type: String, default: "https://source.unsplash.com/random" },
         type: {type: String},
         like: {type: Number, default:0},
         unlike: {type: Number, default:0},
@@ -25,6 +25,6 @@ const courseMaterialSchema = new Schema(
     }
 );
 
-const User = mongoose.model("User", userSchema, "users");
+const courseMaterial = mongoose.model("CourseMaterial", courseMaterialSchema, "courseMaterials");
 
-module.exports = User;
+module.exports = courseMaterial;

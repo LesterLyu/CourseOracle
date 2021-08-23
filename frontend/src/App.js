@@ -45,7 +45,7 @@ function App() {
           <Router basename={isOnGithubIO ? '/CourseOracle' : undefined}>
             <AppBar/>
             <Switch>
-              <Route path="/material" component={MaterialRoute}/>
+              <Route path="/materials" component={MaterialRoute}/>
               <Route path="/dashboard" component={DashboardRoute}/>
               <Route path="/rating" component={RatingRoute}/>
               <Route path="/" component={HomeRoute}/>

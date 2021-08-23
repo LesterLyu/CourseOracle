@@ -100,6 +100,9 @@ const DATA = [
 
 
 export default function CourseMaterial() {
+  const courseName = new URLSearchParams(window.location.search).get('course')
+  const instituteName = new URLSearchParams(window.location.search).get('institution')
+  console.log(courseName, instituteName)
   const [courseInfo, setCourseInfo] = useState({
     name: window.location.href.split('/')[window.location.href.split('/').length - 1],
     school: 'University of Toronto',
@@ -195,16 +198,13 @@ export default function CourseMaterial() {
         <div style={{padding: "10px"}}>
           <Container maxWidth="sm">
             <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
-              {courseInfo.name}
+              {courseName}
             </Typography>
             <Typography variant="h5" align="center" color="textSecondary" paragraph>
-              school: {courseInfo.school} 
+              school: {instituteName} 
             </Typography>
             <Typography variant="h5" align="center" color="textSecondary" paragraph>
               professors: {courseInfo.professors.map((p) => <a key={p} href={'prof/' + p}>{p + ' '}</a>)}
-            </Typography>
-            <Typography variant="h5" align="center" color="textSecondary" paragraph>
-              difficulty: {courseInfo.difficulty} (这一行可以要也可以不要。。)
             </Typography>
             <Typography variant="h5" align="center" color="textSecondary" paragraph>
               {courseInfo.description}

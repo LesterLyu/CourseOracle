@@ -2,7 +2,7 @@ import React from "react";
 import {config} from "./config";
 import {Route, Switch} from "react-router-dom";
 
-export default function HomeRoute() {
+export default function MaterialRoute() {
   return (
     <Switch>
       {config.map(({path, Component, ...props}, idx) => 
