@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
-
 mongoose
-    .connect("mongodb+srv://csc302:csc302@cluster0.fpqz0.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", {
+    .connect("mongodb://localhost:27017/", {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     })

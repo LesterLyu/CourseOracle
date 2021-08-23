@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const db = require("./database/mongodb");
 const userRouter = require("./routes/userRouter");
 const ratingRouter = require("./routes/ratingRouter");
+const materialsRouter = require("./routes/materialsRouter");
 const cors = require("cors");
 
 require("dotenv").config();
@@ -26,6 +27,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/api", userRouter);
 app.use("/api", ratingRouter);
+app.use('/api', materialsRouter);
 
 db.on("error", (error) => console.error("MongoDB connection error: " + error.message));
 db.once("open", () => console.log("Connected to database"));
