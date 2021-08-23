@@ -1,6 +1,6 @@
 ![Logo](frontend/public/logo3.png)
 ## Course Oracle
-### [Deployment](https://github.com/LesterLyu/CourseOracle)
+### [Deployment](https://lesterlyu.github.io/CourseOracle/)
 
 
 8.3 Meeting
