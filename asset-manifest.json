@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/CourseOracle/static/css/main.6dea0f05.chunk.css",
-    "main.js": "/CourseOracle/static/js/main.626af0fb.chunk.js",
-    "main.js.map": "/CourseOracle/static/js/main.626af0fb.chunk.js.map",
+    "main.js": "/CourseOracle/static/js/main.ba80bdfb.chunk.js",
+    "main.js.map": "/CourseOracle/static/js/main.ba80bdfb.chunk.js.map",
     "runtime-main.js": "/CourseOracle/static/js/runtime-main.2e8090bf.js",
     "runtime-main.js.map": "/CourseOracle/static/js/runtime-main.2e8090bf.js.map",
     "static/css/2.9454d74e.chunk.css": "/CourseOracle/static/css/2.9454d74e.chunk.css",
@@ -24,6 +24,6 @@
     "static/css/2.9454d74e.chunk.css",
     "static/js/2.1095d5ee.chunk.js",
     "static/css/main.6dea0f05.chunk.css",
-    "static/js/main.626af0fb.chunk.js"
+    "static/js/main.ba80bdfb.chunk.js"
   ]
 }
