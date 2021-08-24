@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const profSchema = new Schema(
     {
         name: {type: String},
-        institute: { type: Number, default: "" },
+        institute: { type: mongoose.Schema.Types.ObjectId},
     },
     {
         timestamps: {

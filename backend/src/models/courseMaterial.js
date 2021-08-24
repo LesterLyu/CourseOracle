@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const courseMaterialSchema = new Schema(
     {
-        course: { type: String }, // course id
+        course: { type: String }, // course name
         year: { type: String, required: true },
         semester: { type: String, required: true },
         description: { type: String, default: "" },
@@ -13,8 +13,9 @@ const courseMaterialSchema = new Schema(
         type: {type: String},
         like: {type: Number, default:0},
         unlike: {type: Number, default:0},
-        user: {type: Number}, // user id
-        price: {type: Number}
+        user: {type: mongoose.Schema.Types.ObjectId}, // user id
+        price: {type: Number},
+        file: {type: mongoose.Schema.Types.ObjectId}, //not ready
     },
     {
         timestamps: {
