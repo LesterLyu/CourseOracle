@@ -5,7 +5,7 @@ if (isProduction)
 
 module.exports = {
   mongodb: {
-    addr: isProduction ? 'mongodb://localhost:27017/cmmp' : `mongodb://localhost:27017/${process.env.test ? "cmmpTest" : "cmmp"}`
+    addr: isProduction ? 'mongodb://localhost:27017/co' : `mongodb://localhost:27017/${process.env.test ? "coTest" : "co"}`
   },
   // pbkdf2 configuration, ~70ms with this config
   passwordHashing: {
