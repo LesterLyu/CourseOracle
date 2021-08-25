@@ -10,7 +10,7 @@ function logout(req, res, success, error) {
 }
 
 const authUser = async (req, res) => {
-    const body = req.body;
+    const {body} = req;
     if (!body) {
         return res.status(400).json({ error: "invalid request" });
     }

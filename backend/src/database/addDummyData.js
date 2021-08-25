@@ -5,7 +5,7 @@ const CourseMaterial = require("../models/courseMaterial")
 const Prof = require("../models/prof")
 const PurchaseHistory = require("../models/purchaseHistory")
 const Institute = require("../models/institute")
-const db = require('./mongodb.js');
+const {db} = require('../loaders/mongodb');
 const { StreamDescription } = require("mongodb");
 
  function createInstitute(name, country){
