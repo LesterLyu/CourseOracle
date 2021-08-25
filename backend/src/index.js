@@ -77,3 +77,8 @@ function onError(error) {
             throw error;
     }
 }
+
+process.on('SIGTERM', function () {
+    console.log('Received SIGTERM.');
+    process.exit(0);
+});

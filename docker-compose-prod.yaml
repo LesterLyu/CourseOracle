@@ -1,0 +1,52 @@
+version: "3.8"
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    environment:
+      - TZ=America/Toronto
+    restart: always
+  caddy:
+    image: caddy:latest
+    container_name: caddy
+    user: root
+    volumes:
+      - ./docker/Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    network_mode: "host"
+    ports:
+      - 443:443
+      - 80:80
+    restart: always
+    environment:
+      - TZ=America/Toronto
+  backend:
+    image: node:14-slim
+    container_name: backend
+    working_dir: /root/backend
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./backend:/root/backend
+      - server_node_modules:/root/backend/node_modules
+    environment:
+      - TZ=America/Toronto
+      - DB=mongodb://mongodb:27017/co
+    logging:
+      options:
+        max-size: "5m"
+        max-file: "3"
+    restart: always
+    command: bash -c "npm i -g pm2 && yarn install && PM2_KILL_SIGNAL=SIGTERM pm2-runtime ecosystem.config.js"
+
+
+volumes:
+  mongodb_data:
+  caddy_data:
+  caddy_config:
+  server_node_modules:
