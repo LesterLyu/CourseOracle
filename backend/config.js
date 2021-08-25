@@ -20,5 +20,10 @@ module.exports = {
     maxAge: 24 * 60 * 60 * 1000 // expires in 24 hours
   },
 
+  jwtConfig: {
+    secret: 'secret keys',
+    options: {expiresIn: 60 * 60 * 24} // 24 hour
+  },
+
   allowedOrigins:  ['http://localhost:3000', 'http://localhost:3002'],
 }

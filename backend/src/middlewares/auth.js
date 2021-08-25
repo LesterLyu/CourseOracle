@@ -5,7 +5,7 @@
  */
 const authMiddleware = (message) => (req, res, next) => {
   // Logged in user has this property
-  if (req.session.username) {
+  if (req.session.email) {
     next();
   } else {
     res.json({error: true, code: 2, message: message || 'Authentication required.'})
