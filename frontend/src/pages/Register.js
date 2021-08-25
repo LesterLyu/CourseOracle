@@ -4,6 +4,7 @@ import {useHistory} from 'react-router-dom';
 import SubmitButton from '../components/SubmitButton';
 import {styled} from "@material-ui/core/styles";
 import {LoginBackgroundWrapper} from "../components/Background";
+import {register} from "../api/auth";
 
 function Copyright() {
   return (
@@ -53,10 +54,16 @@ export default function RegisterPage() {
 
   const submit = () => {
     setWaiting(true);
-    // Place holder for filling the signup handler in the later
-    setTimeout(() => {
-      history.push('/dashboard');
-    }, 1000);
+    const {password, email, firstName, lastName} = state;
+    register({password, email, firstName, lastName})
+      .then(result => {
+        if (result.success) {
+          history.push('/login');
+        } else {
+          setWaiting(false);
+          setState(state => ({...state, alert: result.message}));
+        }
+      })
 
   };
 
