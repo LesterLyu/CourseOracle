@@ -31,5 +31,5 @@ module.exports = {
     options: {expiresIn: 60 * 60 * 24} // 24 hour
   },
 
-  allowedOrigins: ['http://localhost:3000', 'http://localhost:3002'],
+  allowedOrigins: ['http://localhost:3000', 'http://localhost:3002', 'https://lesterlyu.github.io'],
 }
