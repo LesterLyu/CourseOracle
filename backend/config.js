@@ -1,11 +1,17 @@
 const isProduction = process.env.NODE_ENV === 'production';
 
-if (isProduction)
+let db = 'mongodb://localhost:27017/co';
+
+if (isProduction) {
   console.log('In production mode.')
+}
+
+if (process.env.DB)
+  db = process.env.DB;
 
 module.exports = {
   mongodb: {
-    addr: isProduction ? 'mongodb://localhost:27017/co' : `mongodb://localhost:27017/${process.env.test ? "coTest" : "co"}`
+    addr: db
   },
   // pbkdf2 configuration, ~70ms with this config
   passwordHashing: {
@@ -25,5 +31,5 @@ module.exports = {
     options: {expiresIn: 60 * 60 * 24} // 24 hour
   },
 
-  allowedOrigins:  ['http://localhost:3000', 'http://localhost:3002'],
+  allowedOrigins: ['http://localhost:3000', 'http://localhost:3002'],
 }
