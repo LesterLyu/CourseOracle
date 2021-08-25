@@ -18,7 +18,7 @@ who shared the materials earns a portion from the purchase and can withdraw to t
 
 ### Run MongoDB as Docker container
 ```shell
-docker compose -f  up -d mongodb
+docker compose -f ./docker-compose-dev.yaml up -d mongodb
 ```
 
 ### Install Yarn
