@@ -82,17 +82,13 @@ export default function HomePage() {
               <Grid container direction={'column'} alignItems="stretch">
                 <Grid item>
                   <Paper>
-
-
                     <Search>
-
-                      <Grid container direction={'row'} alignItems="stretch">
-
+                      <Grid container direction={'row'} sx={{ height:45}}>
                         <Grid item sx={{ width: '60%' }}>
                           <SearchIconWrapper>
                             <SchoolIcon/>
                           </SearchIconWrapper>
-                          <StyledInputBase
+                          <StyledInputBase sx={{ width: '100%' }}
                             placeholder="School name…"
                           />
                         </Grid>
@@ -106,13 +102,11 @@ export default function HomePage() {
                           <SearchIcon/>
                           </SearchIconWrapper>
 
-                          <StyledInputBase sx={{ width: '100%' }}
+                          <StyledInputBase
                            placeholder="Course code…"
                           />
                         </Grid>
-
                       </Grid>
-
                     </Search>
                   </Paper>
                 </Grid>
