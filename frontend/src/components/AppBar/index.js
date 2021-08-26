@@ -45,7 +45,7 @@ export default function AppBar() {
           ) : (
             <>
               <Button color="inherit" onClick={navigateTo('/dashboard')}>Dashboard</Button>
-              <Button color="inherit" onClick={() => userContext.logout()}>log out</Button>
+              <Button color="inherit" onClick={() => userContext.logout() || history.push('/')}>log out</Button>
             </>
           )
           }

@@ -1,39 +1,47 @@
-# ConfluxP2PTrading
+![Logo](frontend/public/logo3.png)
+## Course Oracle
 
-### 7.13 Meeting: Discussion 
+### Introduction
+Course Oracle provides worldwide students a way to share course materials and course ratings.
+Course rating can be stored on-chain optionally. User uses cryptocurrency to purchase course materials, the user
+who shared the materials earns a portion from the purchase and can withdraw to their own wallet.
 
-#### User functionality(webpage) (LSY Kevin Lester)
-1. See the buying and selling posts 
-  reference [binance UI](https://p2p.binance.com/en/trade/buy/USDT)
-2. Login Indefitication with Conflux portal 
-  reference [LocalCryptos login](https://localcryptos.com/login)
-3. Post own buy/sell order
+### [Latest Deployment](https://lesterlyu.github.io/CourseOracle/)
+> Deployed automatically to GitHub Pages & a personal server once a commit passes all CI checks.
 
-#### Backend & database (Dino Rex Kevin Lester)
-Schema:
-user_information_E(userid = wallet address, trading_history)
+### Requirement
+- Node.js 14 or newer
+- MongoDB
+  - can be a local installation
+  - or Run as a Docker container
+- Docker Desktop / Docker Engine (If use any container)
 
-posts_E(post_id, user_id, post, date, buy_or_sell, crypto, amount)
+### Run MongoDB as Docker container
+```shell
+docker compose -f ./docker-compose-dev.yaml up -d mongodb
+```
 
-trading_history_R(post_id, buyer, seller, date)
+### Install Yarn
+Yarn is used instead of NPM, Yarn provides faster dependency installation and better dependency management.
+```shell
+npm install -g yarn
+```
 
+### Install & Run Backend
+```shell
+cd backend
+yarn install
+yarn start
+```
 
-#### Smart Contract Interaction ()
-Interact with the backend(will be taught)
+### Install & Run Frontend
+```shell
+cd frontend
+yarn install
+yarn start
+```
 
-
-
-
-#### Smart Contract Design (Emily Dino Rex Kevin Lester)
-solidity code
-
-
-Reference List:
-[LocalEthereum 2 source code](https://etherscan.io/address/0x09678741bd50c3e74301f38fbd0136307099ae5d#code)
-
-
-
-
+----
 8.3 Meeting
 Pages:
 

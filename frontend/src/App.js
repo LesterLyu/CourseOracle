@@ -14,6 +14,8 @@ import HomeRoute from "./routes/HomeRoute";
 import {USER_TYPE} from "./constants";
 import DashboardRoute from "./routes/DashboardRoute";
 import MaterialRoute from "./routes/MaterialRoute"
+import RatingRoute from "./routes/RatingRoute";
+import {logout} from "./api/auth";
 
 const theme = createTheme({});
 const isOnGithubIO = window.location.hostname.toLowerCase() === 'lesterlyu.github.io';
@@ -27,12 +29,15 @@ function App() {
       setUserState(state => ({...state, ...userData}));
     },
     logout: () => {
-      setUserState(state => ({
-        ...state,
-        username: '',
-        email: '',
-        type: USER_TYPE.GUEST
-      }));
+      logout().then(() => {
+        setUserState(state => ({
+          ...state,
+          username: '',
+          email: '',
+          type: USER_TYPE.GUEST
+        }));
+        localStorage.removeItem('userData');
+      });
     },
   });
 
@@ -44,8 +49,9 @@ function App() {
           <Router basename={isOnGithubIO ? '/CourseOracle' : undefined}>
             <AppBar/>
             <Switch>
-              <Route path="/material" component={MaterialRoute}/>
+              <Route path="/materials" component={MaterialRoute}/>
               <Route path="/dashboard" component={DashboardRoute}/>
+              <Route path="/rating" component={RatingRoute}/>
               <Route path="/" component={HomeRoute}/>
             </Switch>
           </Router>

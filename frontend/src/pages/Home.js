@@ -8,15 +8,8 @@ import Box from "@material-ui/core/Box";
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
-import CheckBoxIcon from '@material-ui/icons/CheckBox';
-import Favorite from '@material-ui/icons/Favorite';
-import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
-import {useState} from 'react';
 import Button from '@material-ui/core/Button';
 import ArrowForwardSharpIcon from '@material-ui/icons/ArrowForwardSharp';
-import Icon from '@material-ui/core/Icon';
-
 import {Grid} from '@material-ui/core';
 import {HomeBackgroundWrapper} from "../components/Background";
 import SchoolIcon from '@material-ui/icons/School';
@@ -59,14 +52,6 @@ const StyledCheckbox = styled(Checkbox)(({
     color: '#ccc',
   },
 }));
-
-// const FormGroup2 = styled('div')(({theme}) => ({
-//   position: 'cnter',
-//   borderRadius: theme.shape.borderRadius,
-
-//   marginLeft: 0,
-//   width: '100%',
-// }));
 
 export default function HomePage() {
   const [state, setState] = React.useState({
