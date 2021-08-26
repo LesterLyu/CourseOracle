@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -7,23 +7,51 @@ import Button from '@material-ui/core/Button';
 import RateMaterial from './RateMaterial'
 import RewardOfferer from './RewardOfferer'
 import { styled } from '@material-ui/core'
+import {UserContext} from "../../contexts";
 
 const StyledListItem = styled(ListItem)(() => ({
     padding: 20, 
   }));
 
 export default function Checkout(props) {
+  const userContext = useContext(UserContext);
   const {product, handleClose, materials, setMaterials} = props;
 
   const submitCheckoutHandle = (e) => {
-    var newMaterials = []
-    materials.forEach(element => {
-      if (product.id === element.id) {
-          element.status = 1
+    // TODO: open wallet
+
+    // TODO: if fail to pay
+
+    // if pay, send fetch to particular material, and add purchase history in db
+    const url = 'http://localhost:3001/api/material/purchase'
+    fetch(url, {
+      method: 'post',
+      body: JSON.stringify({
+        userEmail: userContext.email,
+        materialId: product.id,
+        price: product.price,
+        }
+      ),
+      headers: {
+          Accept: "application/json, text/plain, */*",
+          "Content-Type": "application/json"
       }
-      newMaterials.push(element);
-    });
-    setMaterials(newMaterials);
+    }).then((res) => {
+      return res.json();
+    }).then((data) => {
+      console.log(data)
+      // TODO: download the file
+      if (!data.error){
+        var newMaterials = []
+        materials.forEach(element => {
+          if (product.id === element.id) {
+              element.status = 1
+          }
+          newMaterials.push(element);
+        });
+        setMaterials(newMaterials);
+      }
+    })
 }
 
   return (
