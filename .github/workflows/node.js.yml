@@ -44,7 +44,7 @@ jobs:
     - name: Add Known Hosts
       run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
     - name: Rsync into Server
-      run: rsync -avz -e "ssh -i $HOME/.ssh/id_rsa" --exclude ./frontend ./ root@co.lesterlyu.com:/root/co
+      run: rsync -avz -e "ssh -i $HOME/.ssh/id_rsa" --exclude 'frontend' ./ root@co.lesterlyu.com:/root/co
     - name: SSH
       uses: appleboy/ssh-action@master
       with:
