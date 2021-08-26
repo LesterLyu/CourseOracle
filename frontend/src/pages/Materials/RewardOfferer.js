@@ -2,6 +2,7 @@ import React, {useState, useContext} from 'react';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import {UserContext} from "../../contexts";
+import {URL_PRIFIX} from "../../constants"
 
 export default function RewardOfferer(props) {
   const userContext = useContext(UserContext);
@@ -10,7 +11,7 @@ export default function RewardOfferer(props) {
 
   function submitTipHandler(){
     //TODO: open wallet and send money
-    const url = 'http://localhost:3001/api/material/tip'
+    const url = URL_PRIFIX + 'material/tip'
     fetch(url, {
       method: 'post',
       body: JSON.stringify({

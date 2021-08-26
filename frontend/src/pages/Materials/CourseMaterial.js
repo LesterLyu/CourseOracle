@@ -14,6 +14,7 @@ import Checkout from './Checkout.js'
 import RateMaterial from './RateMaterial.js'
 import RewardOfferer from './RewardOfferer'
 import {UserContext} from "../../contexts";
+import {URL_PRIFIX} from "../../constants"
 
 const StyledCard = styled(Card)(() => ({
   height: '100%',
@@ -36,7 +37,7 @@ export default function CourseMaterial() {
 
 
   async function getData(){
-    const url = 'http://localhost:3001/api/materials?course=' + courseName + '&institution=' + instituteName + '&buyerEmail=' + userContext.email;
+    const url = URL_PRIFIX + 'materials?course=' + courseName + '&institution=' + instituteName + '&buyerEmail=' + userContext.email;
     const tmp = await fetch(url, {
       method: 'get',
       headers: {

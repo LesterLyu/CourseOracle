@@ -8,6 +8,7 @@ import RateMaterial from './RateMaterial'
 import RewardOfferer from './RewardOfferer'
 import { styled } from '@material-ui/core'
 import {UserContext} from "../../contexts";
+import {URL_PRIFIX} from "../../constants"
 
 const StyledListItem = styled(ListItem)(() => ({
     padding: 20, 
@@ -23,7 +24,7 @@ export default function Checkout(props) {
     // TODO: if fail to pay
 
     // if pay, send fetch to particular material, and add purchase history in db
-    const url = 'http://localhost:3001/api/material/purchase'
+    const url = URL_PRIFIX + 'material/purchase';
     fetch(url, {
       method: 'post',
       body: JSON.stringify({

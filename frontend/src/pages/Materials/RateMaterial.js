@@ -3,6 +3,7 @@ import Ratings from 'react-ratings-declarative';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import {UserContext} from "../../contexts";
+import {URL_PRIFIX} from "../../constants";
 
 export default function RateMaterial(props) {
   const userContext = useContext(UserContext);
@@ -10,8 +11,7 @@ export default function RateMaterial(props) {
   const [rating, setRating] = React.useState(1);
 
   const submitRateHandle = () => {
-    // if ()
-    const url = 'http://localhost:3001/api/material/rate'
+    const url = URL_PRIFIX + 'material/rate'
     fetch(url, {
       method: 'post',
       body: JSON.stringify({
