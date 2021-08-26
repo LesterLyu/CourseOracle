@@ -18,7 +18,6 @@ services:
       - ./docker/Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
       - caddy_config:/config
-    network_mode: "host"
     ports:
       - 443:443
       - 80:80
