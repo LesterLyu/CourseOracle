@@ -23,13 +23,13 @@ jobs:
         cache-dependency-path: frontend/yarn.lock
         cache: 'yarn'
 
-    - name: Install Dependencies
-      working-directory: frontend
-      run: yarn install --frozen-lockfile
+#     - name: Install Dependencies
+#       working-directory: frontend
+#       run: yarn install --frozen-lockfile
       
-    - name: Build
-      working-directory: frontend
-      run: CI=false yarn build; cp build/index.html build/404.html
+#     - name: Build
+#       working-directory: frontend
+#       run: CI=false yarn build; cp build/index.html build/404.html
       
     - name: Deploy Frontend
       uses: peaceiris/actions-gh-pages@v3
