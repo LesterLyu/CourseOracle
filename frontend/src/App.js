@@ -15,6 +15,7 @@ import {USER_TYPE} from "./constants";
 import DashboardRoute from "./routes/DashboardRoute";
 import MaterialRoute from "./routes/MaterialRoute"
 import RatingRoute from "./routes/RatingRoute";
+import SchoolRoute from "./routes/SchoolRoute"
 import {logout} from "./api/auth";
 
 const theme = createTheme({});
@@ -49,6 +50,7 @@ function App() {
           <Router basename={isOnGithubIO ? '/CourseOracle' : undefined}>
             <AppBar/>
             <Switch>
+              <Route path="/schools" component={SchoolRoute}/>
               <Route path="/materials" component={MaterialRoute}/>
               <Route path="/dashboard" component={DashboardRoute}/>
               <Route path="/rating" component={RatingRoute}/>
