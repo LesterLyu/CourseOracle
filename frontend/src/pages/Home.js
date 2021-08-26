@@ -19,6 +19,8 @@ import Icon from '@material-ui/core/Icon';
 
 import {Grid} from '@material-ui/core';
 import {HomeBackgroundWrapper} from "../components/Background";
+import SchoolIcon from '@material-ui/icons/School';
+import Divider from '@material-ui/core/Divider';
 
 
 const Search = styled('div')(({theme}) => ({
@@ -95,13 +97,37 @@ export default function HomePage() {
               <Grid container direction={'column'} alignItems="stretch">
                 <Grid item>
                   <Paper>
+
+
                     <Search>
-                      <SearchIconWrapper>
-                        <SearchIcon/>
-                      </SearchIconWrapper>
-                      <StyledInputBase
-                        placeholder="Search for course…"
-                      />
+
+                      <Grid container direction={'row'} alignItems="stretch">
+
+                        <Grid item sx={{ width: '60%' }}>
+                          <SearchIconWrapper>
+                            <SchoolIcon/>
+                          </SearchIconWrapper>
+                          <StyledInputBase
+                            placeholder="School name…"
+                          />
+                        </Grid>
+
+                        <Grid item>
+                          <Divider sx={{ height: 35, m: 0.5 }} orientation="vertical" />
+                        </Grid>
+
+                        <Grid >
+                          <SearchIconWrapper>
+                          <SearchIcon/>
+                          </SearchIconWrapper>
+
+                          <StyledInputBase sx={{ width: '100%' }}
+                           placeholder="Course code…"
+                          />
+                        </Grid>
+
+                      </Grid>
+
                     </Search>
                   </Paper>
                 </Grid>
