@@ -1,6 +1,6 @@
 co.lesterlyu.com {
     encode zstd gzip
-    reverse_proxy /api/* localhost:3001 {
+    reverse_proxy /api/* backend:3001 {
         transport http {
             keepalive 15s
             keepalive_idle_conns 100
