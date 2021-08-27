@@ -3,16 +3,16 @@ const Schema = mongoose.Schema;
 
 const courseRatingSchema = new Schema(
     {
+        institute: { type: mongoose.Schema.Types.ObjectId },
         course: { type: String }, // course id
-        year: { type: String, required: true },
-        semester: { type: String, required: true },
-        institute: { type: String },
-        prof: {type: String},
-        coverPage: { type: String, default: "" },
-        like: {type: Number, default:0},
-        unlike: {type: Number, default:0},
-        user: {type: Number}, // user id
-        price: {type: Number}
+        prof: { type: mongoose.Schema.Types.ObjectId },
+        score: { type: Number },
+        comment: { type: String },
+        year: { type: Number },
+        semester: { type: String },
+        like: { type: Number, default:0 },
+        unlike: { type: Number, default:0 },
+        user: { type: Number }, // user id
     },
     {
         timestamps: {
