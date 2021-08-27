@@ -14,7 +14,7 @@ import Checkout from './Checkout.js'
 import RateMaterial from './RateMaterial.js'
 import RewardOfferer from './RewardOfferer'
 import {UserContext} from "../../contexts";
-import {URL_PRIFIX} from "../../constants"
+import {getJson} from "../../api/helpers"
 
 const StyledCard = styled(Card)(() => ({
   height: '100%',
@@ -37,31 +37,22 @@ export default function CourseMaterial() {
 
 
   async function getData(){
-    const url = URL_PRIFIX + 'materials?course=' + courseName + '&institution=' + instituteName + '&buyerEmail=' + userContext.email;
-    const tmp = await fetch(url, {
-      method: 'get',
-      headers: {
-          Accept: "application/json, text/plain, */*",
-          "Content-Type": "application/json"
-      }
-    }).then(res => {
-      if (res.ok){
-        console.log('ok')
-        return res.json();
-      }else{
-        alert('fail')
-        return res.json()
-      }
-    } 
-    )
-    setCourseInfo(tmp.course)
-    setMaterials(tmp.courseMaterial);
+    const url = '/api/materials?course=' + courseName + '&institution=' + instituteName + '&buyerEmail=' + userContext.email;
+    const tmp = await getJson(url)
+    if (tmp.error){
+      alert(tmp.error)
+    }else{
+      setCourseInfo(tmp.course)
+      setMaterials(tmp.courseMaterial);
+    }
     return tmp;
   }
 
   useEffect(async () => {
-    const data = await getData()
-    console.log(data)
+    async function callGetData(){
+      const tmp = await getData()
+    }
+    callGetData()
   }, [])
 
 

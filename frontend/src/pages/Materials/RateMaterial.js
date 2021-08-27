@@ -3,43 +3,33 @@ import Ratings from 'react-ratings-declarative';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import {UserContext} from "../../contexts";
-import {URL_PRIFIX} from "../../constants";
+import {postJson} from "../../api/helpers"
 
 export default function RateMaterial(props) {
   const userContext = useContext(UserContext);
   const {product, handleClose, materials, setMaterials} = props;
   const [rating, setRating] = React.useState(1);
 
-  const submitRateHandle = () => {
-    const url = URL_PRIFIX + 'material/rate'
-    fetch(url, {
-      method: 'post',
-      body: JSON.stringify({
-        userEmail: userContext.email,
-        materialId: product.id,
-        rate: rating
+  const submitRateHandle = async () => {
+    const url = '/api/material/rate';
+    const data = {
+      userEmail: userContext.email,
+      materialId: product.id,
+      rate: rating
+      }
+    const res = await postJson(url, data)
+    if (!res.error){
+      var newMaterials = []
+      materials.forEach(element => {
+        if (product.id === element.id) {
+            element.status = 2
         }
-      ),
-      headers: {
-          Accept: "application/json, text/plain, */*",
-          "Content-Type": "application/json"
-      }
-    }).then((res) => {
-      return res.json()
-    }).then((data) => {
-      if (!data.error){
-        var newMaterials = []
-        materials.forEach(element => {
-          if (product.id === element.id) {
-              element.status = 2
-          }
-          newMaterials.push(element);
-        });
-        setMaterials(newMaterials);
-      }else{
-        alert(data.error)
-      }
-    })
+        newMaterials.push(element);
+      });
+      setMaterials(newMaterials);
+    }else{
+      alert(res.error)
+    }
   }
 
   return (
