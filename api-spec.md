@@ -19,11 +19,15 @@ returns a list of universities
   
 ### Course rating related
 
-- GET /ratings?university=xxx&code=csc108  
+- GET /ratings?institute=xxx&code=csc108  
 get csc108 ratings from xxx university  
 return {ratings: [{ratingObject}]}
 - POST /rating  
-body {university, code, prof, rating[int 0-5], comment, year[int 4digit], term[fall, winter, spring]}
+body {institute, code, prof, score[int 0-5], comment, year[int 4digit], term[fall, winter, spring]}
+- POST /rating/like
+  body {_id}
+- POST /rating/dislike
+  body {_id}
 - PUT/DELETE (optional)
 
 ### Course material related
