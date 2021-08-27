@@ -4,7 +4,8 @@ import {USER_TYPE} from '../constants';
 const localData = JSON.parse(localStorage.getItem('userData'));
 
 export const defaultUserData = {
-  username: "",
+  firstName: '',
+  lastName: '',
   email: '',
   type: USER_TYPE.GUEST,
   ...(localData || {}),

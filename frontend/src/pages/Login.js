@@ -6,6 +6,7 @@ import SubmitButton from '../components/SubmitButton';
 import {styled} from "@material-ui/core/styles";
 import {LoginBackgroundWrapper} from "../components/Background";
 import {USER_TYPE} from "../constants";
+import {login} from "../api/auth";
 
 const StyledPaper = styled(Paper)(({theme}) => ({
   padding: 40,
@@ -33,7 +34,7 @@ export default function LoginPage() {
     history.push('/dashboard');
   }
   const [state, setState] = useState({
-    username: '',
+    email: '',
     password: '',
     alert: ''
   });
@@ -47,15 +48,18 @@ export default function LoginPage() {
   const submit = () => {
     setWaiting(true);
 
-    setTimeout(() => {
-      userContext.login({
-        username: 'LesterLyu',
-        email: 'lvds2000@gmail.com',
-        type: USER_TYPE.BASIC_USER
-      });
-      // setWaiting(false);
-      history.push('/dashboard');
-    }, 1000);
+    login(state.email, state.password)
+      .then(result => {
+        if (result.success) {
+          userContext.login({
+            email: result.data.email, type: USER_TYPE.BASIC_USER
+          });
+          history.push('/dashboard');
+        } else {
+          setWaiting(false);
+          setState(state => ({...state, alert: result.message}));
+        }
+      })
 
   };
 
@@ -83,9 +87,9 @@ export default function LoginPage() {
 
           <TextField
             label="Email"
-            value={state.username}
+            value={state.email}
             fullWidth
-            onChange={handleChange('username')}
+            onChange={handleChange('email')}
             sx={{minHeight: '80px'}}
           />
           <br/>
