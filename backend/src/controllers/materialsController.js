@@ -5,7 +5,7 @@ const CourseMaterial = require("../models/courseMaterial")
 const Prof = require("../models/prof")
 const PurchaseHistory = require("../models/purchaseHistory")
 const {getProfNameById, cleanCourseMaterial} = require("../utils/helpers")
-
+const PROFIT_RATE = 1;
 
 const getMaterials = async (req, res) => {
     result = {}
@@ -35,8 +35,7 @@ const getMaterials = async (req, res) => {
 const purchaseMaterial = async (req, res) => {
     const email = req.body.userEmail;
     const materialId = req.body.materialId;
-    const price = req.body.price;
-    if (!email || !materialId || !price){
+    if (!email || !materialId){
         res.status(400).json({ error: "invalid request" });
     }
     const buyer = await User.findOne({email: email});
@@ -47,12 +46,22 @@ const purchaseMaterial = async (req, res) => {
         if (purchaseHistory){
             res.status(400).json({ error: "invalid request" });
         }else{
-            const newPurchaseHistory = new PurchaseHistory({user: buyer._id, material: materialId, price: price});
-            newPurchaseHistory.save(function(err, data){
-                if (err) { console.log(err);}
-            })
-            // TODI: find file and send it back
-            res.json({file: 'temp file'})
+            const material = await CourseMaterial.findById(materialId)
+            const offerer = await User.findById(material.user)
+            if (buyer.balance - material.price >= 0){ // buy material successfully
+                buyer.balance = buyer.balance - material.price;
+                offerer.balance = offerer.balance + material.price * PROFIT_RATE;
+                buyer.save();
+                offerer.save()
+                const newPurchaseHistory = new PurchaseHistory({user: buyer._id, material: materialId, price: material.price});
+                newPurchaseHistory.save(function(err, data){
+                    if (err) { console.log(err);}
+                })
+                // TODI: find file and send it back
+                res.json({file: 'temp file'})
+            }else{
+                res.status(400).json({ error: "insuffient balance" });
+            }
         }
     }
 }
@@ -94,6 +103,7 @@ const tipMaterial = async (req, res) => {
     const email = req.body.userEmail;
     const materialId = req.body.materialId;
     const tip = parseInt(req.body.tip);
+
     if (!email || !materialId || !tip) {
         return res.status(400).json({ error: "invalid request" });
     }
@@ -105,13 +115,23 @@ const tipMaterial = async (req, res) => {
         if (!purchaseHistory || !purchaseHistory.rate){ // material to be rated should be already in purchaseHistory
             res.status(400).json({ error: "invalid request" });
         }else{
-            if (!purchaseHistory.tip){
-                purchaseHistory.tip = tip;
+            const material = await CourseMaterial.findById(materialId)
+            const offerer = await User.findById(material.user)
+            if (buyer.balance - tip >= 0){
+                buyer.balance = buyer.balance - tip ;
+                offerer.balance = offerer.balance + tip * PROFIT_RATE;
+                buyer.save()
+                offerer.save()
+                if (!purchaseHistory.tip){
+                    purchaseHistory.tip = tip;
+                }else{
+                    purchaseHistory.tip += tip;
+                }
+                purchaseHistory.save()
+                res.send({})
             }else{
-                purchaseHistory.tip += tip;
+                res.status(400).send({error: 'insuffient balance'})
             }
-            purchaseHistory.save()
-            res.send({})
         }
     }
 }

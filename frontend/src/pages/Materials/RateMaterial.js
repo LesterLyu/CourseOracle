@@ -3,7 +3,7 @@ import Ratings from 'react-ratings-declarative';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import {UserContext} from "../../contexts";
-import {postJson} from "../../api/helpers"
+import {rateMaterial} from "../../api/material"
 
 export default function RateMaterial(props) {
   const userContext = useContext(UserContext);
@@ -11,13 +11,7 @@ export default function RateMaterial(props) {
   const [rating, setRating] = React.useState(1);
 
   const submitRateHandle = async () => {
-    const url = '/api/material/rate';
-    const data = {
-      userEmail: userContext.email,
-      materialId: product.id,
-      rate: rating
-      }
-    const res = await postJson(url, data)
+    const res = await rateMaterial(userContext.email, product.id, rating)
     if (!res.error){
       var newMaterials = []
       materials.forEach(element => {

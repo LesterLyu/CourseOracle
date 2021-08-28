@@ -2,7 +2,7 @@ import React, {useState, useContext} from 'react';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import {UserContext} from "../../contexts";
-import {postJson} from "../../api/helpers"
+import {tipMaterial} from "../../api/material"
 
 export default function RewardOfferer(props) {
   const userContext = useContext(UserContext);
@@ -10,15 +10,9 @@ export default function RewardOfferer(props) {
   const [rewardAmount, setRewardAmount] = useState(0)
 
   async function submitTipHandler(){
-    //TODO: open wallet and send money
-    const url = '/api/material/tip';
-    const data = {
-        userEmail: userContext.email,
-        materialId: product.id,
-        tip: rewardAmount
-        }
-    const res = await postJson(url, data)
+    const res = await tipMaterial(userContext.email, product.id, rewardAmount)
     if (!res.error){
+        alert('You tip offerer ' + rewardAmount + ' CFX')
         handleClose()
     }else{
         alert(res.error)
