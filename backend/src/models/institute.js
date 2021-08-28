@@ -2,21 +2,22 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const instituteSchema = new Schema(
-    {
-        name: {type: String},
-        country: {type: String},
-        website: {type: String},
-        semester: {type: Array, default:['Fall', 'Winter', 'Summer']}
+  {
+    name: {type: String},
+    country: {type: String},
+    website: {type: String},
+    semester: {type: Array, default: ['Fall', 'Winter', 'Summer']},
+    courses: [{type: Schema.Types.ObjectId, ref: 'Course'}]
+  },
+  {
+    timestamps: {
+      currentTime: () => Math.floor(Date.now() / 1000),
+      createdAt: "created_at",
+      updatedAt: "updated_at",
     },
-    {
-        timestamps: {
-            currentTime: () => Math.floor(Date.now() / 1000),
-            createdAt: "created_at",
-            updatedAt: "updated_at",
-        },
-    }
+  }
 );
 
-const institute= mongoose.model("Institute", instituteSchema, "institutes");
+const institute = mongoose.model("Institute", instituteSchema, "institutes");
 
 module.exports = institute;
