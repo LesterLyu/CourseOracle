@@ -23,13 +23,13 @@ jobs:
         cache-dependency-path: frontend/yarn.lock
         cache: 'yarn'
 
-#     - name: Install Dependencies
-#       working-directory: frontend
-#       run: yarn install --frozen-lockfile
+    - name: Install Dependencies
+      working-directory: frontend
+      run: yarn install --frozen-lockfile
       
-#     - name: Build
-#       working-directory: frontend
-#       run: CI=false yarn build; cp build/index.html build/404.html
+    - name: Build
+      working-directory: frontend
+      run: CI=false yarn build; cp build/index.html build/404.html
       
     - name: Deploy Frontend
       uses: peaceiris/actions-gh-pages@v3
@@ -44,7 +44,7 @@ jobs:
     - name: Add Known Hosts
       run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
     - name: Rsync into Server
-      run: rsync -avz -e "ssh -i $HOME/.ssh/id_rsa" ./ root@co.lesterlyu.com:/root/co
+      run: rsync -avz -e "ssh -i $HOME/.ssh/id_rsa" --exclude 'frontend' ./ root@co.lesterlyu.com:/root/co
     - name: SSH
       uses: appleboy/ssh-action@master
       with:
@@ -53,7 +53,7 @@ jobs:
         key: ${{ secrets.SERVER_SSH_KEY }}
         script: |
           cd co
-          docker-compose -f ./docker-compose-prod.yaml build
-          docker-compose -f ./docker-compose-prod.yaml up -d
+          docker-compose -f ./docker-compose-prod.yaml stop
+          docker-compose -f ./docker-compose-prod.yaml up -d --build
       
       
