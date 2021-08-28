@@ -11,6 +11,8 @@ const userSchema = new Schema(
     profile_picture: {type: String},
     salt: String,
     hash: String,
+    address: String,
+    balance: {type: Number, default: 0},
   },
   {
     timestamps: {
