@@ -77,7 +77,7 @@ Pages:
 
 
   
-  ### 8.27
+  ## 8.27 meeting
   1. Database Modification:
   User: balance, walletaddress
   
