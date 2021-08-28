@@ -79,17 +79,20 @@ Pages:
   
   ## 8.27 meeting
   1. Database Modification:
-  User: balance, walletaddress
+  User: balance, walletaddress (Kevin)
   
-  2. 上传course materials
+  2. 上传course materials页面 (llx）  后端（lst）
   
   3. 充值页面
   用户充值cfx
+  （kevin）
   
-  4. 评价传上链（先收不钱）
+  4. 发币
+  （dino）
   
-  5. 发币
-  
+  5. 评价传上链（先收不钱）
+  （lsy）
+
   6. 创建课程界面 + 后端
   
 
