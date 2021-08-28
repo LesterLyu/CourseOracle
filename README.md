@@ -83,7 +83,7 @@ Pages:
   
   2. 上传course materials页面 (llx）  后端（lst）
   
-  3. 充值页面
+  3. 充值+提现页面
   用户充值cfx
   （kevin）
   
