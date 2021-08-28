@@ -77,3 +77,23 @@ Pages:
 
 
   
+  ### 8.27
+  1. Database Modification:
+  User: balance, walletaddress
+  
+  2.上传course materials
+  
+  2. 充值页面
+  用户充值cfx
+  
+  3.评价传上链（先收不钱）
+  
+  4.发币
+  
+  5.创建课程界面 + 后端
+  
+
+  
+  
+  
+  
