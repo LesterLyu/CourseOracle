@@ -1,4 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react';
+import {useParams} from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -25,8 +26,7 @@ const StyledCard = styled(Card)(() => ({
 
 export default function CourseMaterial() {
   const userContext = useContext(UserContext);
-  const courseName = new URLSearchParams(window.location.search).get('course')
-  const instituteName = new URLSearchParams(window.location.search).get('institution')
+  const {courseName, instituteName} = useParams();
 
   const [courseInfo, setCourseInfo] = useState({
     professors: []

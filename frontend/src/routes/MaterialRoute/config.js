@@ -1,5 +1,5 @@
 import CourseMaterial from '../../pages/Materials/CourseMaterial';
 
 export const config = [
-  {path: '/materials', exact: true, Component: CourseMaterial},
+  {path: '/materials/:instituteName/:courseName', exact: true, Component: CourseMaterial},
 ]
