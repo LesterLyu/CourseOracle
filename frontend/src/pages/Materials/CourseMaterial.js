@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -13,6 +13,8 @@ import Popover from '@material-ui/core/Popover'
 import Checkout from './Checkout.js'
 import RateMaterial from './RateMaterial.js'
 import RewardOfferer from './RewardOfferer'
+import {UserContext} from "../../contexts";
+import {getJson} from "../../api/helpers"
 
 const StyledCard = styled(Card)(() => ({
   height: '100%',
@@ -20,99 +22,39 @@ const StyledCard = styled(Card)(() => ({
   flexDirection: 'column',
 }));
 
-const DATA = [  
-{
-  id: 1,
-  price: 5,
-  school: 'University of Toronto',
-  course: 'CSC148',
-  cover_page: "https://source.unsplash.com/random",
-  year: 2018,
-  semester: 'fall',
-  type: 'Past Exam',
-  prof: ['David Liu'], 
-  offer_by: 'student1',
-  like: 199,
-  unlike: 2,
-  status: 0, // 0: 未购买 1: 已购买未评价 2: 已评价
-},
-{
-  id: 2,
-  price: 5,
-  school: 'University of Toronto',
-  course: 'CSC148',
-  cover_page: "https://source.unsplash.com/random",
-  year: 2019,
-  semester: 'fall',
-  type: 'Professor Course Note',
-  prof: ['xxxxxx', 'yyyyyyy'], 
-  offer_by: 'student2',
-  like: 199,
-  unlike: 2,
-  status: 0,
-},
-{
-  id: 3,
-  price: 5,
-  school: 'University of Toronto',
-  course: 'CSC148',
-  cover_page: "https://source.unsplash.com/random",
-  year: 2019,
-  semester: 'fall',
-  type: 'Student Course Note',
-  prof: ['xxxxxx', 'yyyyyyy'], 
-  offer_by: 'student3',
-  like: 199,
-  unlike: 2,
-  status: 0,
-},
-{
-  id: 4,
-  price: 5,
-  school: 'University of Toronto',
-  course: 'CSC148',
-  cover_page: "https://source.unsplash.com/random",
-  year: 2019,
-  semester: 'fall',
-  type: 'Past Exam',
-  prof: ['xxxxxx', 'yyyyyyy'], 
-  offer_by: 'student4',
-  like: 199,
-  unlike: 2,
-  status: 2,
-},
-{
-  id: 5,
-  price: 5,
-  school: 'University of Toronto',
-  course: 'CSC148',
-  cover_page: "https://source.unsplash.com/random",
-  year: 2019,
-  semester: 'winter',
-  type: 'Final Exam',
-  prof: ['xxxxxx', 'yyyyyyy'], 
-  offer_by: 'student5',
-  like: 199,
-  unlike: 2,
-  status: 1,
-}
-]
-
 
 export default function CourseMaterial() {
+  const userContext = useContext(UserContext);
   const courseName = new URLSearchParams(window.location.search).get('course')
   const instituteName = new URLSearchParams(window.location.search).get('institution')
-  console.log(courseName, instituteName)
-  const [courseInfo, setCourseInfo] = useState({
-    name: window.location.href.split('/')[window.location.href.split('/').length - 1],
-    school: 'University of Toronto',
-    description: 'CSC148 is an Introduction to Computer Science course. This course teaches you basic data structures (e.g. Stack, Queues, etc.) and powerful concepts like Object Oriented Programming and Recursion.',
-    professors: ['David Liu', 'xxxxxx', 'yyyyyyy'], 
-    difficulty: 3
-  })
 
+  const [courseInfo, setCourseInfo] = useState({
+    professors: []
+  })
   const [anchorPosition, setAnchorPosition] = React.useState(null);
   const [currId, setCurrId] = React.useState(null);
+  const [materials, setMaterials] = useState([])
+
+
+  async function getData(){
+    const url = '/api/materials?course=' + courseName + '&institution=' + instituteName + '&buyerEmail=' + userContext.email;
+    const tmp = await getJson(url)
+    if (tmp.error){
+      alert(tmp.error)
+    }else{
+      setCourseInfo(tmp.course)
+      setMaterials(tmp.courseMaterial);
+    }
+    return tmp;
+  }
+
+  useEffect(async () => {
+    async function callGetData(){
+      const tmp = await getData()
+    }
+    callGetData()
+  }, [])
+
 
   const handleClick = (event) => {
     setCurrId(event.target.value)
@@ -124,7 +66,7 @@ export default function CourseMaterial() {
   };
 
   const isOpen = (id) => {
-    return id === parseInt(currId) && Boolean(anchorPosition)
+    return id === currId && Boolean(anchorPosition)
   };
 
   const [buttonVariant1, setButtonVariant1] = useState("contained")
@@ -133,64 +75,65 @@ export default function CourseMaterial() {
   const [buttonVariant4, setButtonVariant4] = useState("outlined")
   const [buttonVariant5, setButtonVariant5] = useState("outlined")
 
-  function buttonHandler1(){
+  async function buttonHandler1(){
     setButtonVariant1("contained")
     setButtonVariant2("outlined")
     setButtonVariant3("outlined")
     setButtonVariant4("outlined")
     setButtonVariant5("outlined")
-    setMaterials(DATA)
+    const data = await getData()
+    setMaterials(data.courseMaterial)
   }
 
-  function buttonHandler2(){
+  async function buttonHandler2(){
     setButtonVariant1("outlined")
     setButtonVariant2("contained")
     setButtonVariant3("outlined")
     setButtonVariant4("outlined")
     setButtonVariant5("outlined")
-    setMaterials(DATA.filter((course) => {
+    const data = await getData()
+    setMaterials(data.courseMaterial.filter((course) => {
       return course.type === "Student Course Note"
     }))
   }
 
-  function buttonHandler3(){
+  async function buttonHandler3(){
     setButtonVariant1("outlined")
     setButtonVariant2("outlined")
     setButtonVariant3("contained")
     setButtonVariant4("outlined")
     setButtonVariant5("outlined")
-    setMaterials(DATA.filter((course) => {
+    const data = await getData()
+    setMaterials(data.courseMaterial.filter((course) => {
       return course.type === "Professor Course Note"
     }))
   }
 
-  function buttonHandler4(e){
+  async function buttonHandler4(e){
     setButtonVariant1("outlined")
     setButtonVariant2("outlined")
     setButtonVariant3("outlined")
     setButtonVariant4("contained")
     setButtonVariant5("outlined")
-    setMaterials(DATA.filter((course) => {
+    const data = await getData()
+    setMaterials(data.courseMaterial.filter((course) => {
       return course.type === "Past Exam"
     }))
   }
 
-  function buttonHandler5(e){
+  async function buttonHandler5(e){
     setButtonVariant1("outlined")
     setButtonVariant2("outlined")
     setButtonVariant3("outlined")
     setButtonVariant4("outlined")
     setButtonVariant5("contained")
-    setMaterials(DATA.filter((course) => {
+    const data = await getData()
+    setMaterials(data.courseMaterial.filter((course) => {
       return course.type === "Final Exam"
     }))
   }
   
-
-
-  const [materials, setMaterials] = useState(DATA)
   
-
   return (
     <React.Fragment>
       <CssBaseline />
@@ -207,7 +150,7 @@ export default function CourseMaterial() {
               professors: {courseInfo.professors.map((p) => <a key={p} href={'prof/' + p}>{p + ' '}</a>)}
             </Typography>
             <Typography variant="h5" align="center" color="textSecondary" paragraph>
-              {courseInfo.description}
+              Description: {courseInfo.description}
             </Typography>
             <div style={{marginTop: "5px"}}>
               <Grid container spacing={2} justifyContent="center">
@@ -252,11 +195,11 @@ export default function CourseMaterial() {
                   />
                   <CardContent style={{flexGrow: 1}}>
                     <Typography gutterBottom variant="h5" component="h2">
-                      semester: {m.year} {m.semester}
+                      semester: {m.year} - {m.semester}
                     </Typography>
-                    <Typography>
+                    {/* <Typography>
                       id: {m.id}
-                    </Typography>
+                    </Typography> */}
                     <Typography>
                       price: {m.price}
                     </Typography>

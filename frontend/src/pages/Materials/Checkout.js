@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -7,23 +7,39 @@ import Button from '@material-ui/core/Button';
 import RateMaterial from './RateMaterial'
 import RewardOfferer from './RewardOfferer'
 import { styled } from '@material-ui/core'
+import {UserContext} from "../../contexts";
+import {purchaseMaterial} from "../../api/material"
 
 const StyledListItem = styled(ListItem)(() => ({
     padding: 20, 
   }));
 
 export default function Checkout(props) {
+  const userContext = useContext(UserContext);
   const {product, handleClose, materials, setMaterials} = props;
 
-  const submitCheckoutHandle = (e) => {
-    var newMaterials = []
-    materials.forEach(element => {
-      if (product.id === element.id) {
-          element.status = 1
-      }
-      newMaterials.push(element);
-    });
-    setMaterials(newMaterials);
+  const submitCheckoutHandle = async (e) => {
+    const res = await purchaseMaterial(userContext.email, product.id)
+    // const url = '/api/material/purchase';
+    // const data = {
+    //     userEmail: userContext.email,
+    //     materialId: product.id,
+    //     price: product.price,
+    //   }
+    // const res = await postJson(url, data)
+    // TODO: Download the file
+    if (!res.error){
+      var newMaterials = []
+      materials.forEach(element => {
+        if (product.id === element.id) {
+            element.status = 1
+        }
+        newMaterials.push(element);
+      });
+      setMaterials(newMaterials);
+    }else{
+      alert(res.error)
+    }
 }
 
   return (

@@ -1,13 +1,18 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import Ratings from 'react-ratings-declarative';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
+import {UserContext} from "../../contexts";
+import {rateMaterial} from "../../api/material"
 
 export default function RateMaterial(props) {
+  const userContext = useContext(UserContext);
   const {product, handleClose, materials, setMaterials} = props;
-  const [rating, setRating] = React.useState(0);
+  const [rating, setRating] = React.useState(1);
 
-  const submitRateHandle = () => {
+  const submitRateHandle = async () => {
+    const res = await rateMaterial(userContext.email, product.id, rating)
+    if (!res.error){
       var newMaterials = []
       materials.forEach(element => {
         if (product.id === element.id) {
@@ -16,6 +21,9 @@ export default function RateMaterial(props) {
         newMaterials.push(element);
       });
       setMaterials(newMaterials);
+    }else{
+      alert(res.error)
+    }
   }
 
   return (
