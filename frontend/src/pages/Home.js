@@ -1,4 +1,5 @@
-import React, {useState,useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
+import {useHistory} from 'react-router-dom';
 // See https://next.material-ui.com/system/styled/
 import {styled, alpha} from '@material-ui/core/styles';
 import {Autocomplete, Container, InputBase, Paper, TextField} from "@material-ui/core";
@@ -19,12 +20,6 @@ import {getJson} from "../api/helpers"
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 
-
-// const instituteOptions = ['utsg','utsc','utm']
-const courseOptions = ['csc108','csc148','csc207']
-//
-// const emptyCourseLst = []
-// var courseLst = []
 
 const Search = styled('div')(({theme}) => ({
   position: 'relative',
@@ -71,128 +66,53 @@ const StyledRadioButton = styled(Radio)(({
 }));
 
 export default function HomePage() {
-  const [state, setState] = React.useState({
+  const history = useHistory();
+  const [state, setState] = useState({
     checkedA: true,
     checkedB: true,
     checkedC: true,
   });
 
+  const [instituteLst, setInstituteLst] = useState([]);
+  const [courseLst, setCourseLst] = useState([]);
+  const [selectedInstitute, setSelectedInstitute] = useState('');
+  const [selectedCourse, setSelectedCourse] = useState('');
 
-  async function getUniversities(){
-    const url = '/api/universities';
-    const instituteLst = await getJson(url)
-    if (instituteLst.error){
-      alert(instituteLst.error)
-    }else{
-      console.log('results')
-      console.log(instituteLst)
-      console.log(instituteLst.data)
+  useEffect(() => {
+    (async function () {
+      const url = '/api/universities';
+      const instituteLst = await getJson(url)
+      console.log('results', instituteLst.data)
       setInstituteLst(instituteLst.data)
-    }
-    return instituteLst;
-  }
-
-  useEffect(async () => {
-    async function callGetData(){
-      const instituteLst= await getUniversities()
-    }
-    callGetData()
+    })()
   }, [])
 
 
-  async function getCourses(institute){
-    const url = '/api/courses?institute='+ institute;
-    const courseLst = await getJson(url)
-    if (courseLst.error){
-      alert(courseLst.error)
-    }else{
+  useEffect(() => {
+    (async function () {
+      const url = '/api/courses?institute=' + selectedInstitute;
+      const courseLst = await getJson(url)
       console.log('course results')
       console.log(courseLst)
-      console.log(courseLst.data)
-      // setCourseLst(courseLst.data)
+      setCourseLst(courseLst.data)
 
-    }
-    return courseLst;
-  }
+      return courseLst;
+    })()
 
-  useEffect(async () => {
-    async function callGetCourseData(){
-      let courseLst= await getCourses(institute)
-      console.log('aaaaaa', courseLst)
-    }
-
-    callGetCourseData()
-  }, [])
-
-
-  // let courseLst = []
-  //
-  // useEffect(() => {courseLst = setCourseLst() }, [])
+  }, [selectedInstitute])
 
   const handleChange = (event) => {
     setState({...state, [event.target.name]: event.target.checked});
   };
 
-  let [courseLst, setCourseLst] = useState(Object);
 
-
-  const [institute, setInstitute] = useState("");
   const handleInstituteChange = async (event, value) => {
-    console.log(value.length)
-    setInstitute(value);
-    console.log('setInstitute');
-    console.log(value)
-    console.log('Course LST');
-
-    // useEffect(async () => {
-    //   async function callGetCourseData(){
-    //     const courseLst= await getCourses(value)
-    //     return courseLst
-    //   }
-    //   return callGetCourseData()
-    // }, [])
-
-    // let newCourseLst = await getCourses(value).data;
-
-
-    // window.courseLst = await getCourses(value);
-    // console.log('line154',window.courseLst);
-    // console.log('line156',window.courseLst.data.length);
-
-
-    // console.log(courseLst.length);
-    // console.log('new courses', courseLst)
-    // console.log('new courses', newCourseLst)\
-
-    // await getCourses(va', courseLst)
-    // setCourseLst(courseLst);
-
-    // let newCourseLst = await getCourses(value);
-    // console.log('line167',courseLst);
-    // console.log('line168',newCourseLst.data);
-    // await setCourseLst(newCourseLst);
-    // console.log('line169',courseLst.data);
-
-    // console.log('courses', courseLst)
-    // setCourseLst(newCourseLst);lue);
-    //     // console.log('courses
-    // let courseLst = []
-    // useEffect(() => {courseLst = getCourses(value).data }, [])
-
-    // console.log(getCourses(value).data)
-    // return useEffect
+    setSelectedInstitute(value);
   };
 
-  const [instituteLst, setInstituteLst] = useState("");
-  // const [courseLst, setCourseLst] = useState(Object);
-
-
-  // const userContext = useContext(UserContext);
-  // const universities = new URLSearchParams(window.location.search).get('course')
-  // const instituteName = new URLSearchParams(window.location.search).get('institution')
-
-//
-
+  const handleCourseChange = async (event, value) => {
+    setSelectedCourse(value);
+  };
 
 
   return (
@@ -212,10 +132,10 @@ export default function HomePage() {
             <Grid item xs={6} md={8}>
               <Grid container direction={'column'} alignItems="stretch">
                 <Grid item>
-                  <Paper sx={{ height:70}}>
+                  <Paper sx={{height: 70}}>
                     <Search>
-                      <Grid spacing={1} container direction={'row'} sx={{ height:60}}>
-                        <Grid item sx={{ width: '60%' }}>
+                      <Grid spacing={1} container direction={'row'} sx={{height: 60}}>
+                        <Grid item sx={{width: '60%'}}>
                           <Autocomplete
                             options={instituteLst}
                             disableClearable
@@ -223,14 +143,14 @@ export default function HomePage() {
                             renderInput={(params) => (
                               <TextField {...params}
                                          label="Institute Name"
-                                         variant="outlined"
-                                         // InputProps={{
-                                         //   startAdornment: (
-                                         //     <InputAdornment position="start">
-                                         //         <SchoolIcon/>
-                                         //     </InputAdornment>
-                                         //   ),
-                                         // }}
+                                         InputProps={{
+                                           ...(params.InputProps),
+                                           startAdornment: (
+                                             <InputAdornment position="start">
+                                               <SchoolIcon/>
+                                             </InputAdornment>
+                                           ),
+                                         }}
                               />
                             )}
 
@@ -238,28 +158,28 @@ export default function HomePage() {
                         </Grid>
 
                         <Grid item>
-                          <Divider sx={{ height: 50, m: 0.5 }} orientation="vertical" />
+                          <Divider sx={{height: 50, m: 0.5}} orientation="vertical"/>
                         </Grid>
 
 
-
                         <Grid item xs justifyContent="center">
-                          {institute.length > 0  &&
+                          {selectedInstitute.length > 0 &&
                           <Autocomplete
                             autoHighlight
                             freeSolo
-                            options={courseOptions}
+                            options={courseLst}
                             disableClearable
-                            // onInputChange={handleInstituteChange}
+                            onInputChange={handleCourseChange}
                             renderInput={(params) => (
                               <TextField {...params} label="Course Code" variant="outlined"
-                                // InputProps={{
-                                //   startAdornment: (
-                                //     <InputAdornment position="start" variant='outlined'>
-                                //       <SearchIcon/>
-                                //     </InputAdornment>
-                                //   ),
-                                // }}
+                                         InputProps={{
+                                           ...(params.InputProps),
+                                           startAdornment: (
+                                             <InputAdornment position="start">
+                                               <SearchIcon/>
+                                             </InputAdornment>
+                                           ),
+                                         }}
                               />
                             )}
                           />}
@@ -273,50 +193,50 @@ export default function HomePage() {
 
                 <Grid item>
                   <Box sx={{pt: 2}}>
-      {/*============================Do not delete! this is for multiple choices=====================*/}
-      {/*              <FormGroup row>*/}
-      {/*                <FormControlLabel*/}
-      {/*                  sx={{color: 'white'}}*/}
-      {/*                  control={*/}
-      {/*                    <StyledCheckbox*/}
-      {/*                      checked={state.checkedA}*/}
-      {/*                      onChange={handleChange}*/}
-      {/*                      name="checkedA"*/}
-      {/*                      color="primary"*/}
-      {/*                    />*/}
-      {/*                  }*/}
-      {/*                  label="Course Materials"*/}
-      {/*                />*/}
+                    {/*============================Do not delete! this is for multiple choices=====================*/}
+                    <FormGroup row>
+                      <FormControlLabel
+                        sx={{color: 'white'}}
+                        control={
+                          <StyledCheckbox
+                            checked={state.checkedA}
+                            onChange={handleChange}
+                            name="checkedA"
+                            color="primary"
+                          />
+                        }
+                        label="Course Materials"
+                      />
 
-      {/*                <FormControlLabel*/}
-      {/*                  sx={{color: 'white'}}*/}
-      {/*                  control={*/}
-      {/*                    <StyledCheckbox*/}
-      {/*                      checked={state.checkedC}*/}
-      {/*                      onChange={handleChange}*/}
-      {/*                      name="checkedC"*/}
-      {/*                      color="primary"*/}
-      {/*                    />*/}
-      {/*                  }*/}
-      {/*                  label="Course Ratings"*/}
-      {/*                />*/}
-      {/*              </FormGroup>*/}
+                      <FormControlLabel
+                        sx={{color: 'white'}}
+                        control={
+                          <StyledCheckbox
+                            checked={state.checkedC}
+                            onChange={handleChange}
+                            name="checkedC"
+                            color="primary"
+                          />
+                        }
+                        label="Course Ratings"
+                      />
+                    </FormGroup>
 
-                    <RadioGroup row name="row-radio-buttons-group">
-                      <FormControlLabel value="CourseMaterials" sx={{color: 'white'}}
-                                        control={<StyledRadioButton
-                                          checked={state.checkedA}
-                                          onChange={handleChange}
-                                          name="checkedA"
-                                          color="primary"/>} label="Course Materials" />
+                    {/*<RadioGroup row name="row-radio-buttons-group">*/}
+                    {/*  <FormControlLabel value="CourseMaterials" sx={{color: 'white'}}*/}
+                    {/*                    control={<StyledRadioButton*/}
+                    {/*                      checked={state.checkedA}*/}
+                    {/*                      onChange={handleChange}*/}
+                    {/*                      name="checkedA"*/}
+                    {/*                      color="primary"/>} label="Course Materials"/>*/}
 
-                      <FormControlLabel value="CourseRatings" sx={{color: 'white'}}
-                                        control={<StyledRadioButton
-                                          checked={state.checkedB}
-                                          onChange={handleChange}
-                                          name="checkedB"
-                                          color="primary"/>} label="Course Ratings" />
-                    </RadioGroup>
+                    {/*  <FormControlLabel value="CourseRatings" sx={{color: 'white'}}*/}
+                    {/*                    control={<StyledRadioButton*/}
+                    {/*                      checked={state.checkedB}*/}
+                    {/*                      onChange={handleChange}*/}
+                    {/*                      name="checkedB"*/}
+                    {/*                      color="primary"/>} label="Course Ratings"/>*/}
+                    {/*</RadioGroup>*/}
                   </Box>
                 </Grid>
 
@@ -330,6 +250,9 @@ export default function HomePage() {
                 variant="contained"
                 color="primary"
                 endIcon={<ArrowForwardSharpIcon/>}
+                onClick={() => {
+                  history.push(`/materials/${selectedInstitute}/${selectedCourse}`);
+                }}
               >
                 Search
               </Button>
