@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     CssBaseline,
     Typography,
@@ -8,60 +8,16 @@ import {
     Input,
     MenuItem,
     InputLabel,
-    Autocomplete, TextField
+    Autocomplete, TextField, Stack
 } from "@material-ui/core";
 
 import CardMedia from "@material-ui/core/CardMedia";
 import DatePicker from '@material-ui/lab/DatePicker';
 import {LocalizationProvider} from "@material-ui/lab";
 import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
+import { useParams } from "react-router-dom";
+import {getJson, postJson} from "../../api/helpers";
 
-
-
-const Data = [
-    {
-        id: 1,
-        username: 'Theo',
-        user_image: "https://source.unsplash.com/random",
-        course: 'csc343',
-        school: 'University of Toronto',
-        year: 2018,
-        semester: 'Fall',
-        prof: 'Daniela',
-        like: 10,
-        unlike: 3,
-        score: 4,
-        comment: 'Be ready to read a lot. Those materials are really helpful',
-    },
-    {
-        id: 2,
-        username: 'Emily',
-        user_image: "https://source.unsplash.com/random",
-        course: 'csc343',
-        school: 'University of Toronto',
-        year: 2019,
-        semester: 'Winter',
-        prof: 'Michelle',
-        like: 110,
-        unlike: 3,
-        score: 5,
-        comment: 'Cannot ask more, everything is perfect',
-    },
-    {
-        id: 3,
-        username: 'Lester',
-        user_image: "https://source.unsplash.com/random",
-        course: 'csc343',
-        school: 'University of Toronto',
-        year: 2017,
-        semester: 'Summer',
-        prof: 'Michelle',
-        like: 50,
-        unlike: 2,
-        score: 3,
-        comment: 'Hard to pass the exams',
-    }
-]
 
 const semesterOptions = [
     'Fall',
@@ -77,14 +33,38 @@ const isProfInclude = (profs, prof) => {
     return profs.includes(prof)
 }
 
-
 export default function CourseRatings() {
-    const courseName = window.location.href.split('/')[window.location.href.split('/').length - 1]
+
+    const [data, setData] = useState([]);
+    // setData();
+    async function getData(){
+        console.log(instituteName);
+        const url = '/api/rating?institute=' + instituteName + '&course=' + courseCode;
+        const tmp = await getJson(url)
+        if (tmp.error){
+            alert(tmp.error)
+        } else {
+            setData(tmp.data);
+            console.log(tmp);
+        }
+        return tmp;
+    }
+
+    useEffect(async () => {
+        async function callGetData(){
+            const tmp = await getData()
+        }
+        await callGetData()
+    }, [])
+    const params = useParams();
+    const instituteName = params.institute;
+    const courseCode = params.course;
     const [semesters, setSemester] = useState(semesterOptions);
     const handleChangeSemesterMultiple = (event) => {
         setSemester(event.target.value);
     }
-    const profOptions = Array.from(new Set(Data.map((obj) => obj.prof)));
+
+    const profOptions = Array.from(new Set(data.map((obj) => obj.prof)));
     const [profs, setProf] = useState(profOptions);
     const handleChangeProfMultiple = (event) => {
         setProf(event.target.value);
@@ -94,21 +74,25 @@ export default function CourseRatings() {
     const [newScore, setNewScore] = useState(0);
     const [newComment, setNewComment] = useState("");
     const [newCourse, setNewCourse] = useState(""); // TODO: get this value props
-    const [newYear, setNewYear] = useState(2021);
+    const [newYear, setNewYear] = useState(new Date());
     const [newSemester, setNewSemester] = useState(semesterOptions[0]);
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        const newRating = { newScore, newYear, newCourse, newProf, newSemester, newComment};
-        console.log(newRating)
-        // fetch('http://localhost:8000/blogs/', {
-        //     method: 'POST',
-        //     headers: { "Content-Type": "application/json" },
-        //     body: JSON.stringify(newRating)
-        // }).then(() => {
-        //     // history.go(-1);
-        //     // history.push('/');
-        //     // should fetch the new comment
-        // })
+        const url = '/api/rating';
+        const newRating = { institute: instituteName,
+            course: courseCode,
+            prof: newProf,
+            score: newScore,
+            comment: newComment,
+            year: newYear.getFullYear(),
+            semester: newSemester,};
+        let res = await postJson(url, newRating);
+        // console.log(res);
+        if (!res.error){
+            await getData();
+        }else{
+            alert(res.error);
+        }
     }
 
     const handleNewProfChange = (event, value) => {
@@ -119,15 +103,11 @@ export default function CourseRatings() {
         setNewSemester(value);
     }
 
-    const handleNewYearChange = (event, value) => {
-        setNewYear(value);
-    }
-
     return (
         <React.Fragment>
             <Box className='Title'>
                 <Typography variant='h1'>
-                    {courseName}
+                    {courseCode}
                 </Typography>
             </Box>
             <Box pl={3}>
@@ -170,22 +150,22 @@ export default function CourseRatings() {
             </Box>
             <Box width="90%">
                 {
-                    Data.map(rating => (
+                    data.map(rating => (
                         isSemesterInclude(semesters, rating.semester) &&
                         isProfInclude(profs, rating.prof) &&
-                        <Box border={1} width={1} m={3} display="flex" key={rating.id}>
+                        <Box border={1} width={1} m={3} display="flex" key={rating._id}>
                             <Box style={{width:'20%'}} borderRight={1}>
                                 <Box borderBottom={1}  display="flex">
                                     <Typography fontWeight="fontWeightBold" pr={1}>User:</Typography>
-                                    <Typography>{rating.username}</Typography>
+                                    <Typography>{rating.user}</Typography>
                                 </Box>
                                 <CardMedia
                                     style={{
                                         height: 0,
-                                        paddingTop: '56.25%', // 16:9,
+                                        paddingTop: '100%', // 16:9,
                                         marginTop:'30'
                                     }}
-                                    image={rating.user_image}
+                                    image='https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png'
                                     title="user image"
                                 />
                             </Box>
@@ -258,7 +238,7 @@ export default function CourseRatings() {
                             onChange={(newValue) => {
                                 setNewYear(newValue);
                             }}
-                            renderInput={(params) => <TextField {...params} />}
+                            renderInput={(params) => <TextField {...params} helperText={null}/>}
                         />
                     </LocalizationProvider>
                     <Box style={{width:'20%'}}>
@@ -290,7 +270,6 @@ export default function CourseRatings() {
                 </form>
             </Box>
         </React.Fragment>
-
     )
 }
 
