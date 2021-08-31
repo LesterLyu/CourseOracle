@@ -14,7 +14,7 @@ import Checkout from './Checkout.js'
 import RateMaterial from './RateMaterial.js'
 import RewardOfferer from './RewardOfferer'
 import {UserContext} from "../../contexts";
-import {getJson} from "../../api/helpers"
+import {getMaterials} from "../../api/material"
 
 const StyledCard = styled(Card)(() => ({
   height: '100%',
@@ -37,8 +37,7 @@ export default function CourseMaterial() {
 
 
   async function getData(){
-    const url = '/api/materials?course=' + courseName + '&institution=' + instituteName + '&buyerEmail=' + userContext.email;
-    const tmp = await getJson(url)
+    const tmp = await getMaterilas(courseName, instituteName, userContext.email)
     if (tmp.error){
       alert(tmp.error)
     }else{
