@@ -1,10 +1,10 @@
 const User = require("../models/user");
 const Institute = require("../models/institute")
+const Course = require("../models/course")
 const Prof = require("../models/prof")
 const CourseRating = require("../models/courseRating")
 const {APIError} = require("../utils/errors");
 
-const ratingKeys = ['institute', 'course', 'prof', 'score', 'comment', 'year', 'semester'];
 
 async function postRating(req, res, next) {
     // const user = await User.findOne({address: req.body.address});
@@ -19,21 +19,58 @@ async function postRating(req, res, next) {
         institute = new Institute({
             name: req.body.institute,
         })
-        institute.save((err) => {
-            return res.status(500).send(err);
+        await institute.save((err) => {
+            if (err) {
+                console.log(err);
+                return res.status(500).send(err);
+            }
         })
     }
+    let course = await Course.findOne({institute: institute, code: req.body.course});
+    if (!course) {
+        course = new Course({
+            code: req.body.course,
+            name: "",
+            institute: institute,
+            profs: []
+        })
+        await course.save((err) => {
+            if (err) {
+                console.log(err);
+                return res.status(500).send(err);
+            }
+        })
+    }
+
     prof = await Prof.findOne({name: req.body.prof, institute: institute._id});
     if (!prof) {
         prof = new Prof({
             name: req.body.prof,
             institute: institute,
         });
-        prof.save((err) => {
-            return res.status(500).send(err);
+        await prof.save((err) => {
+            if (err) {
+                console.log(err);
+                return res.status(500).send(err);
+            }
         })
     }
-    const ratingKeys = ['institute', 'course', 'prof', 'score', 'comment', 'year', 'semester'];
+    if (!course.profs.includes(req.body.prof)) {
+        // let courseProfs = course.profs.toObject();
+        // courseProfs.push(prof);
+        let result = await Course.updateOne({_id: course._id}, {$push: {'profs': req.body.prof}});
+        if (!result) {
+            console.log(result);
+            return res.status(500).send(err);
+        }
+        // await course.save((err) => {
+        //     if (err) {
+        //         console.log(err);
+        //         return res.status(500).send(err);
+        //     }
+        // });
+    }
+    // const ratingKeys = ['institute', 'course', 'prof', 'score', 'comment', 'year', 'semester'];
 
     const newRating = new CourseRating({
         institute: institute,
@@ -46,17 +83,18 @@ async function postRating(req, res, next) {
         user: 1,
     });
 
-    let err = await newRating.save();
-    if (err) {
-        console.log(err);
-        return res.status(500).send(err);
-    }
+    await newRating.save((err) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send(err);
+        }
+    });
 
-    return res.send("New rating posted");
+
+    return res.status(200).json({msg: 'Successfully post'});
 }
 
 async function getRating(req, res, next) {
-    console.log(req.query['institute'])
     let institute = await Institute.findOne({name: req.query['institute']});
     if (!institute) {
         console.log("Institute not found");
