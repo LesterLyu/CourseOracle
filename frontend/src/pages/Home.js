@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+import {useHistory} from 'react-router-dom';
 // See https://next.material-ui.com/system/styled/
 import {styled, alpha} from '@material-ui/core/styles';
-import {Container, InputBase, Paper} from "@material-ui/core";
+import {Autocomplete, Container, InputBase, Paper, TextField} from "@material-ui/core";
 import {Search as SearchIcon} from "@material-ui/icons";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
@@ -12,6 +13,12 @@ import Button from '@material-ui/core/Button';
 import ArrowForwardSharpIcon from '@material-ui/icons/ArrowForwardSharp';
 import {Grid} from '@material-ui/core';
 import {HomeBackgroundWrapper} from "../components/Background";
+import SchoolIcon from '@material-ui/icons/School';
+import Divider from '@material-ui/core/Divider';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import {getJson} from "../api/helpers"
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
 
 
 const Search = styled('div')(({theme}) => ({
@@ -51,16 +58,62 @@ const StyledCheckbox = styled(Checkbox)(({
   },
 }));
 
+const StyledRadioButton = styled(Radio)(({
+  color: '#ccc',
+  '&.Mui-checked': {
+    color: '#ccc',
+  },
+}));
+
 export default function HomePage() {
-  const [state, setState] = React.useState({
+  const history = useHistory();
+  const [state, setState] = useState({
     checkedA: true,
     checkedB: true,
     checkedC: true,
   });
 
+  const [instituteLst, setInstituteLst] = useState([]);
+  const [courseLst, setCourseLst] = useState([]);
+  const [selectedInstitute, setSelectedInstitute] = useState('');
+  const [selectedCourse, setSelectedCourse] = useState('');
+
+  useEffect(() => {
+    (async function () {
+      const url = '/api/universities';
+      const instituteLst = await getJson(url)
+      console.log('results', instituteLst.data)
+      setInstituteLst(instituteLst.data)
+    })()
+  }, [])
+
+
+  useEffect(() => {
+    (async function () {
+      const url = '/api/courses?institute=' + selectedInstitute;
+      const courseLst = await getJson(url)
+      console.log('course results')
+      console.log(courseLst)
+      setCourseLst(courseLst.data)
+
+      return courseLst;
+    })()
+
+  }, [selectedInstitute])
+
   const handleChange = (event) => {
     setState({...state, [event.target.name]: event.target.checked});
   };
+
+
+  const handleInstituteChange = async (event, value) => {
+    setSelectedInstitute(value);
+  };
+
+  const handleCourseChange = async (event, value) => {
+    setSelectedCourse(value);
+  };
+
 
   return (
     <HomeBackgroundWrapper>
@@ -79,20 +132,68 @@ export default function HomePage() {
             <Grid item xs={6} md={8}>
               <Grid container direction={'column'} alignItems="stretch">
                 <Grid item>
-                  <Paper>
+                  <Paper sx={{height: 70}}>
                     <Search>
-                      <SearchIconWrapper>
-                        <SearchIcon/>
-                      </SearchIconWrapper>
-                      <StyledInputBase
-                        placeholder="Search for course…"
-                      />
+                      <Grid spacing={1} container direction={'row'} sx={{height: 60}}>
+                        <Grid item sx={{width: '60%'}}>
+                          <Autocomplete
+                            options={instituteLst}
+                            disableClearable
+                            onInputChange={handleInstituteChange}
+                            renderInput={(params) => (
+                              <TextField {...params}
+                                         label="Institute Name"
+                                         InputProps={{
+                                           ...(params.InputProps),
+                                           startAdornment: (
+                                             <InputAdornment position="start">
+                                               <SchoolIcon/>
+                                             </InputAdornment>
+                                           ),
+                                         }}
+                              />
+                            )}
+
+                          />
+                        </Grid>
+
+                        <Grid item>
+                          <Divider sx={{height: 50, m: 0.5}} orientation="vertical"/>
+                        </Grid>
+
+
+                        <Grid item xs justifyContent="center">
+                          {selectedInstitute.length > 0 &&
+                          <Autocomplete
+                            autoHighlight
+                            freeSolo
+                            options={courseLst}
+                            disableClearable
+                            onInputChange={handleCourseChange}
+                            renderInput={(params) => (
+                              <TextField {...params} label="Course Code" variant="outlined"
+                                         InputProps={{
+                                           ...(params.InputProps),
+                                           startAdornment: (
+                                             <InputAdornment position="start">
+                                               <SearchIcon/>
+                                             </InputAdornment>
+                                           ),
+                                         }}
+                              />
+                            )}
+                          />}
+
+                        </Grid>
+
+                      </Grid>
                     </Search>
                   </Paper>
                 </Grid>
 
                 <Grid item>
                   <Box sx={{pt: 2}}>
+                    {/*============================Do not delete! this is for multiple choices=====================*/}
                     <FormGroup row>
                       <FormControlLabel
                         sx={{color: 'white'}}
@@ -105,19 +206,6 @@ export default function HomePage() {
                           />
                         }
                         label="Course Materials"
-                      />
-
-
-                      <FormControlLabel
-                        sx={{color: 'white'}}
-                        control={
-                          <StyledCheckbox
-                            checked={state.checkedB}
-                            onChange={handleChange}
-                            name="checkedB"
-                          />
-                        }
-                        label="Course Past Exams"
                       />
 
                       <FormControlLabel
@@ -133,6 +221,22 @@ export default function HomePage() {
                         label="Course Ratings"
                       />
                     </FormGroup>
+
+                    {/*<RadioGroup row name="row-radio-buttons-group">*/}
+                    {/*  <FormControlLabel value="CourseMaterials" sx={{color: 'white'}}*/}
+                    {/*                    control={<StyledRadioButton*/}
+                    {/*                      checked={state.checkedA}*/}
+                    {/*                      onChange={handleChange}*/}
+                    {/*                      name="checkedA"*/}
+                    {/*                      color="primary"/>} label="Course Materials"/>*/}
+
+                    {/*  <FormControlLabel value="CourseRatings" sx={{color: 'white'}}*/}
+                    {/*                    control={<StyledRadioButton*/}
+                    {/*                      checked={state.checkedB}*/}
+                    {/*                      onChange={handleChange}*/}
+                    {/*                      name="checkedB"*/}
+                    {/*                      color="primary"/>} label="Course Ratings"/>*/}
+                    {/*</RadioGroup>*/}
                   </Box>
                 </Grid>
 
@@ -146,6 +250,9 @@ export default function HomePage() {
                 variant="contained"
                 color="primary"
                 endIcon={<ArrowForwardSharpIcon/>}
+                onClick={() => {
+                  history.push(`/materials/${selectedInstitute}/${selectedCourse}`);
+                }}
               >
                 Search
               </Button>

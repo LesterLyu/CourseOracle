@@ -7,6 +7,7 @@ const cors = require('cors')
 const userRouter = require("../routes/userRouter");
 const ratingRouter = require("../routes/ratingRouter");
 const materialsRouter = require("../routes/materialsRouter");
+const searchRouter = require("../routes/searchRouter");
 
 const {authMiddleware, errorHandler} = require('../middlewares');
 const config = require('../../config');
@@ -27,6 +28,7 @@ app.use(cookieSession(config.cookieSession));
 app.use("/api", userRouter);
 app.use("/api", ratingRouter);
 app.use('/api', materialsRouter);
+app.use('/api', searchRouter);
 
 // Routes below require authentication
 app.use('/api', authMiddleware('Authentication Required'));

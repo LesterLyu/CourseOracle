@@ -185,8 +185,14 @@ function step4(){
     createPurchaseHistory(1, 1)
 }
 
+
+
 // run step1 to step4 in order
-step4()
+// step1()
+// step2()
+// step3()
+// step4()
+
 
 
 
