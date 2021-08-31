@@ -7,7 +7,7 @@ const {APIError} = require("../utils/errors");
 
 
 async function getUniversities(req,res,next){
-  console.log(req.query['institute'])
+  // console.log(req.query['institute'])
   let institutes = await Institute.find({});
   // if (!institutes) {
   //   console.log("No institute");

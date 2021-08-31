@@ -109,7 +109,7 @@ export default function HomePage() {
       console.log('course results')
       console.log(courseLst)
       console.log(courseLst.data)
-      setCourseLst(courseLst.data)
+      // setCourseLst(courseLst.data)
 
     }
     return courseLst;
@@ -164,8 +164,7 @@ export default function HomePage() {
     // console.log('new courses', courseLst)
     // console.log('new courses', newCourseLst)\
 
-    await getCourses(value);
-    console.log('courses', courseLst)
+    // await getCourses(va', courseLst)
     // setCourseLst(courseLst);
 
     // let newCourseLst = await getCourses(value);
@@ -175,7 +174,8 @@ export default function HomePage() {
     // console.log('line169',courseLst.data);
 
     // console.log('courses', courseLst)
-    // setCourseLst(newCourseLst);
+    // setCourseLst(newCourseLst);lue);
+    //     // console.log('courses
     // let courseLst = []
     // useEffect(() => {courseLst = getCourses(value).data }, [])
 
