@@ -33,4 +33,9 @@ app.use('/api', authMiddleware('Authentication Required'));
 
 app.use(errorHandler);
 
+// 404 handler
+app.use(function (req, res, next) {
+  res.status(404).json({success: false, code: 404, message: "Sorry can't find that!"});
+})
+
 module.exports = app;
