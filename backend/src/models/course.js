@@ -6,7 +6,8 @@ const courseSchema = new Schema(
         code: { type: String },
         name: { type: String, required: true },
         description: { type: String, default: "" },
-        institute: { type: String },
+        institute: {type: String},
+        // institute: {type: mongoose.Schema.Types.ObjectId},
         profs: {type: Array} // prof id
     },
     {
