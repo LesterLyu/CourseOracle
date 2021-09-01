@@ -62,8 +62,8 @@ async function postRating(req, res, next) {
             }
         })
     }
-    if (!course.profs.includes(req.body.prof)) {
-        let result = await Course.updateOne({_id: course._id}, {$push: {'profs': req.body.prof}});
+    if (!course.profs.includes(prof._id)) {
+        let result = await Course.updateOne({_id: course._id}, {$push: {'profs': prof._id}});
         if (!result) {
             console.log(result);
             return res.status(500).send(result);
