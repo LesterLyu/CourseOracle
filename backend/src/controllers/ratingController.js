@@ -13,8 +13,6 @@ async function postRating(req, res, next) {
 // }
     let prof;
     let institute = await Institute.findOne({name: req.body.institute});
-    console.log(req.body);
-    // console.log(req)
     if (!institute) {
         institute = new Institute({
             name: req.body.institute,
