@@ -26,12 +26,12 @@ async function postRating(req, res, next) {
             }
         })
     }
-    let course = await Course.findOne({institute: institute, code: req.body.course});
+    let course = await Course.findOne({institute: req.body.institute, code: req.body.course});
     if (!course) {
         course = new Course({
             code: req.body.course,
-            name: "",
-            institute: institute,
+            name: "N/A",
+            institute: req.body.institute,
             profs: []
         })
         await course.save((err) => {
@@ -40,6 +40,13 @@ async function postRating(req, res, next) {
                 return res.status(500).send(err);
             }
         })
+        if (!institute.courses.includes(course)) {
+            let result = await Institute.updateOne({_id: institute._id}, {$push: {'courses': course}});
+            if (!result) {
+                console.log(result);
+                return res.status(500).send(result);
+            }
+        }
     }
 
     prof = await Prof.findOne({name: req.body.prof, institute: institute._id});
@@ -56,21 +63,12 @@ async function postRating(req, res, next) {
         })
     }
     if (!course.profs.includes(req.body.prof)) {
-        // let courseProfs = course.profs.toObject();
-        // courseProfs.push(prof);
         let result = await Course.updateOne({_id: course._id}, {$push: {'profs': req.body.prof}});
         if (!result) {
             console.log(result);
-            return res.status(500).send(err);
+            return res.status(500).send(result);
         }
-        // await course.save((err) => {
-        //     if (err) {
-        //         console.log(err);
-        //         return res.status(500).send(err);
-        //     }
-        // });
     }
-    // const ratingKeys = ['institute', 'course', 'prof', 'score', 'comment', 'year', 'semester'];
 
     const newRating = new CourseRating({
         institute: institute,
