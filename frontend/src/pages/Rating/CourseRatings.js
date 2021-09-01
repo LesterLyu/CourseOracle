@@ -78,8 +78,7 @@ const isProfInclude = (profs, prof) => {
 }
 
 
-export default function CourseRatings() {
-    const courseName = window.location.href.split('/')[window.location.href.split('/').length - 1]
+export default function CourseRatings({courseName}) {
     const [semesters, setSemester] = useState(semesterOptions);
     const handleChangeSemesterMultiple = (event) => {
         setSemester(event.target.value);
@@ -125,13 +124,8 @@ export default function CourseRatings() {
 
     return (
         <React.Fragment>
-            <Box className='Title'>
-                <Typography variant='h1'>
-                    {courseName}
-                </Typography>
-            </Box>
             <Box pl={3}>
-                <FormControl width='100px' style={{margin: 5}}>
+                <FormControl width='100px' style={{margin: 5}} variant="outlined">
                     <InputLabel id="semester-selection-label">Semester</InputLabel>
                     <Select
                         labelId="semester-selection-label"

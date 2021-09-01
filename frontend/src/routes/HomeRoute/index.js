@@ -1,7 +1,6 @@
 import React from "react";
 import {config} from "./config";
-import {Route} from "react-router-dom";
-import {Switch} from "react-router-dom";
+import {Route, Switch} from "react-router-dom";
 
 export default function HomeRoute() {
   return (
