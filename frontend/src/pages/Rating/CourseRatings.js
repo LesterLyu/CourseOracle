@@ -33,7 +33,8 @@ const isProfInclude = (profs, prof) => {
     return profs.includes(prof)
 }
 
-export default function CourseRatings() {
+
+export default function CourseRatings({courseName, insituteName}) {
 
     const [data, setData] = useState([]);
     // setData();
@@ -105,13 +106,8 @@ export default function CourseRatings() {
 
     return (
         <React.Fragment>
-            <Box className='Title'>
-                <Typography variant='h1'>
-                    {courseCode}
-                </Typography>
-            </Box>
             <Box pl={3}>
-                <FormControl width='100px' style={{margin: 5}}>
+                <FormControl width='100px' style={{margin: 5}} variant="outlined">
                     <InputLabel id="semester-selection-label">Semester</InputLabel>
                     <Select
                         labelId="semester-selection-label"

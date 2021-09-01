@@ -30,8 +30,8 @@ export default function AppBar() {
             <NavLink href={"/courses"}>
               Courses
             </NavLink>
-            <NavLink href={"/schools"}>
-              Schools
+            <NavLink href={"/institutes"}>
+              Institutes
             </NavLink>
           </Box>
 

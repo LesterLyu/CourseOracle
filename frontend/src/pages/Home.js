@@ -251,7 +251,7 @@ export default function HomePage() {
                 color="primary"
                 endIcon={<ArrowForwardSharpIcon/>}
                 onClick={() => {
-                  history.push(`/materials/${selectedInstitute}/${selectedCourse}`);
+                  history.push(`/course/${selectedInstitute}/${selectedCourse}`);
                 }}
               >
                 Search
