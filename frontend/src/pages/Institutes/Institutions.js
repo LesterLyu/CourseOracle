@@ -32,7 +32,7 @@ const schools = [{
     "country": "Canada"
   }];
 export default function InstitutionPage() {
-  return (<>
+  return (
     <Box
       sx={{
         backgroundColor: 'background.default',
@@ -68,6 +68,5 @@ export default function InstitutionPage() {
         >
         </Box>
       </Container>
-    </Box>
-  </>);
+    </Box>);
 }
