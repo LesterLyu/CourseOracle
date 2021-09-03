@@ -8,6 +8,7 @@ const userRouter = require("../routes/userRouter");
 const ratingRouter = require("../routes/ratingRouter");
 const materialsRouter = require("../routes/materialsRouter");
 const searchRouter = require("../routes/searchRouter");
+const transactionRouter = require("../routes/transactionRouter");
 
 const {authMiddleware, errorHandler} = require('../middlewares');
 const config = require('../../config');
@@ -32,6 +33,7 @@ app.use('/api', searchRouter);
 
 // Routes below require authentication
 app.use('/api', authMiddleware('Authentication Required'));
+app.use('/api', transactionRouter);
 
 app.use(errorHandler);
 

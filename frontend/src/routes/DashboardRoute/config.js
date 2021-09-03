@@ -4,11 +4,13 @@ import MyReviews from '../../pages/Dashboard/MyReviews';
 import Purchase from '../../pages/Dashboard/Purchase';
 import RateCourse from '../../pages/Dashboard/RateCourse';
 import UploadCourseMaterial from '../../pages/Dashboard/UploadCourseMaterial';
+import Transaction from '../../pages/Dashboard/Transaction';
 
 // Find icons here https://next.material-ui.com/components/material-icons/#main-content
 // and https://materialdesignicons.com/ (takes 1 minute to load)
 // Or create custom icon https://next.material-ui.com/components/icons/
-import {Person, Help, Store, Reviews, Storage, RateReview, UploadFile} from "@material-ui/icons";
+import {Person, Help, Store, Reviews, Storage, RateReview, UploadFile, AttachMoney} from "@material-ui/icons";
+// import PaymentIcon from '@mui/icons-material/Payment';
 
 export const config = [
   {path: '/dashboard', exact: true, Component: Profile},
@@ -18,6 +20,7 @@ export const config = [
   {path: '/dashboard/purchase', exact: true, Component: Purchase},
   {path: '/dashboard/rate-course', exact: true, Component: RateCourse},
   {path: '/dashboard/upload', exact: true, Component: UploadCourseMaterial},
+  {path: '/dashboard/transaction', exact: true, Component: Transaction},
 ]
 
 export const navConfig = [
@@ -28,4 +31,5 @@ export const navConfig = [
   {label: 'Rate Course', Icon: RateReview, path: '/dashboard/rate-course'},
   {label: 'Upload Materials', Icon: UploadFile, path: '/dashboard/upload'},
   {label: 'Contact Us', Icon: Help, path: '/dashboard/help'},
+  {label: 'Transaction', Icon: AttachMoney, path: '/dashboard/Transaction'},
 ]
