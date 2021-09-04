@@ -20,7 +20,7 @@ export default function Transaction() {
     const acc = await window.conflux.enable() // connect to wallet
     const tx = window.confluxJS.sendTransaction({
       from: acc[0],
-      to: RECEIVER_ADDRESS, // TODO: change to process.env.RECEIVER_ADDRESS
+      to: RECEIVER_ADDRESS, 
       value: 1e18 * depositAmount
     })
     await tx.executed()
@@ -31,6 +31,8 @@ export default function Transaction() {
     const res = await deposit(hash, depositAmount)
     if (res.error){
         alert(res.error)
+    }else{
+        alert('Deposit successfully!')
     }
     setDepositWaiting(false)
   }

@@ -1,15 +1,15 @@
 const User = require("../models/user")
 const Transaction = require("../models/transaction")
 const { Conflux, Drip } = require('js-conflux-sdk');
-require('dotenv').config();
+require("dotenv").config();
 
 async function deposit(req, res){
     if (!req.session.email || !req.body.amount){
-        res.status(404).send({error: 'invalid request'});
+        res.status(400).send({error: 'invalid request'});
     }
     const user = await User.findOne({email: req.session.email})
     if (!user){
-        res.status(404).send({error: 'invalid request'});
+        res.status(400).send({error: 'invalid request'});
     }
     const conflux = new Conflux({ 
         url: process.env.NETWORK_URL,
@@ -17,8 +17,7 @@ async function deposit(req, res){
       });
     const transaction = await conflux.getTransactionByHash(req.body.hash);
     if (transaction.status === 0 && 
-        (transaction.to === 'CFXTEST:TYPE.USER:' + process.env.RECEICER_ADDRESS.toUpperCase () || 
-        transaction.to === 'cfxtest:' + process.env.RECEICER_ADDRESS)  &&
+        transaction.to === process.env.RECEIVER_ADDRESS &&
         transaction.value == req.body.amount * 1e18){ //transaction.value is BigInt
         const tmp = await Transaction.find({hash: req.body.hash})
         if (tmp.length === 0){
@@ -33,10 +32,10 @@ async function deposit(req, res){
             await user.save()
             res.send({message: 'success'})
         }else{
-            res.status(404).send({error: 'already redeem the tokens'});
+            res.status(400).send({error: 'already redeem the tokens'});
         }
     }else{
-        res.status(404).send({error: 'invalid transaction hash'});
+        res.status(400).send({error: 'invalid transaction hash'});
     }
 }
 
