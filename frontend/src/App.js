@@ -15,7 +15,8 @@ import {USER_TYPE} from "./constants";
 import DashboardRoute from "./routes/DashboardRoute";
 import MaterialRoute from "./routes/MaterialRoute"
 import RatingRoute from "./routes/RatingRoute";
-import SchoolRoute from "./routes/SchoolRoute"
+import SchoolRoute from "./routes/SchoolRoute";
+import UploadRoute from "./routes/UploadRoute"
 import {logout} from "./api/auth";
 
 const theme = createTheme({});
@@ -54,6 +55,7 @@ function App() {
               <Route path="/materials" component={MaterialRoute}/>
               <Route path="/dashboard" component={DashboardRoute}/>
               <Route path="/rating" component={RatingRoute}/>
+              <Route path="/upload" component={UploadRoute}/>
               <Route path="/" component={HomeRoute}/>
             </Switch>
           </Router>
