@@ -8,7 +8,7 @@ import {
     Input,
     MenuItem,
     InputLabel,
-    Autocomplete, TextField, Stack
+    Autocomplete, TextField, Rating
 } from "@material-ui/core";
 
 import CardMedia from "@material-ui/core/CardMedia";
@@ -33,6 +33,11 @@ const isProfInclude = (profs, prof) => {
     return profs.includes(prof)
 }
 
+const ratingFormStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+    // justifyContent: 'space-between',
+}
 
 export default function CourseRatings({courseName, insituteName}) {
 
@@ -46,6 +51,7 @@ export default function CourseRatings({courseName, insituteName}) {
             alert(tmp.error)
         } else {
             setData(tmp.data);
+            setProf(Array.from(new Set(tmp.data.map((obj) => obj.prof))))
             console.log(tmp);
         }
         return tmp;
@@ -87,8 +93,8 @@ export default function CourseRatings({courseName, insituteName}) {
             comment: newComment,
             year: newYear.getFullYear(),
             semester: newSemester,};
+        // console.log(newRating);
         let res = await postJson(url, newRating);
-        // console.log(res);
         if (!res.error){
             await getData();
         }else{
@@ -215,18 +221,18 @@ export default function CourseRatings({courseName, insituteName}) {
             </Box>
             <Box width="90%" p={3} m={3} border={1} >
                 <Typography variant='h6'>Add a New Rating</Typography>
-                <form onSubmit={handleSubmit}>
-                    <label>Score</label>
-                    <input
-                        type="number"
-                        min='0'
-                        max='5'
-                        required
-                        value={newScore}
-                        onChange={(e)=> setNewScore(e.target.value)}
-                    />
-                    <label>Year</label>
-                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <form onSubmit={handleSubmit} style={ratingFormStyle}>
+                    <Box pb={1}>
+                        <Rating
+                            name="simple-controlled"
+                            value={newScore}
+                            onChange={(event, newValue) => {
+                                setNewScore(newValue);
+                            }}
+                            stype={{margin: '10px'}}
+                        />
+                    </Box>
+                    <LocalizationProvider dateAdapter={AdapterDateFns} >
                         <DatePicker
                             views={["year"]}
                             label="Year"
@@ -237,7 +243,7 @@ export default function CourseRatings({courseName, insituteName}) {
                             renderInput={(params) => <TextField {...params} helperText={null}/>}
                         />
                     </LocalizationProvider>
-                    <Box style={{width:'20%'}}>
+                    <Box style={{width:'100%'}}>
                         <Autocomplete
                             freeSolo
                             options={profOptions}
@@ -248,21 +254,23 @@ export default function CourseRatings({courseName, insituteName}) {
                             )}
                         />
                     </Box>
-                    <Box style={{width:'20%'}}>
+                    <Box style={{width:'100%'}}>
                         <Autocomplete
                             renderInput={(params) => <TextField {...params} label="Semester" variant="outlined" />}
                             options={semesterOptions}
                             onInputChange={handleNewSemesterChange}
                         />
                     </Box>
-                    <label>Comment</label>
-                    <textarea
-                        required
-                        value={newComment}
-                        rows="4" cols="50"
-                        onChange={(e) => setNewComment(e.target.value)}>
+                    <Box style={{display:'flex', flexDirection: 'column',}} pb={1}>
+                        <label>Comment</label>
+                        <textarea
+                            required
+                            value={newComment}
+                            rows='4' cols='50'
+                            onChange={(e) => setNewComment(e.target.value)}>
                     </textarea>
-                    <button>Add Rating</button>
+                    </Box>
+                    <button style={{width:'100px'}}>Add Rating</button>
                 </form>
             </Box>
         </React.Fragment>
