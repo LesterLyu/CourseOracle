@@ -1,12 +1,12 @@
-import React, {useContext, useState,useCallback} from "react";
+import React, {useContext, useState} from "react";
 import {useHistory} from 'react-router-dom';
-import {Link, Container, Divider, Paper, Typography, TextField, Box, Button} from "@material-ui/core";
+import {Container, Divider, Paper, Typography, Box, Button} from "@material-ui/core";
 import {UserContext} from "../../contexts";
-import SubmitButton from '../../components/SubmitButton';
 import {styled} from "@material-ui/core/styles";
 import {useDropzone} from 'react-dropzone';
 import {USER_TYPE} from "../../constants";
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+
 const StyledPaper = styled(Paper)(({theme}) => ({
   padding: 40,
   [theme.breakpoints.down('sm')]: {
@@ -15,7 +15,6 @@ const StyledPaper = styled(Paper)(({theme}) => ({
     marginTop: 10,
   }
 }));
-
 
 
 const StyledContainer = styled(Container)(({theme}) => ({
@@ -33,7 +32,6 @@ const StyledContainer = styled(Container)(({theme}) => ({
 }));
 
 
-
 export default function UploadPage(props) {
   const history = useHistory();
   const userContext = useContext(UserContext);
@@ -47,10 +45,9 @@ export default function UploadPage(props) {
   const submit = () => {
     setWaiting(true);
     // TODO
-    console.log('aaaaaa',files)
+    console.log('aaaaaa', files)
 
   };
-
 
 
   const {acceptedFiles, getRootProps, getInputProps} = useDropzone();
@@ -62,24 +59,17 @@ export default function UploadPage(props) {
   ));
 
 
-
-
-
-
-
-
-
   return (
     <Container>
 
       <Container maxWidth="lg">
-        <Box sx={{paddingTop: '40px', display:'flex'}}/>
-        <StyledPaper elevation={5} >
+        <Box sx={{paddingTop: '40px', display: 'flex'}}/>
+        <StyledPaper elevation={5}>
           <Typography variant="h4" sx={{
             color: 'rgb(0,32,81)',
             fontWeight: 400,
             marginBottom: 3,
-            display:'flex'
+            display: 'flex'
           }}>
             Upload Course Materials
           </Typography>
@@ -94,7 +84,6 @@ export default function UploadPage(props) {
               <ul>{files}</ul>
             </aside>
           </section>
-
 
 
           <Divider/>
