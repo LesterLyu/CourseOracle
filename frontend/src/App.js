@@ -13,7 +13,6 @@ import AppBar from './components/AppBar';
 import HomeRoute from "./routes/HomeRoute";
 import {USER_TYPE} from "./constants";
 import DashboardRoute from "./routes/DashboardRoute";
-import UploadRoute from "./routes/UploadRoute"
 import {logout} from "./api/auth";
 
 const theme = createTheme({});
@@ -49,7 +48,6 @@ function App() {
             <AppBar/>
             <Switch>
               <Route path="/dashboard" component={DashboardRoute}/>
-              <Route path="/upload" component={UploadRoute}/>
               <Route path="/" component={HomeRoute}/>
             </Switch>
           </Router>
