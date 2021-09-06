@@ -7,6 +7,11 @@ import {styled} from "@material-ui/core/styles";
 import {useDropzone} from 'react-dropzone';
 import {USER_TYPE} from "../../constants";
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+
 const StyledPaper = styled(Paper)(({theme}) => ({
   padding: 40,
   [theme.breakpoints.down('sm')]: {
@@ -16,7 +21,12 @@ const StyledPaper = styled(Paper)(({theme}) => ({
   }
 }));
 
-
+// const StyledRadioButton = styled(Radio)(({
+//   color: '#ccc',
+//   '&.Mui-checked': {
+//     color: '#ccc',
+//   },
+// }));
 
 const StyledContainer = styled(Container)(({theme}) => ({
   // flex: 1;
@@ -84,6 +94,34 @@ export default function UploadPage(props) {
             Upload Course Materials
           </Typography>
 
+
+          <RadioGroup row name="row-radio-buttons-group">
+            <FormControlLabel value="FinalExam"
+                              // sx={{color: 'white'}}
+                              control={<Radio
+                                name="FinalExam"
+                                color="primary"/>} label="Final Exam"/>
+
+            <FormControlLabel value="PastExam"
+                              // sx={{color: 'white'}}
+                              control={<Radio
+                                name="PastExam"
+                                color="primary"/>} label="Past Exam"/>
+
+            <FormControlLabel value="ProfessorCourseNote"
+              // sx={{color: 'white'}}
+                              control={<Radio
+                                name="ProfessorCourseNote"
+                                color="primary"/>} label="Professor Course Note"/>
+
+            <FormControlLabel value="StudentCourseNote"
+              // sx={{color: 'white'}}
+                              control={<Radio
+                                name="StudentCourseNote"
+                                color="primary"/>} label="Student Course Note"/>
+          </RadioGroup>
+
+          <Divider/>
           <section className="container">
             <StyledContainer {...getRootProps({className: 'dropzone'})}>
               <input {...getInputProps()} />
