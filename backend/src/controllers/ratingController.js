@@ -4,13 +4,48 @@ const Course = require("../models/course")
 const Prof = require("../models/prof")
 const CourseRating = require("../models/courseRating")
 const {APIError} = require("../utils/errors");
+const { Conflux, Drip } = require('js-conflux-sdk');
 
+async function ratingOnChain(comment) {
+    const cfx = new Conflux({
+        url: 'https://test.confluxrpc.com',
+        defaultGasPrice: 100, // The default gas price of your following transactions
+        defaultGas: 1000000, // The default gas of your following transactions
+        logger: console,
+        networkId: 1,
+    });
+
+    const PRIVATE_KEY = '0xe029e006d99d956d58e5c87e96814ab703cB3691c024958230a920fe296e81ad'; // kevin's private key
+    const account = cfx.wallet.addPrivateKey(PRIVATE_KEY); // create account instance
+    const receiver = 'cfxtest:aaph5gjm3g9muk0r3e5pmka6gsrjnhh5zjpkk104pp'; // kevin's address
+
+    let txParams = {
+        from: receiver, // from account instance and will by sign by account.privateKey
+        // nonce
+        // gasPrice
+        // gas
+        to: receiver, // accept address string or account instance
+        value: Drip.fromCFX(0.125), // use the conversion utility function
+        // storageLimit
+        // epochHeight
+        // data: confluxWeb.utils.toHex(comment)
+        data: '0x' + Buffer.from(comment, 'utf8').toString('hex'),
+    };
+    console.log(comment);
+    console.log('0x' + Buffer.from(comment, 'utf8').toString('hex'));
+    const txHash = await cfx.sendTransaction(txParams);
+    // console.log('-------------------------');
+    // console.log(txHash);
+    // console.log('-------------------------');
+    return txHash;
+}
 
 async function postRating(req, res, next) {
     // const user = await User.findOne({address: req.body.address});
     // if (!user) {
     //     return next(new APIError(403, 'Please login before submit'));
 // }
+    const userEmail = req.session.email || '';
     let prof;
     let institute = await Institute.findOne({name: req.body.institute});
     if (!institute) {
@@ -68,6 +103,11 @@ async function postRating(req, res, next) {
         }
     }
 
+    let transactionId = '';
+    if (req.body.onChain) { // replace with onChain selection
+        transactionId = await ratingOnChain(req.body.comment);
+    }
+
     const newRating = new CourseRating({
         institute: institute,
         course: req.body.course,
@@ -76,7 +116,8 @@ async function postRating(req, res, next) {
         comment: req.body.comment,
         year: req.body.year,
         semester: req.body.semester,
-        user: 1,
+        user: userEmail,
+        chainTransactionID: transactionId,
     });
 
     await newRating.save((err) => {
@@ -85,7 +126,6 @@ async function postRating(req, res, next) {
             return res.status(500).send(err);
         }
     });
-
 
     return res.status(200).json({msg: 'Successfully post'});
 }

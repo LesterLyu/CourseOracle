@@ -8,7 +8,7 @@ import {
     Input,
     MenuItem,
     InputLabel,
-    Autocomplete, TextField, Rating
+    Autocomplete, TextField, Rating, FormControlLabel, Checkbox, Tooltip
 } from "@material-ui/core";
 
 import CardMedia from "@material-ui/core/CardMedia";
@@ -17,7 +17,9 @@ import {LocalizationProvider} from "@material-ui/lab";
 import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
 import { useParams } from "react-router-dom";
 import {getJson, postJson} from "../../api/helpers";
+import InfoIcon from '@mui/icons-material/Info';
 
+const cfxScanAddr = "https://testnet.confluxscan.io/transaction/";
 
 const semesterOptions = [
     'Fall',
@@ -83,6 +85,7 @@ export default function CourseRatings({courseName, insituteName}) {
     const [newCourse, setNewCourse] = useState(""); // TODO: get this value props
     const [newYear, setNewYear] = useState(new Date());
     const [newSemester, setNewSemester] = useState(semesterOptions[0]);
+    const [onChain, setOnChain] = useState(false);
     const handleSubmit = async (e) => {
         e.preventDefault();
         const url = '/api/rating';
@@ -92,7 +95,9 @@ export default function CourseRatings({courseName, insituteName}) {
             score: newScore,
             comment: newComment,
             year: newYear.getFullYear(),
-            semester: newSemester,};
+            semester: newSemester,
+            onChain: onChain
+        };
         // console.log(newRating);
         let res = await postJson(url, newRating);
         if (!res.error){
@@ -108,6 +113,10 @@ export default function CourseRatings({courseName, insituteName}) {
 
     const handleNewSemesterChange = (event, value) => {
         setNewSemester(value);
+    }
+
+    const handleOnChain = (event, value) => {
+        setOnChain(value);
     }
 
     return (
@@ -181,6 +190,10 @@ export default function CourseRatings({courseName, insituteName}) {
                                     <Typography>{rating.year}</Typography>
                                     <Typography fontWeight="fontWeightBold" pl={1} pr={1}>Semester:</Typography>
                                     <Typography>{rating.semester}</Typography>
+                                    {rating.chainTransactionID &&
+                                        <Tooltip title={<a style={{color: 'white'}} target="_blank" href={cfxScanAddr + rating.chainTransactionID}>Visit comment content on chain</a>} placement="top-start">
+                                            <InfoIcon />
+                                        </Tooltip>}
                                 </Box>
                                 <Box pl={1} display="flex" justifyContent="flex-start">
                                     <Box style={{width:'80%'}}>
@@ -270,7 +283,21 @@ export default function CourseRatings({courseName, insituteName}) {
                             onChange={(e) => setNewComment(e.target.value)}>
                     </textarea>
                     </Box>
-                    <button style={{width:'100px'}}>Add Rating</button>
+                    <Box>
+                        <button style={{width:'100px'}}>Add Rating</button>
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    checked={onChain}
+                                    onChange={handleOnChain}
+                                    name="checkedChain"
+                                    color="primary"
+                                />
+                            }
+                            label="Store on CFX chain?"
+                        />
+                    </Box>
+
                 </form>
             </Box>
         </React.Fragment>
