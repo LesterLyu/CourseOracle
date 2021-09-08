@@ -29,9 +29,7 @@ export const tipMaterial = async (email, materialId, tip) => {
     return await postJson(url, data)
 }
 
-export const getMaterials = async (courseName, instituteName, email) => {
-    const url = '/api/materials?course=' + courseName + '&institution=' + instituteName + '&buyerEmail=' + email;
+export const getMaterials = async (courseName, instituteName) => {
+    const url = '/api/materials?course=' + courseName + '&institution=' + instituteName;
     return await getJson(url)
 }
-
-
