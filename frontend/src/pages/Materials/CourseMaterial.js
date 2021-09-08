@@ -4,18 +4,17 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import {styled} from '@material-ui/core'
-import Container from '@material-ui/core/Container';
 import Popover from '@material-ui/core/Popover'
 import Checkout from './Checkout.js'
 import RateMaterial from './RateMaterial.js'
 import RewardOfferer from './RewardOfferer'
 import {UserContext} from "../../contexts";
-import {getJson} from "../../api/helpers"
+import {getMaterials} from "../../api/material"
 import Link from "../../components/Link";
+import {MATERIAL_TYPE} from "../../constants";
 
 const StyledCard = styled(Card)(() => ({
   height: '100%',
@@ -25,34 +24,27 @@ const StyledCard = styled(Card)(() => ({
 
 
 export default function CourseMaterial({courseName, instituteName}) {
-  const userContext = useContext(UserContext);
-
   const [courseInfo, setCourseInfo] = useState({
     professors: []
   })
   const [anchorPosition, setAnchorPosition] = React.useState(null);
   const [currId, setCurrId] = React.useState(null);
-  const [materials, setMaterials] = useState([])
 
+  const [materials, setMaterials] = useState([]);
+  const [selectedMaterials, setSelectedMaterials] = useState([]);
+  const [selectedType, setSelectedType] = useState('All');
 
-  async function getData() {
-    const url = '/api/materials?course=' + courseName + '&institution=' + instituteName + '&buyerEmail=' + userContext.email;
-    const tmp = await getJson(url)
-    if (tmp.error) {
-      alert(tmp.error)
-    } else {
-      setCourseInfo(tmp.course)
-      setMaterials(tmp.courseMaterial);
-    }
-    return tmp;
-  }
-
-  useEffect(async () => {
-    async function callGetData() {
-      const tmp = await getData()
-    }
-
-    callGetData()
+  useEffect(() => {
+    (async function () {
+      const data = await getMaterials(courseName, instituteName);
+      if (data.error) {
+        alert(data.error)
+      } else {
+        setCourseInfo(data.course);
+        setMaterials(data.courseMaterial);
+        setSelectedMaterials(data.courseMaterial);
+      }
+    })();
   }, [])
 
 
@@ -69,104 +61,53 @@ export default function CourseMaterial({courseName, instituteName}) {
     return id === currId && Boolean(anchorPosition)
   };
 
-  const [buttonVariant1, setButtonVariant1] = useState("contained")
-  const [buttonVariant2, setButtonVariant2] = useState("outlined")
-  const [buttonVariant3, setButtonVariant3] = useState("outlined")
-  const [buttonVariant4, setButtonVariant4] = useState("outlined")
-  const [buttonVariant5, setButtonVariant5] = useState("outlined")
-
-  async function buttonHandler1() {
-    setButtonVariant1("contained")
-    setButtonVariant2("outlined")
-    setButtonVariant3("outlined")
-    setButtonVariant4("outlined")
-    setButtonVariant5("outlined")
-    const data = await getData()
-    setMaterials(data.courseMaterial)
+  const handleChangeType = (type) => () => {
+    setSelectedType(type);
+    if (type === 'All') {
+      setSelectedMaterials(materials);
+    } else {
+      setSelectedMaterials(materials.filter((material) => material.type === type))
+    }
   }
-
-  async function buttonHandler2() {
-    setButtonVariant1("outlined")
-    setButtonVariant2("contained")
-    setButtonVariant3("outlined")
-    setButtonVariant4("outlined")
-    setButtonVariant5("outlined")
-    const data = await getData()
-    setMaterials(data.courseMaterial.filter((course) => {
-      return course.type === "Student Course Note"
-    }))
-  }
-
-  async function buttonHandler3() {
-    setButtonVariant1("outlined")
-    setButtonVariant2("outlined")
-    setButtonVariant3("contained")
-    setButtonVariant4("outlined")
-    setButtonVariant5("outlined")
-    const data = await getData()
-    setMaterials(data.courseMaterial.filter((course) => {
-      return course.type === "Professor Course Note"
-    }))
-  }
-
-  async function buttonHandler4(e) {
-    setButtonVariant1("outlined")
-    setButtonVariant2("outlined")
-    setButtonVariant3("outlined")
-    setButtonVariant4("contained")
-    setButtonVariant5("outlined")
-    const data = await getData()
-    setMaterials(data.courseMaterial.filter((course) => {
-      return course.type === "Past Exam"
-    }))
-  }
-
-  async function buttonHandler5(e) {
-    setButtonVariant1("outlined")
-    setButtonVariant2("outlined")
-    setButtonVariant3("outlined")
-    setButtonVariant4("outlined")
-    setButtonVariant5("contained")
-    const data = await getData()
-    setMaterials(data.courseMaterial.filter((course) => {
-      return course.type === "Final Exam"
-    }))
-  }
-
 
   return (
     <React.Fragment>
       <div style={{marginTop: "5px"}}>
         <Grid container spacing={2}>
           <Grid item>
-            <Button variant={buttonVariant1} color="primary" onClick={buttonHandler1}>
+            <Button variant={selectedType === 'All' ? 'contained' : 'outlined'} color="primary"
+                    onClick={handleChangeType('All')}>
               All
             </Button>
           </Grid>
           <Grid item>
-            <Button variant={buttonVariant2} color="primary" onClick={buttonHandler2}>
+            <Button variant={selectedType === MATERIAL_TYPE.STUDENT_COURSE_NOTE ? 'contained' : 'outlined'}
+                    color="primary" onClick={handleChangeType(MATERIAL_TYPE.STUDENT_COURSE_NOTE)}>
               Student Course Note
             </Button>
           </Grid>
           <Grid item>
-            <Button variant={buttonVariant3} color="primary" onClick={buttonHandler3}>
+            <Button variant={selectedType === MATERIAL_TYPE.PROFESSOR_COURSE_NOTE ? 'contained' : 'outlined'}
+                    color="primary" onClick={handleChangeType(MATERIAL_TYPE.PROFESSOR_COURSE_NOTE)}>
               Professor Course Note
             </Button>
           </Grid>
           <Grid item>
-            <Button variant={buttonVariant4} color="primary" onClick={buttonHandler4}>
+            <Button variant={selectedType === MATERIAL_TYPE.PAST_EXAM ? 'contained' : 'outlined'} color="primary"
+                    onClick={handleChangeType(MATERIAL_TYPE.PAST_EXAM)}>
               Past Exam
             </Button>
           </Grid>
           <Grid item>
-            <Button variant={buttonVariant5} color="primary" onClick={buttonHandler5}>
+            <Button variant={selectedType === MATERIAL_TYPE.FINAL_EXAM ? 'contained' : 'outlined'} color="primary"
+                    onClick={handleChangeType(MATERIAL_TYPE.FINAL_EXAM)}>
               Final Exam
             </Button>
           </Grid>
         </Grid>
       </div>
       <Grid container spacing={4} sx={{pt: 4}}>
-        {materials.map((m) => (
+        {selectedMaterials.map((m) => (
           <Grid item key={m.id} xs={12} sm={6} md={4}>
             <StyledCard>
               <CardMedia
