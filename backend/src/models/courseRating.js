@@ -12,7 +12,8 @@ const courseRatingSchema = new Schema(
         semester: { type: String },
         like: { type: Number, default:0 },
         unlike: { type: Number, default:0 },
-        user: { type: Number }, // user id
+        user: { type: String }, // user email
+        chainTransactionID: { type: String, default: '' },
     },
     {
         timestamps: {
