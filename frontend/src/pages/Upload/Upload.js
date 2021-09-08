@@ -1,11 +1,16 @@
-import React, {useContext, useState} from "react";
+import React, {useContext, useState,useCallback} from "react";
 import {useHistory} from 'react-router-dom';
-import {Container, Divider, Paper, Typography, Box, Button} from "@material-ui/core";
+import {Link, Container, Divider, Paper, Typography, TextField, Box, Button} from "@material-ui/core";
 import {UserContext} from "../../contexts";
+import SubmitButton from '../../components/SubmitButton';
 import {styled} from "@material-ui/core/styles";
 import {useDropzone} from 'react-dropzone';
 import {USER_TYPE} from "../../constants";
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 const StyledPaper = styled(Paper)(({theme}) => ({
   padding: 40,
@@ -16,6 +21,12 @@ const StyledPaper = styled(Paper)(({theme}) => ({
   }
 }));
 
+// const StyledRadioButton = styled(Radio)(({
+//   color: '#ccc',
+//   '&.Mui-checked': {
+//     color: '#ccc',
+//   },
+// }));
 
 const StyledContainer = styled(Container)(({theme}) => ({
   // flex: 1;
@@ -32,6 +43,7 @@ const StyledContainer = styled(Container)(({theme}) => ({
 }));
 
 
+
 export default function UploadPage(props) {
   const history = useHistory();
   const userContext = useContext(UserContext);
@@ -45,9 +57,10 @@ export default function UploadPage(props) {
   const submit = () => {
     setWaiting(true);
     // TODO
-    console.log('aaaaaa', files)
+    console.log('aaaaaa',files)
 
   };
+
 
 
   const {acceptedFiles, getRootProps, getInputProps} = useDropzone();
@@ -59,21 +72,56 @@ export default function UploadPage(props) {
   ));
 
 
+
+
+
+
+
+
+
   return (
     <Container>
 
       <Container maxWidth="lg">
-        <Box sx={{paddingTop: '40px', display: 'flex'}}/>
-        <StyledPaper elevation={5}>
+        <Box sx={{paddingTop: '40px', display:'flex'}}/>
+        <StyledPaper elevation={5} >
           <Typography variant="h4" sx={{
             color: 'rgb(0,32,81)',
             fontWeight: 400,
             marginBottom: 3,
-            display: 'flex'
+            display:'flex'
           }}>
             Upload Course Materials
           </Typography>
 
+
+          <RadioGroup row name="row-radio-buttons-group">
+            <FormControlLabel value="FinalExam"
+                              // sx={{color: 'white'}}
+                              control={<Radio
+                                name="FinalExam"
+                                color="primary"/>} label="Final Exam"/>
+
+            <FormControlLabel value="PastExam"
+                              // sx={{color: 'white'}}
+                              control={<Radio
+                                name="PastExam"
+                                color="primary"/>} label="Past Exam"/>
+
+            <FormControlLabel value="ProfessorCourseNote"
+              // sx={{color: 'white'}}
+                              control={<Radio
+                                name="ProfessorCourseNote"
+                                color="primary"/>} label="Professor Course Note"/>
+
+            <FormControlLabel value="StudentCourseNote"
+              // sx={{color: 'white'}}
+                              control={<Radio
+                                name="StudentCourseNote"
+                                color="primary"/>} label="Student Course Note"/>
+          </RadioGroup>
+
+          <Divider/>
           <section className="container">
             <StyledContainer {...getRootProps({className: 'dropzone'})}>
               <input {...getInputProps()} />
@@ -84,6 +132,7 @@ export default function UploadPage(props) {
               <ul>{files}</ul>
             </aside>
           </section>
+
 
 
           <Divider/>
