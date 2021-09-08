@@ -1,21 +1,19 @@
 import React, {useEffect, useState} from 'react';
 import {
-    CssBaseline,
-    Typography,
-    Box,
-    FormControl,
-    Select,
-    Input,
-    MenuItem,
-    InputLabel,
-    Autocomplete, TextField, Rating
-} from "@material-ui/core";
+  CardMedia,
+  Typography,
+  Box,
+  FormControl,
+  Select,
+  Input,
+  MenuItem,
+  InputLabel,
+  Autocomplete, TextField, Rating
+} from "@mui/material";
 
-import CardMedia from "@material-ui/core/CardMedia";
-import DatePicker from '@material-ui/lab/DatePicker';
-import {LocalizationProvider} from "@material-ui/lab";
-import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
-import { useParams } from "react-router-dom";
+import {LocalizationProvider, DatePicker} from "@mui/lab";
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import {useParams} from "react-router-dom";
 import {getJson, postJson} from "../../api/helpers";
 
 

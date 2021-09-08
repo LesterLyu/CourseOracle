@@ -1,10 +1,9 @@
 import React from 'react';
-import {Container} from "@material-ui/core";
 import {
-  Box,
-  Grid
-} from '@material-ui/core';
+  Box, Grid, Container
+} from "@mui/material";
 import SchoolCard from './SchoolCard';
+
 const schools = [{
   "web_pages": [
     "http://www.marywood.edu"
@@ -41,7 +40,7 @@ export default function InstitutionPage() {
       }}
     >
       <Container maxWidth={false}>
-        <Box sx={{ pt: 3 }}>
+        <Box sx={{pt: 3}}>
           <Grid
             container
             spacing={3}
@@ -54,7 +53,7 @@ export default function InstitutionPage() {
                 md={6}
                 xs={12}
               >
-                <SchoolCard school={school} />
+                <SchoolCard school={school}/>
               </Grid>
             ))}
           </Grid>

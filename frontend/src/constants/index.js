@@ -10,3 +10,9 @@ export const MATERIAL_TYPE = {
   PAST_EXAM: "Past Exam",
   FINAL_EXAM: "Final Exam",
 }
+
+export const SEMESTER = {
+  FALL: 'Fall',
+  WINTER: 'Winter',
+  SUMMER: 'Summer'
+}

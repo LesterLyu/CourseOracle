@@ -5,7 +5,7 @@ import {
   CardContent,
   Divider,
   Typography
-} from '@material-ui/core';
+} from "@mui/material";
 import SubmitButton from '../../components/SubmitButton';
 
 

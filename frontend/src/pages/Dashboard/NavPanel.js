@@ -1,5 +1,5 @@
 import React from 'react';
-import {MenuList, MenuItem, ListItemIcon, ListItemText, Paper, Typography} from "@material-ui/core";
+import {MenuList, MenuItem, ListItemIcon, ListItemText, Paper, Typography} from "@mui/material";
 import {useHistory} from "react-router-dom";
 
 export default function NavPanel({config}) {

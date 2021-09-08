@@ -1,19 +1,12 @@
 import React, {useState, useEffect, useContext} from 'react';
-import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import {styled} from '@material-ui/core'
-import Popover from '@material-ui/core/Popover'
+import {
+  Button, Card, CardActions, CardContent, CardMedia, Grid, Typography, Box, styled,
+  Popover
+} from "@mui/material"
 import Checkout from './Checkout.js'
 import RateMaterial from './RateMaterial.js'
 import RewardOfferer from './RewardOfferer'
-import {UserContext} from "../../contexts";
 import {getMaterials} from "../../api/material"
-import Link from "../../components/Link";
 import {MATERIAL_TYPE} from "../../constants";
 
 const StyledCard = styled(Card)(() => ({

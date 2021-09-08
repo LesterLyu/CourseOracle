@@ -1,24 +1,19 @@
 import React, {useState, useEffect} from 'react';
 import {useHistory} from 'react-router-dom';
 // See https://next.material-ui.com/system/styled/
-import {styled, alpha} from '@material-ui/core/styles';
-import {Autocomplete, Container, InputBase, Paper, TextField} from "@material-ui/core";
-import {Search as SearchIcon} from "@material-ui/icons";
-import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Button from '@material-ui/core/Button';
-import ArrowForwardSharpIcon from '@material-ui/icons/ArrowForwardSharp';
-import {Grid} from '@material-ui/core';
+import {styled, alpha} from '@mui/material/styles';
+import {
+  Autocomplete, Container, InputBase, Paper, TextField, Typography, Box, FormGroup, FormControlLabel,
+  Checkbox, Button, Grid, Divider, InputAdornment, Radio
+} from "@mui/material";
+import {
+  Search as SearchIcon, ArrowForwardSharp as ArrowForwardSharpIcon,
+  School as SchoolIcon
+} from "@mui/icons-material";
+
 import {HomeBackgroundWrapper} from "../components/Background";
-import SchoolIcon from '@material-ui/icons/School';
-import Divider from '@material-ui/core/Divider';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import {getJson} from "../api/helpers"
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
+import {getCourseNames} from "../api/course";
+import {getInstituteNames} from "../api/institute";
 
 
 const Search = styled('div')(({theme}) => ({
@@ -80,21 +75,19 @@ export default function HomePage() {
 
   useEffect(() => {
     (async function () {
-      const url = '/api/universities';
-      const instituteLst = await getJson(url)
-      console.log('results', instituteLst.data)
-      setInstituteLst(instituteLst.data)
+      const instituteLst = await getInstituteNames()
+      console.log('results', instituteLst)
+      setInstituteLst(instituteLst)
     })()
   }, [])
 
 
   useEffect(() => {
     (async function () {
-      const url = '/api/courses?institute=' + selectedInstitute;
-      const courseLst = await getJson(url)
+      const courseLst = await getCourseNames(selectedInstitute);
       console.log('course results')
       console.log(courseLst)
-      setCourseLst(courseLst.data)
+      setCourseLst(courseLst)
 
       return courseLst;
     })()

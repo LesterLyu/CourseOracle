@@ -1,9 +1,9 @@
 import React, {useContext, useState} from "react";
 import {useHistory} from 'react-router-dom';
-import {Link, Container, Divider, Paper, Typography, TextField, Box, Button} from "@material-ui/core";
+import {Link, Container, Divider, Paper, Typography, TextField, Box, Button} from "@mui/material";
 import {UserContext} from "../contexts";
 import SubmitButton from '../components/SubmitButton';
-import {styled} from "@material-ui/core/styles";
+import {styled} from "@mui/material/styles";
 import {LoginBackgroundWrapper} from "../components/Background";
 import {USER_TYPE} from "../constants";
 import {login} from "../api/auth";

@@ -1,4 +1,4 @@
-import Box from "@material-ui/core/Box";
+import Box from "@mui/material/Box";
 
 export function LoginBackgroundWrapper({children}) {
   return <Box sx={{

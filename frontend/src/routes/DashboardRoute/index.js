@@ -1,7 +1,7 @@
 import React, {useContext} from "react";
 import {config, navConfig} from "./config";
 import {Route, Switch} from "react-router-dom";
-import {Box, Container, Typography, Paper} from "@material-ui/core";
+import {Box, Container, Typography, Paper} from "@mui/material";
 import NavPanel from "../../pages/Dashboard/NavPanel";
 import {UserContext} from "../../contexts";
 

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {deposit, withdraw} from '../../api/transaction'
 import SubmitButton from '../../components/SubmitButton'
-import {Divider, Typography, TextField} from "@material-ui/core";
+import {Divider, Typography, TextField} from "@mui/material";
 import {RECEIVER_ADDRESS} from '../../config'
 
 export default function Transaction() {

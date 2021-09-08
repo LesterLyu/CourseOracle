@@ -1,7 +1,6 @@
 import React, {useContext} from 'react';
 import Ratings from 'react-ratings-declarative';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
+import {Button, Grid} from '@mui/material';
 import {UserContext} from "../../contexts";
 import {rateMaterial} from "../../api/material"
 

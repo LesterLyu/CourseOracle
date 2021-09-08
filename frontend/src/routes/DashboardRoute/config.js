@@ -9,7 +9,7 @@ import Transaction from '../../pages/Dashboard/Transaction';
 // Find icons here https://next.material-ui.com/components/material-icons/#main-content
 // and https://materialdesignicons.com/ (takes 1 minute to load)
 // Or create custom icon https://next.material-ui.com/components/icons/
-import {Person, Help, Store, Reviews, Storage, RateReview, UploadFile, AttachMoney} from "@material-ui/icons";
+import {Person, Help, Store, Reviews, Storage, RateReview, UploadFile, AttachMoney} from "@mui/icons-material";
 // import PaymentIcon from '@mui/icons-material/Payment';
 
 export const config = [

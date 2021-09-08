@@ -1,12 +1,7 @@
 import React, {useContext} from 'react';
-import Typography from '@material-ui/core/Typography';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Button from '@material-ui/core/Button';
+import {Typography, List, ListItem, ListItemText, Button, styled} from '@mui/material';
 import RateMaterial from './RateMaterial'
 import RewardOfferer from './RewardOfferer'
-import { styled } from '@material-ui/core'
 import {UserContext} from "../../contexts";
 import {purchaseMaterial} from "../../api/material"
 

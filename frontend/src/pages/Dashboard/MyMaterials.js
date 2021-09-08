@@ -1,5 +1,5 @@
 import React from 'react';
-import Typography from "@material-ui/core/Typography";
+import Typography from "@mui/material/Typography";
 
 export default function MyMaterialsPage() {
   return <Typography variant={"h1"} fontSize={40} sx={{pt: 5}}>

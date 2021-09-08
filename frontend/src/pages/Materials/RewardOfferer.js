@@ -1,6 +1,5 @@
 import React, {useState, useContext} from 'react';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
+import {Button, Grid} from '@mui/material';
 import {UserContext} from "../../contexts";
 import {tipMaterial} from "../../api/material"
 

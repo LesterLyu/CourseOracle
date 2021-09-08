@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Link} from "@material-ui/core";
+import {Link} from "@mui/material";
 import {useHistory} from "react-router-dom";
 
 export default function NavLink({children, href}) {

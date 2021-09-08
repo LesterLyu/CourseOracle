@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
-import {Box, Checkbox, Container, FormControlLabel, Grid, Link, Paper, TextField, Typography} from "@material-ui/core";
+import {Box, Checkbox, Container, FormControlLabel, Grid, Link, Paper, TextField, Typography} from "@mui/material";
 import {useHistory} from 'react-router-dom';
 import SubmitButton from '../components/SubmitButton';
-import {styled} from "@material-ui/core/styles";
+import {styled} from "@mui/material/styles";
 import {LoginBackgroundWrapper} from "../components/Background";
 import {register} from "../api/auth";
 

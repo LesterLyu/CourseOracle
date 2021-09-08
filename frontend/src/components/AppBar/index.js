@@ -1,9 +1,5 @@
 import React, {useContext} from 'react';
-import MuiAppBar from '@material-ui/core/AppBar';
-import Box from '@material-ui/core/Box';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
+import {AppBar as MuiAppBar, Box, Toolbar, Typography, Button} from '@mui/material';
 import NavLink from './NavLink'
 import {useHistory} from "react-router-dom";
 import {UserContext} from "../../contexts";

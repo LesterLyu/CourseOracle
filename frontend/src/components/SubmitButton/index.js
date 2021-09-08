@@ -1,6 +1,6 @@
 import React from "react";
-import {Button, CircularProgress, Box} from "@material-ui/core";
-import {styled} from "@material-ui/core";
+import {Button, CircularProgress, Box} from "@mui/material";
+import {styled} from "@mui/material";
 
 
 const StyledButton = styled(Button)(() => ({
