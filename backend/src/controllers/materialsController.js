@@ -5,7 +5,31 @@ const CourseMaterial = require("../models/courseMaterial")
 const Prof = require("../models/prof")
 const PurchaseHistory = require("../models/purchaseHistory")
 const {getProfNameById, cleanCourseMaterial} = require("../utils/helpers")
+const {APIError} = require('../utils/errors');
 const PROFIT_RATE = 1;
+
+const createMaterial = async (req, res, next) => {
+  const {courseCode, instituteName, year, semester, description, profs = [], type, price, fileId} = req.body;
+
+  // Should never reach this
+  if (!req.session.userId) {
+    return next(APIError(400, 'Authentication required.'));
+  }
+
+  // Find course
+  const courseDoc = await Course.findOne({code: courseCode, institute: instituteName});
+  if (!courseDoc) {
+    return res.status(400).json({error: "Course not found."});
+  }
+
+  const newCourseMaterial = new CourseMaterial({
+    course: courseCode, institute: instituteName,
+    year, semester, description, profs, type, price,
+    user: req.session.userId, file: fileId,
+  });
+  await newCourseMaterial.save();
+  res.json({success: true});
+};
 
 const getMaterials = async (req, res) => {
   const result = {};
@@ -144,5 +168,6 @@ module.exports = {
   getMaterials,
   purchaseMaterial,
   rateMaterial,
-  tipMaterial
+  tipMaterial,
+  createMaterial
 };

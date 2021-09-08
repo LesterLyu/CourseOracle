@@ -9,6 +9,8 @@ const ratingRouter = require("../routes/ratingRouter");
 const materialsRouter = require("../routes/materialsRouter");
 const searchRouter = require("../routes/searchRouter");
 const transactionRouter = require("../routes/transactionRouter");
+const profRouter = require("../routes/profRouter");
+const uploadRouter = require("../routes/uploadRouter");
 
 const {authMiddleware, errorHandler} = require('../middlewares');
 const config = require('../../config');
@@ -30,10 +32,12 @@ app.use("/api", userRouter);
 app.use("/api", ratingRouter);
 app.use('/api', materialsRouter);
 app.use('/api', searchRouter);
+app.use('/api', profRouter);
 
 // Routes below require authentication
 app.use('/api', authMiddleware('Authentication Required'));
 app.use('/api', transactionRouter);
+app.use('/api', uploadRouter);
 
 app.use(errorHandler);
 

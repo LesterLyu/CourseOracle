@@ -55,6 +55,7 @@ async function login(req, res, next) {
   const validated = await validatePassword(password, doc.hash, doc.salt);
   if (validated) {
     req.session.email = email;
+    req.session.userId = doc._id;
     res.json({
       success: true,
       data: {email, firstName: doc.firstName, lastName: doc.lastName}
