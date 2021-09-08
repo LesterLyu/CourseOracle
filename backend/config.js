@@ -22,6 +22,7 @@ module.exports = {
   },
 
   cookieSession: {
+    sameSite: 'none',
     keys: ['secret', 'keys'],
     maxAge: 24 * 60 * 60 * 1000 // expires in 24 hours
   },
