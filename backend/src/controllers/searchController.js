@@ -1,4 +1,3 @@
-require('../database/addDummyData');
 const Course = require("../models/course")
 const Institute = require("../models/institute")
 const {APIError} = require("../utils/errors");
