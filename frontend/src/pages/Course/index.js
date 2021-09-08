@@ -16,7 +16,7 @@ export default function Course() {
   const history = useHistory();
   const location = useLocation();
   const {course, institute} = useParams();
-  const [tabValue, setTabValue] = useState(0);
+  const [tabValue, setTabValue] = useState(location.pathname.endsWith('rating') ? 0 : 1);
   const [courseData, setCourseData] = useState();
 
   useEffect(() => {
