@@ -1,7 +1,7 @@
-import React, {useContext, useState, useCallback, useEffect} from "react";
+import React, {useContext, useState, useEffect} from "react";
 import {useHistory, useParams} from 'react-router-dom';
 import {
-  Link, Container, Divider, Paper, Typography, TextField, Box, Button, FormControl,
+  Container, Divider, Paper, Typography, TextField, Box, FormControl,
   FormLabel, Autocomplete, Radio, RadioGroup, FormControlLabel, InputAdornment, Grid
 } from "@mui/material";
 import {UserContext} from "../../contexts";
@@ -104,10 +104,16 @@ export default function UploadPage() {
 
   const submit = () => {
     (async function () {
-      await uploadMaterial({
-        courseCode: selectedCourse, instituteName: selectedInstitute, year: year.getFullYear(), semester, description,
-        profs: selectedProfs, type, price, fileId: uploadedFileId
-      });
+      setWaiting(true);
+      try {
+        await uploadMaterial({
+          courseCode: selectedCourse, instituteName: selectedInstitute, year: year.getFullYear(), semester, description,
+          profs: selectedProfs, type, price, fileId: uploadedFileId
+        });
+      } catch (e) {
+        console.error(e);
+        setWaiting(false);
+      }
       history.push(`/course/${selectedInstitute}/${selectedCourse}/material`);
     })();
   };
