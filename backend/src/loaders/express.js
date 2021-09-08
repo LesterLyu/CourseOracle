@@ -17,6 +17,9 @@ const config = require('../../config');
 
 const app = express();
 
+// https://expressjs.com/en/guide/behind-proxies.html
+// Trust the first proxy (reverse proxy Caddy)
+app.set('trust proxy', 1);
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
