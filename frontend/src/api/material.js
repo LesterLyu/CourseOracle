@@ -33,3 +33,8 @@ export const getMaterials = async (courseName, instituteName) => {
     const url = '/api/materials?course=' + courseName + '&institution=' + instituteName;
     return await getJson(url)
 }
+
+export const uploadMaterial = async (data) => {
+  return await postJson('/api/materials', data);
+}
+

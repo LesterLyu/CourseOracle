@@ -1,4 +1,5 @@
 import {server} from '../config';
+import {deleteJson} from "./helpers";
 
 /**
  *
@@ -21,6 +22,10 @@ export const uploadFile = (file, onProgress = () => {}) => {
     })
     xhr.send(file);
   }), xhr];
+};
+
+export const deleteUploadedFile = async (id) => {
+  return await deleteJson('/api/upload/' + id);
 };
 
 export const downloadFile = async (id, fileName) => {
