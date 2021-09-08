@@ -13,7 +13,7 @@ const createMaterial = async (req, res, next) => {
 
   // Should never reach this
   if (!req.session.userId) {
-    return next(APIError(400, 'Authentication required.'));
+    return next(new APIError(400, 'Authentication required.'));
   }
 
   // Find course
