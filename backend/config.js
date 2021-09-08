@@ -22,8 +22,8 @@ module.exports = {
   },
 
   cookieSession: {
-    secure: true,
-    sameSite: 'none',
+    secure: isProduction,
+    sameSite: isProduction && 'none',
     keys: ['secret', 'keys'],
     maxAge: 24 * 60 * 60 * 1000 // expires in 24 hours
   },
