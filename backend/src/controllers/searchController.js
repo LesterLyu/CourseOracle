@@ -50,14 +50,11 @@ async function getCourses(req,res,next){
   // console.log(courses.length)
 
   let courses = await Course.find({institute: req.query['institute']});
-  console.log(courses.length)
-
 
   let data = []
   for (let i=0; i<courses.length; i++){
     let course = courses[i].toObject();
 
-    console.log(course)
     let courseCode = course.code
     data.push(courseCode)
 
