@@ -170,6 +170,7 @@ async function runAll() {
   await createPurchaseHistory(0, 1)
   await createPurchaseHistory(1, 0)
   await createPurchaseHistory(1, 1)
+  process.exit(0);
 }
 
 
