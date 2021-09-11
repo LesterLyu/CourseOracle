@@ -5,7 +5,7 @@ const Prof = require("../models/prof")
 const CourseRating = require("../models/courseRating")
 const {APIError} = require("../utils/errors");
 const { Conflux, Drip } = require('js-conflux-sdk');
-const {abi: ratingAbi} = require('./rating.json');
+const {abi: ratingAbi} = require('../assets/rating.json');
 require("dotenv").config();
 async function ratingOnChain(course, comment) {
     console.log(course)
