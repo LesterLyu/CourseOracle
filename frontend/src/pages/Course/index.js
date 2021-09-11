@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {useParams, Switch, Route, useHistory, useLocation} from 'react-router-dom';
 import {Container, Box, Tab, Tabs, Typography, Button, useMediaQuery, useTheme} from "@mui/material";
 import {styled} from "@mui/material/styles";
@@ -22,6 +22,7 @@ export default function Course() {
 
   const theme = useTheme();
   const isSmScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const addRatingPanelRef = useRef();
 
   useEffect(() => {
     // Redirect to .../rating if url ended with course id
@@ -52,6 +53,13 @@ export default function Course() {
     </Button>
   ), [course, history, institute]);
 
+  const addRatingButton = useMemo(() => (
+    <Button variant="contained" color="info" startIcon={<Add/>}
+            onClick={() => addRatingPanelRef.current?.scrollIntoView({behavior: "smooth"})}>
+      Add Rating
+    </Button>
+  ), [addRatingPanelRef]);
+
   return (
     <Container>
       <Typography variant={"h3"} sx={{pt: 1}}>
@@ -72,10 +80,13 @@ export default function Course() {
 
         <div>
           {(tabValue === 1 && !isSmScreen) && uploadButton}
+          {(tabValue === 0 && !isSmScreen) && addRatingButton}
         </div>
       </Box>
 
       {(tabValue === 1 && isSmScreen) && uploadButton}
+      {(tabValue === 0 && isSmScreen) && addRatingButton}
+
 
       <Box sx={{borderBottom: 1, borderColor: 'divider', mb: 1}}>
         <Tabs value={tabValue} onChange={handleTabChange}>
@@ -90,7 +101,7 @@ export default function Course() {
         </Route>
 
         <Route path={'/course/:institute/:course/rating'} exact>
-          <CourseRatings courseName={course} instituteName={institute}/>
+          <CourseRatings courseName={course} instituteName={institute} addRatingPanelRef={addRatingPanelRef}/>
         </Route>
       </Switch>
 

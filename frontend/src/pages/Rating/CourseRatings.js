@@ -8,7 +8,7 @@ import {
   Input,
   MenuItem,
   InputLabel,
-  Autocomplete, TextField, Rating, Tooltip, FormControlLabel, Checkbox
+  Autocomplete, TextField, Rating, Tooltip, FormControlLabel, Checkbox, Button, Paper
 } from "@mui/material";
 
 import {LocalizationProvider, DatePicker} from "@mui/lab";
@@ -38,7 +38,7 @@ const ratingFormStyle = {
     // justifyContent: 'space-between',
 }
 
-export default function CourseRatings({courseName: courseCode, instituteName}) {
+export default function CourseRatings({courseName: courseCode, instituteName, addRatingPanelRef}) {
 
     const [data, setData] = useState([]);
 
@@ -225,10 +225,10 @@ export default function CourseRatings({courseName: courseCode, instituteName}) {
                     ))
                 }
             </Box>
-            <Box width="90%" p={3} m={3} border={1} >
+            <Paper variant={"outlined"} sx={{p: 3, m: 3, width: '90%'}} ref={addRatingPanelRef}>
                 <Typography variant='h6'>Add a New Rating</Typography>
                 <form onSubmit={handleSubmit} style={ratingFormStyle}>
-                    <Box pb={1}>
+                    <Box pb={2}>
                         <Rating
                             name="simple-controlled"
                             value={newScore}
@@ -246,38 +246,35 @@ export default function CourseRatings({courseName: courseCode, instituteName}) {
                             onChange={(newValue) => {
                                 setNewYear(newValue);
                             }}
-                            renderInput={(params) => <TextField {...params} helperText={null}/>}
+                            renderInput={(params) => <TextField {...params}/>}
                         />
                     </LocalizationProvider>
-                    <Box style={{width:'100%'}}>
-                        <Autocomplete
-                            freeSolo
-                            options={profOptions}
-                            disableClearable
-                            onInputChange={handleNewProfChange}
-                            renderInput={(params) => (
-                                <TextField {...params} label="Prof" margin="normal" variant="outlined" />
-                            )}
-                        />
-                    </Box>
-                    <Box style={{width:'100%'}}>
-                        <Autocomplete
-                            renderInput={(params) => <TextField {...params} label="Semester" variant="outlined" />}
-                            options={semesterOptions}
-                            onInputChange={handleNewSemesterChange}
-                        />
-                    </Box>
-                    <Box style={{display:'flex', flexDirection: 'column',}} pb={1}>
-                        <label>Comment</label>
-                        <textarea
-                            required
-                            value={newComment}
-                            rows='4' cols='50'
-                            onChange={(e) => setNewComment(e.target.value)}>
-                    </textarea>
-                    </Box>
-                    <Box>
-                        <button style={{width:'100px'}}>Add Rating</button>
+                    <Autocomplete
+                      sx={{pb: 1}}
+                        freeSolo
+                        options={profOptions}
+                        disableClearable
+                        onInputChange={handleNewProfChange}
+                        renderInput={(params) => (
+                            <TextField {...params} label="Prof" margin="normal" fullWidth />
+                        )}
+                    />
+                    <Autocomplete
+                      sx={{pb: 2}}
+                      renderInput={(params) => <TextField {...params} label="Semester" fullWidth/>}
+                      options={semesterOptions}
+                      onInputChange={handleNewSemesterChange}
+                    />
+                    <TextField
+                      label="Comment"
+                      multiline
+                      fullWidth
+                      value={newComment}
+                      minRows={3}
+                      onChange={(e) => setNewComment(e.target.value)}>
+                    </TextField>
+                    <Box sx={{pt: 2}}>
+                        <Button variant="contained" sx={{mr: 3}}>Add Rating</Button>
                         <FormControlLabel
                             control={
                                 <Checkbox
@@ -292,7 +289,7 @@ export default function CourseRatings({courseName: courseCode, instituteName}) {
                     </Box>
 
                 </form>
-            </Box>
+            </Paper>
         </React.Fragment>
     )
 }
