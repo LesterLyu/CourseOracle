@@ -4,7 +4,7 @@ import {useHistory} from 'react-router-dom';
 import {styled, alpha} from '@mui/material/styles';
 import {
   Autocomplete, Container, Paper, TextField, Typography, Box, FormGroup, FormControlLabel,
-  Checkbox, Button, Grid, Divider, InputAdornment
+  Checkbox, Button, Grid, Divider, InputAdornment, ThemeProvider, createTheme
 } from "@mui/material";
 import {
   Search as SearchIcon, ArrowForwardSharp as ArrowForwardSharpIcon,
@@ -15,18 +15,25 @@ import {HomeBackgroundWrapper} from "../components/Background";
 import {getCourseNames} from "../api/course";
 import {getInstituteNames} from "../api/institute";
 
-
-const Search = styled('div')(({theme}) => ({
-  position: 'relative',
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
+const textFieldTheme = createTheme({
+  palette: {
+    mode: 'dark',
+    background: {
+      default: 'rgb(36,36,36, 0.85)',
+      paper: 'rgb(36,36,36)'
+    }
   },
-  marginLeft: 0,
-  width: '100%',
-}));
+});
 
+const autoCompleteStyle = {
+  color: 'white',
+  '& .MuiOutlinedInput-notchedOutline': {
+    borderColor: '#ccc',
+  },
+  "& .MuiInputLabel-root": {
+    color: '#eee',
+  },
+}
 
 const StyledCheckbox = styled(Checkbox)(({
   color: '#ccc',
@@ -96,17 +103,18 @@ export default function HomePage() {
 
         <Paper sx={{height: '300px', pt: 5, borderRadius: 10, bgcolor: 'rgb(36,36,36, 0.85)'}}>
 
-          <Grid container spacing={4} sx={{marginTop: '40px'}} justifyContent="center">
-            <Grid item xs={6} md={8}>
-              <Grid container direction={'column'} alignItems="stretch">
-                <Grid item>
-                  <Paper sx={{height: 70}}>
-                    <Search>
+          <ThemeProvider theme={textFieldTheme}>
+            <Grid container spacing={4} sx={{marginTop: '40px'}} justifyContent="center">
+              <Grid item xs={6} md={8}>
+                <Grid container direction={'column'} alignItems="stretch">
+                  <Grid item>
+                    <Paper sx={{height: 70, backgroundColor: 'rgb(36,36,36, 0.65)'}}>
+
                       <Grid spacing={1} container direction={'row'} sx={{height: 60}}>
-                        <Grid item sx={{width: '60%'}}>
+                        <Grid item sx={{transition: 'all 0.3s', width: selectedInstitute ? '60%' : '100%'}}>
                           <Autocomplete
+                            sx={autoCompleteStyle}
                             options={instituteLst}
-                            disableClearable
                             onInputChange={handleInstituteChange}
                             renderInput={(params) => (
                               <TextField {...params}
@@ -125,14 +133,14 @@ export default function HomePage() {
                           />
                         </Grid>
 
-                        <Grid item>
-                          <Divider sx={{height: 50, m: 0.5}} orientation="vertical"/>
-                        </Grid>
-
+                        {selectedInstitute && <Grid item>
+                          <Divider sx={{height: 50, m: 0.5, borderColor: '#666'}} orientation="vertical"/>
+                        </Grid>}
 
                         <Grid item xs justifyContent="center">
-                          {selectedInstitute.length > 0 &&
+                          {selectedInstitute &&
                           <Autocomplete
+                            sx={autoCompleteStyle}
                             autoHighlight
                             freeSolo
                             options={courseLst}
@@ -155,77 +163,79 @@ export default function HomePage() {
                         </Grid>
 
                       </Grid>
-                    </Search>
-                  </Paper>
+
+
+                    </Paper>
+                  </Grid>
+
+                  <Grid item>
+                    <Box sx={{pt: 2}}>
+                      {/*============================Do not delete! this is for multiple choices=====================*/}
+                      <FormGroup row>
+                        <FormControlLabel
+                          sx={{color: 'white'}}
+                          control={
+                            <StyledCheckbox
+                              checked={state.checkedA}
+                              onChange={handleChange}
+                              name="checkedA"
+                              color="primary"
+                            />
+                          }
+                          label="Course Materials"
+                        />
+
+                        <FormControlLabel
+                          sx={{color: 'white'}}
+                          control={
+                            <StyledCheckbox
+                              checked={state.checkedC}
+                              onChange={handleChange}
+                              name="checkedC"
+                              color="primary"
+                            />
+                          }
+                          label="Course Ratings"
+                        />
+                      </FormGroup>
+
+                      {/*<RadioGroup row name="row-radio-buttons-group">*/}
+                      {/*  <FormControlLabel value="CourseMaterials" sx={{color: 'white'}}*/}
+                      {/*                    control={<StyledRadioButton*/}
+                      {/*                      checked={state.checkedA}*/}
+                      {/*                      onChange={handleChange}*/}
+                      {/*                      name="checkedA"*/}
+                      {/*                      color="primary"/>} label="Course Materials"/>*/}
+
+                      {/*  <FormControlLabel value="CourseRatings" sx={{color: 'white'}}*/}
+                      {/*                    control={<StyledRadioButton*/}
+                      {/*                      checked={state.checkedB}*/}
+                      {/*                      onChange={handleChange}*/}
+                      {/*                      name="checkedB"*/}
+                      {/*                      color="primary"/>} label="Course Ratings"/>*/}
+                      {/*</RadioGroup>*/}
+                    </Box>
+                  </Grid>
+
                 </Grid>
+              </Grid>
 
-                <Grid item>
-                  <Box sx={{pt: 2}}>
-                    {/*============================Do not delete! this is for multiple choices=====================*/}
-                    <FormGroup row>
-                      <FormControlLabel
-                        sx={{color: 'white'}}
-                        control={
-                          <StyledCheckbox
-                            checked={state.checkedA}
-                            onChange={handleChange}
-                            name="checkedA"
-                            color="primary"
-                          />
-                        }
-                        label="Course Materials"
-                      />
-
-                      <FormControlLabel
-                        sx={{color: 'white'}}
-                        control={
-                          <StyledCheckbox
-                            checked={state.checkedC}
-                            onChange={handleChange}
-                            name="checkedC"
-                            color="primary"
-                          />
-                        }
-                        label="Course Ratings"
-                      />
-                    </FormGroup>
-
-                    {/*<RadioGroup row name="row-radio-buttons-group">*/}
-                    {/*  <FormControlLabel value="CourseMaterials" sx={{color: 'white'}}*/}
-                    {/*                    control={<StyledRadioButton*/}
-                    {/*                      checked={state.checkedA}*/}
-                    {/*                      onChange={handleChange}*/}
-                    {/*                      name="checkedA"*/}
-                    {/*                      color="primary"/>} label="Course Materials"/>*/}
-
-                    {/*  <FormControlLabel value="CourseRatings" sx={{color: 'white'}}*/}
-                    {/*                    control={<StyledRadioButton*/}
-                    {/*                      checked={state.checkedB}*/}
-                    {/*                      onChange={handleChange}*/}
-                    {/*                      name="checkedB"*/}
-                    {/*                      color="primary"/>} label="Course Ratings"/>*/}
-                    {/*</RadioGroup>*/}
-                  </Box>
-                </Grid>
-
+              <Grid item xs={4} md={2}>
+                <Button
+                  sx={{mt: '-1px'}}
+                  size="large"
+                  variant="contained"
+                  color="primary"
+                  endIcon={<ArrowForwardSharpIcon/>}
+                  onClick={() => {
+                    history.push(`/course/${selectedInstitute}/${selectedCourse}`);
+                  }}
+                >
+                  Search
+                </Button>
               </Grid>
             </Grid>
-
-            <Grid item xs={4} md={2}>
-              <Button
-                sx={{mt: '-1px'}}
-                size="large"
-                variant="contained"
-                color="primary"
-                endIcon={<ArrowForwardSharpIcon/>}
-                onClick={() => {
-                  history.push(`/course/${selectedInstitute}/${selectedCourse}`);
-                }}
-              >
-                Search
-              </Button>
-            </Grid>
-          </Grid>
+          </ThemeProvider>
         </Paper>
 
       </Container>
