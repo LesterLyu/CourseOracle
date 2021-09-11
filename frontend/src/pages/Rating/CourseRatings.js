@@ -1,14 +1,12 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {
-  CardMedia,
   Typography,
   Box,
   FormControl,
   Select,
-  Input,
   MenuItem,
   InputLabel,
-  Autocomplete, TextField, Rating, Tooltip, FormControlLabel, Checkbox, Button, Paper, Divider, Link, IconButton
+  Autocomplete, TextField, Rating, FormControlLabel, Checkbox, Button, Paper, Divider, IconButton
 } from "@mui/material";
 
 import {LocalizationProvider, DatePicker} from "@mui/lab";

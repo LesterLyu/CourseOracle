@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import Ratings from 'react-ratings-declarative';
-import {Button, Grid} from '@mui/material';
+import {Button, Container, Grid} from '@mui/material';
 import {UserContext} from "../../contexts";
 import {rateMaterial} from "../../api/material"
 
@@ -11,48 +11,48 @@ export default function RateMaterial(props) {
 
   const submitRateHandle = async () => {
     const res = await rateMaterial(userContext.email, product.id, rating)
-    if (!res.error){
+    if (!res.error) {
       var newMaterials = []
       materials.forEach(element => {
         if (product.id === element.id) {
-            element.status = 2
+          element.status = 2
         }
         newMaterials.push(element);
       });
       setMaterials(newMaterials);
-    }else{
+    } else {
       alert(res.error)
     }
   }
 
   return (
-      <div>
-          <Grid>
+    <Container sx={{my: 2}}>
+      <Grid>
         <span>Rate this material!</span>
-          </Grid>
-          <Grid>
+      </Grid>
+      <Grid>
         <Ratings
-        rating={rating}
-        widgetRatedColors="orange"
-        changeRating={(newRating) => setRating(newRating)}
+          rating={rating}
+          widgetRatedColors="orange"
+          changeRating={(newRating) => setRating(newRating)}
         >
-            <Ratings.Widget onClick={() => setRating(1)}/>
-            <Ratings.Widget />
-            <Ratings.Widget/>
-            <Ratings.Widget />
-            <Ratings.Widget />
-        </Ratings>  
+          <Ratings.Widget onClick={() => setRating(1)}/>
+          <Ratings.Widget/>
+          <Ratings.Widget/>
+          <Ratings.Widget/>
+          <Ratings.Widget/>
+        </Ratings>
         <span>{rating} Stars</span>
-        </Grid>
-        <Grid>
-            <Button variant="outlined" color="primary" onClick={handleClose}>
-                skip
-            </Button>
+      </Grid>
+      <Grid>
+        <Button variant="outlined" color="primary" onClick={handleClose}>
+          skip
+        </Button>
 
-            <Button variant="contained" color="primary" onClick={submitRateHandle}>
-                Submit
-            </Button>
-        </Grid>
-    </div>
+        <Button variant="contained" color="primary" onClick={submitRateHandle} sx={{ml: 2}}>
+          Submit
+        </Button>
+      </Grid>
+    </Container>
   );
 }
