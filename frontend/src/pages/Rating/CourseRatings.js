@@ -8,13 +8,14 @@ import {
   Input,
   MenuItem,
   InputLabel,
-  Autocomplete, TextField, Rating, Tooltip, FormControlLabel, Checkbox, Button, Paper
+  Autocomplete, TextField, Rating, Tooltip, FormControlLabel, Checkbox, Button, Paper, Divider, Link, IconButton
 } from "@mui/material";
 
 import {LocalizationProvider, DatePicker} from "@mui/lab";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import {getJson, postJson} from "../../api/helpers";
 import InfoIcon from '@mui/icons-material/Info';
+import {ThumbUp} from "@mui/icons-material";
 
 const cfxScanAddr = "https://testnet.confluxscan.io/transaction/";
 
@@ -115,17 +116,14 @@ export default function CourseRatings({courseName: courseCode, instituteName, ad
 
   return (
     <React.Fragment>
-      <Box pl={3}>
-        <FormControl width='100px' style={{margin: 5}} variant="outlined">
-          <InputLabel id="semester-selection-label">Semester</InputLabel>
+      <Box pt={2}>
+        <FormControl sx={{minWidth: 120}}>
+          <InputLabel>Semester</InputLabel>
           <Select
-            labelId="semester-selection-label"
-            id="semester-selection"
+            label="Semester"
             multiple
             value={semesters}
             onChange={handleChangeSemesterMultiple}
-            input={<Input/>}
-            style={{minWidth: 120}}
           >
             {semesterOptions.map((value) => (
               <MenuItem key={value} value={value}>
@@ -134,16 +132,13 @@ export default function CourseRatings({courseName: courseCode, instituteName, ad
             ))}
           </Select>
         </FormControl>
-        <FormControl width='100px' style={{margin: 5}}>
-          <InputLabel id="prof-selection-label">Prof</InputLabel>
+        <FormControl sx={{minWidth: 120, ml: 3}}>
+          <InputLabel>Prof</InputLabel>
           <Select
-            labelId="prof-selection-label"
-            id="prof-selection"
+            label="Prof"
             multiple
             value={profs}
             onChange={handleChangeProfMultiple}
-            input={<Input/>}
-            style={{minWidth: 120}}
           >
             {profOptions.map((value) => (
               <MenuItem key={value} value={value}>
@@ -153,82 +148,58 @@ export default function CourseRatings({courseName: courseCode, instituteName, ad
           </Select>
         </FormControl>
       </Box>
-      <Box width="90%">
+      <Box>
         {
           data.map(rating => (
             isSemesterInclude(semesters, rating.semester) &&
             isProfInclude(profs, rating.prof) &&
-            <Box border={1} width={1} m={3} display="flex" key={rating._id}>
-              <Box style={{width: '20%'}} borderRight={1}>
-                <Box borderBottom={1} display="flex">
-                  <Typography fontWeight="fontWeightBold" pr={1}>User:</Typography>
-                  <Typography>{rating.user}</Typography>
-                </Box>
-                <CardMedia
-                  style={{
-                    height: 0,
-                    paddingTop: '100%', // 16:9,
-                    marginTop: '30'
-                  }}
-                  image='https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png'
-                  title="user image"
+            <Paper elevation={4} sx={{my: 3, p: 2, width: '80%'}} key={rating._id}>
+              {rating.chainTransactionID && (
+                <Button sx={{float: 'right', top: 0, right: 0}} target="_blank" href={cfxScanAddr + rating.chainTransactionID} startIcon={<InfoIcon/>}>
+                  on-chain TX
+                </Button>
+              )}
+              <Typography variant="h6" fontWeight={500} pl={'4px'}>{rating.year} {rating.semester}</Typography>
+              <Box display="flex" alignItems="center" py={1}>
+                <Rating
+                  value={rating.score}
+                  readOnly
                 />
               </Box>
-              <Box style={{width: '80%'}}>
-                <Box borderBottom={1} display="flex" justifyContent="flex-start">
-                  <Typography fontWeight="fontWeightBold" pl={1} pr={1}>Prof:</Typography>
-                  <Typography>{rating.prof}</Typography>
-                  <Typography fontWeight="fontWeightBold" pl={1} pr={1}>Score:</Typography>
-                  <Typography>{rating.score}/5</Typography>
-                  <Typography fontWeight="fontWeightBold" pl={1} pr={1}>Year:</Typography>
-                  <Typography>{rating.year}</Typography>
-                  <Typography fontWeight="fontWeightBold" pl={1} pr={1}>Semester:</Typography>
-                  <Typography>{rating.semester}</Typography>
-                  {rating.chainTransactionID &&
-                  <Tooltip title={<a style={{color: 'white'}} target="_blank" rel="noreferrer"
-                                     href={cfxScanAddr + rating.chainTransactionID}>Visit comment content on chain</a>}
-                           placement="top-start">
-                    <InfoIcon/>
-                  </Tooltip>}
+              <Divider/>
+
+              <div>
+                <Box display="flex" justifyContent="flex-start">
+                  <Typography fontWeight="fontWeightBold" pl="4px" pr={1}>Prof:</Typography>
+                  <Typography pr={3}>{rating.prof}</Typography>
+                  <Typography fontWeight="fontWeightBold" pr={1}>Rated By:</Typography>
+                  <Typography pr={3}>{rating.user}</Typography>
                 </Box>
                 <Box pl={1} display="flex" justifyContent="flex-start">
-                  <Box style={{width: '80%'}}>
-                    <Typography fontWeight="fontWeightBold">Comment:</Typography>
-                    <Typography style={{display: 'inline-block'}}>{rating.comment}</Typography>
+                  <Box style={{width: '80%', whiteSpace: 'pre-wrap'}}>
+                    <Typography>{'\n'}{rating.comment}</Typography>
                   </Box>
-                  <Box style={{width: '30%'}} display='flex' flexGrow={1} borderLeft={1}>
+                  <Box sx={{width: '30%', pl: 3}} display='flex' flexGrow={1} borderLeft={1} borderColor="rgb(0,0,0,0.15)">
                     <Box>
-                      <CardMedia
-                        style={{
-                          height: "100px",
-                          width: "100px"
-                        }}
-                        image='https://www.kindpng.com/picc/m/136-1366147_thumb-up-icon-color-thumbs-up-png-transparent.png'
-                        title="Like"
-                        // TODO: link to like or dislike
-                      />
+                      <IconButton size="large">
+                        <ThumbUp/>
+                      </IconButton>
                       <Typography align='center'>{rating.like}</Typography>
                     </Box>
                     <Box pl={5}>
-                      <CardMedia
-                        style={{
-                          height: "100px",
-                          width: "100px",
-                        }}
-                        image='https://www.pngitem.com/pimgs/m/366-3667940_thumbs-down-icon-png-transparent-png.png'
-                        title="Unlike"
-                        // TODO: link to like or dislike
-                      />
+                      <IconButton size="large">
+                        <ThumbUp/>
+                      </IconButton>
                       <Typography align='center'>{rating.unlike}</Typography>
                     </Box>
                   </Box>
                 </Box>
-              </Box>
-            </Box>
+              </div>
+            </Paper>
           ))
         }
       </Box>
-      <Paper variant={"outlined"} sx={{p: 3, m: 3, width: '90%'}} ref={addRatingPanelRef}>
+      <Paper elevation={5} sx={{p: 3, my: 6, width: '80%'}} ref={addRatingPanelRef}>
         <Typography variant='h6'>Add a New Rating</Typography>
         <form onSubmit={handleSubmit} style={ratingFormStyle}>
           <Box pb={2}>
