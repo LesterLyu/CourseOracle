@@ -5,39 +5,24 @@ const Prof = require("../models/prof")
 const CourseRating = require("../models/courseRating")
 const {APIError} = require("../utils/errors");
 const { Conflux, Drip } = require('js-conflux-sdk');
-
-async function ratingOnChain(comment) {
+const {abi: ratingAbi} = require('./rating.json');
+require("dotenv").config();
+async function ratingOnChain(course, comment) {
+    console.log(course)
     const cfx = new Conflux({
-        url: 'https://test.confluxrpc.com',
+        url: process.env.NETWORK_URL,
         defaultGasPrice: 100, // The default gas price of your following transactions
         defaultGas: 1000000, // The default gas of your following transactions
-        logger: console,
+        // logger: console,
         networkId: 1,
     });
-
-    const PRIVATE_KEY = '0xe029e006d99d956d58e5c87e96814ab703cB3691c024958230a920fe296e81ad'; // kevin's private key
-    const account = cfx.wallet.addPrivateKey(PRIVATE_KEY); // create account instance
-    const receiver = 'cfxtest:aaph5gjm3g9muk0r3e5pmka6gsrjnhh5zjpkk104pp'; // kevin's address
-
-    let txParams = {
-        from: receiver, // from account instance and will by sign by account.privateKey
-        // nonce
-        // gasPrice
-        // gas
-        to: receiver, // accept address string or account instance
-        value: Drip.fromCFX(0.125), // use the conversion utility function
-        // storageLimit
-        // epochHeight
-        // data: confluxWeb.utils.toHex(comment)
-        data: '0x' + Buffer.from(comment, 'utf8').toString('hex'),
-    };
-    console.log(comment);
-    console.log('0x' + Buffer.from(comment, 'utf8').toString('hex'));
-    const txHash = await cfx.sendTransaction(txParams);
-    // console.log('-------------------------');
-    // console.log(txHash);
-    // console.log('-------------------------');
-    return txHash;
+    const RatingContract = cfx.Contract({ abi: ratingAbi, address: process.env.CONTRACT_ADDRESS});
+    const PRIVATE_KEY = process.env.PRIVATE_KEY; 
+    cfx.wallet.addPrivateKey(PRIVATE_KEY); // create account instance
+    const receiver = process.env.RECEIVER_ADDRESS;
+    hash = await RatingContract.setRate(course, comment).sendTransaction({from: receiver})
+    console.log(hash)
+    return hash;
 }
 
 async function postRating(req, res, next) {
@@ -105,7 +90,8 @@ async function postRating(req, res, next) {
 
     let transactionId = '';
     if (req.body.onChain) { // replace with onChain selection
-        transactionId = await ratingOnChain(req.body.comment);
+        let courseName = institute.name+'$'+req.body.course+'$'+req.body.year +'$' + req.body.semester;
+        transactionId = await ratingOnChain(courseName, req.body.comment);
     }
 
     const newRating = new CourseRating({
