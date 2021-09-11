@@ -16,8 +16,10 @@ async function deposit(req, res){
         networkId: 1,
       });
     const transaction = await conflux.getTransactionByHash(req.body.hash);
+    console.log(transaction.to)
+    console.log(process.env.RECEIVER_ADDRESS)
     if (transaction.status === 0 && 
-        transaction.to === process.env.RECEIVER_ADDRESS &&
+        (transaction.to === process.env.RECEIVER_ADDRESS || transaction.to === process.env.RECEIVER_ADDRESS1) &&
         transaction.value == req.body.amount * 1e18){ //transaction.value is BigInt
         const tmp = await Transaction.find({hash: req.body.hash})
         if (tmp.length === 0){
