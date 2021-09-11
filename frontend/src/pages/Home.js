@@ -3,8 +3,8 @@ import {useHistory} from 'react-router-dom';
 // See https://next.material-ui.com/system/styled/
 import {styled, alpha} from '@mui/material/styles';
 import {
-  Autocomplete, Container, InputBase, Paper, TextField, Typography, Box, FormGroup, FormControlLabel,
-  Checkbox, Button, Grid, Divider, InputAdornment, Radio
+  Autocomplete, Container, Paper, TextField, Typography, Box, FormGroup, FormControlLabel,
+  Checkbox, Button, Grid, Divider, InputAdornment
 } from "@mui/material";
 import {
   Search as SearchIcon, ArrowForwardSharp as ArrowForwardSharpIcon,
@@ -27,33 +27,8 @@ const Search = styled('div')(({theme}) => ({
   width: '100%',
 }));
 
-const SearchIconWrapper = styled('div')(({theme}) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex', alignItems: 'center',
-  justifyContent: 'center',
-}));
-
-const StyledInputBase = styled(InputBase)(({theme}) => ({
-  color: 'inherit',
-  '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    width: '100%',
-  },
-}));
 
 const StyledCheckbox = styled(Checkbox)(({
-  color: '#ccc',
-  '&.Mui-checked': {
-    color: '#ccc',
-  },
-}));
-
-const StyledRadioButton = styled(Radio)(({
   color: '#ccc',
   '&.Mui-checked': {
     color: '#ccc',

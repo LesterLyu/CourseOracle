@@ -11,7 +11,8 @@ if (process.env.DB)
 
 module.exports = {
   mongodb: {
-    addr: db
+    addr: db,
+    // addr: 'mongodb://co.lesterlyu.com/co'
   },
   // pbkdf2 configuration, ~70ms with this config
   passwordHashing: {

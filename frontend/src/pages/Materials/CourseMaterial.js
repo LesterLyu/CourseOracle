@@ -1,6 +1,6 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
-  Button, Card, CardActions, CardContent, CardMedia, Grid, Typography, Box, styled,
+  Button, Card, CardActions, CardContent, CardMedia, Grid, Typography, styled,
   Popover
 } from "@mui/material"
 import Checkout from './Checkout.js'
@@ -17,9 +17,9 @@ const StyledCard = styled(Card)(() => ({
 
 
 export default function CourseMaterial({courseName, instituteName}) {
-  const [courseInfo, setCourseInfo] = useState({
-    professors: []
-  })
+  // const [courseInfo, setCourseInfo] = useState({
+  //   professors: []
+  // })
   const [anchorPosition, setAnchorPosition] = React.useState(null);
   const [currId, setCurrId] = React.useState(null);
 
@@ -33,12 +33,12 @@ export default function CourseMaterial({courseName, instituteName}) {
       if (data.error) {
         alert(data.error)
       } else {
-        setCourseInfo(data.course);
+        // setCourseInfo(data.course);
         setMaterials(data.courseMaterial);
         setSelectedMaterials(data.courseMaterial);
       }
     })();
-  }, [])
+  }, [courseName, instituteName])
 
 
   const handleClick = (event) => {

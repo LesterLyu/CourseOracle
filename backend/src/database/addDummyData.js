@@ -161,6 +161,11 @@ async function runAll() {
   // await db.dropDatabase();
   // await addUser();
 
+  // Remove everything but users
+  await Promise.all([Institute, Course, Prof, CourseMaterial, CourseRating, PurchaseHistory].map(
+    async Model => await Model.deleteMany({})
+  ));
+
   await addInstitute();
   await addProfessor();
   await addCourse();

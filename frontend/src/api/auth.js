@@ -1,4 +1,4 @@
-import { postJson, getJson, putJson } from "./helpers";
+import { postJson } from "./helpers";
 
 export const login = async (email, password) => {
   return await postJson('/api/login', {email, password});
