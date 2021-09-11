@@ -1,13 +1,14 @@
 import React, {useState, useEffect} from 'react';
 import {
-  Button, Card, CardActions, CardContent, CardMedia, Grid, Typography, styled,
-  Popover
+  Button, Card, CardActions, CardContent, Grid, Typography, styled,
+  Popover, IconButton, Box, Chip
 } from "@mui/material"
 import Checkout from './Checkout.js'
 import RateMaterial from './RateMaterial.js'
 import RewardOfferer from './RewardOfferer'
 import {getMaterials} from "../../api/material"
 import {MATERIAL_TYPE} from "../../constants";
+import {Description, ThumbDown, ThumbUp} from "@mui/icons-material";
 
 const StyledCard = styled(Card)(() => ({
   height: '100%',
@@ -102,55 +103,58 @@ export default function CourseMaterial({courseName, instituteName}) {
       <Grid container spacing={4} sx={{pt: 4}}>
         {selectedMaterials.map((m) => (
           <Grid item key={m.id} xs={12} sm={6} md={4}>
-            <StyledCard>
-              <CardMedia
-                style={{paddingTop: '56.25%'}}
-                image={m.cover_page}
-                title="Image title"
-              />
+            <StyledCard elevation={3}>
+              <Description sx={{fontSize: '10vw', width: 100, color: 'rgb(67,161,112)', height: 'initial'}}/>
+
+              {/*<CardMedia*/}
+              {/*  style={{paddingTop: '56.25%'}}*/}
+              {/*  image={m.cover_page}*/}
+              {/*  title="Image title"*/}
+              {/*/>*/}
               <CardContent style={{flexGrow: 1}}>
                 <Typography gutterBottom variant="h5" component="h2">
-                  semester: {m.year} - {m.semester}
+                  {m.semester[0].toUpperCase()}{m.semester.slice(1)} {m.year}
                 </Typography>
-                {/* <Typography>
-                      id: {m.id}
-                    </Typography> */}
-                <Typography>
-                  price: {m.price}
-                </Typography>
-                <Typography>
-                  type: {m.type}
-                </Typography>
-                <Typography>
-                  offer_by: {m.offer_by}
-                </Typography>
-                <Typography>
-                  prof: {m.prof.map((p) => <a key={p} href={'profs/' + p}>{p + ' '}</a>)}
-                </Typography>
-                <Typography>
-                  like: {m.like}
-                </Typography>
-                <Typography>
-                  unlike: {m.unlike}
+                <Chip label={m.type}/>
+                <Chip color="info" sx={{ml: 1}} label={`Price: ${m.price}`}/>
+                {m.prof?.length > 0 && <Typography variant="body2">
+                  Prof: {m.prof.map((p) => <a key={p} href={'profs/' + p}><Chip>{p + ' '}</Chip></a>)}
+                </Typography>}
+                <Typography variant="body2" mt={2}>
+                  Offered By: {m.offer_by}
                 </Typography>
               </CardContent>
-              <CardActions>
-
-
+              <CardActions sx={{display: 'flex'}}>
+                <Box display="flex" alignItems="center" flexGrow={1} ml={1}>
+                  <Typography>{m.like}</Typography>
+                  <IconButton size="large">
+                    <ThumbUp/>
+                  </IconButton>
+                  <Typography>{m.unlike}</Typography>
+                  <IconButton size="large">
+                    <ThumbDown/>
+                  </IconButton>
+                </Box>
                 {m.status === 0 &&
-                <Button value={m.id} variant="contained" color="primary" onClick={handleClick}>
+                <Button value={m.id} variant="contained" color="primary" onClick={handleClick} sx={{mr: 2}}>
                   Buy
                 </Button>
                 }
 
+                {m.status > 0 &&
+                <Button value={m.id} variant="outlined" color="primary" sx={{mr: 1}}>
+                  View
+                </Button>
+                }
+
                 {m.status === 1 &&
-                <Button value={m.id} variant="outlined" color="primary" onClick={handleClick}>
+                <Button value={m.id} variant="outlined" color="primary" onClick={handleClick} sx={{mr: 2}}>
                   Rate
                 </Button>
                 }
 
                 {m.status === 2 &&
-                <Button value={m.id} variant="outlined" color="secondary" onClick={handleClick}>
+                <Button value={m.id} variant="outlined" color="secondary" onClick={handleClick} sx={{mr: 2}}>
                   Reward
                 </Button>
                 }
