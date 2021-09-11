@@ -29,7 +29,7 @@ jobs:
       
     - name: Build
       working-directory: frontend
-      run: CI=false yarn build; cp build/index.html build/404.html
+      run: CI=false yarn build
       
     - name: Deploy Frontend
       uses: peaceiris/actions-gh-pages@v3
