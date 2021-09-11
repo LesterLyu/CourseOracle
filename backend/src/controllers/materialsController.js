@@ -60,15 +60,15 @@ const purchaseMaterial = async (req, res) => {
   const email = req.session.email;
   const materialId = req.body.materialId;
   if (!email || !materialId) {
-    res.status(400).json({error: "invalid request"});
+    return res.status(400).json({error: "email and materialId are required"});
   }
   const buyer = await User.findOne({email: email});
   if (!buyer) {
-    res.status(400).json({error: "invalid request"});
+    return res.status(400).json({error: "Cannot find email"});
   } else {
     const purchaseHistory = await PurchaseHistory.findOne({user: buyer._id, material: materialId})
     if (purchaseHistory) {
-      res.status(400).json({error: "invalid request"});
+      return res.status(400).json({error: "you already purchased"});
     } else {
       const material = await CourseMaterial.findById(materialId)
       const offerer = await User.findById(material.user)
@@ -84,9 +84,9 @@ const purchaseMaterial = async (req, res) => {
           }
         })
         // TODI: find file and send it back
-        res.json({file: 'temp file'})
+        return res.json({file: 'temp file'})
       } else {
-        res.status(400).json({error: "insuffient balance"});
+        return res.status(400).json({error: "insuffient balance"});
       }
     }
   }
@@ -105,7 +105,7 @@ const rateMaterial = async (req, res) => {
   } else {
     const purchaseHistory = await PurchaseHistory.findOne({user: buyer._id, material: materialId})
     if (!purchaseHistory) { // material to be rated should be already in purchaseHistory
-      res.status(400).json({error: "invalid request"});
+      return res.status(400).json({error: "invalid request"});
     } else {
       purchaseHistory.updateOne({rate: rating}, function (err) {
         if (err) {
@@ -120,7 +120,7 @@ const rateMaterial = async (req, res) => {
         material.unlike += 1;
       }
       material.save();
-      res.send({});
+      return res.json({});
     }
   }
 }
@@ -141,7 +141,7 @@ const tipMaterial = async (req, res) => {
   } else {
     const purchaseHistory = await PurchaseHistory.findOne({user: buyer._id, material: materialId})
     if (!purchaseHistory || !purchaseHistory.rate) { // material to be rated should be already in purchaseHistory
-      res.status(400).json({error: "invalid request"});
+      return res.status(400).json({error: "invalid request"});
     } else {
       const material = await CourseMaterial.findById(materialId)
       const offerer = await User.findById(material.user)
@@ -156,9 +156,9 @@ const tipMaterial = async (req, res) => {
           purchaseHistory.tip += tip;
         }
         purchaseHistory.save()
-        res.send({})
+        return res.json({})
       } else {
-        res.status(400).send({error: 'insufficient balance'})
+        return res.json(400).send({error: 'insufficient balance'})
       }
     }
   }
