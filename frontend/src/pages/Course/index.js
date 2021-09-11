@@ -29,7 +29,7 @@ export default function Course() {
       setTabValue(0);
       history.push(`/course/${institute}/${course}/rating`);
     }
-  }, []);
+  }, [location, history, institute, course]);
 
   useEffect(() => {
     (async function () {
@@ -50,7 +50,7 @@ export default function Course() {
             onClick={() => history.push(`/upload/${institute}/${course}`)}>
       Upload Material
     </Button>
-  ), []);
+  ), [course, history, institute]);
 
   return (
     <Container>

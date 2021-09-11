@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   CardMedia,
   Typography,
@@ -13,7 +13,6 @@ import {
 
 import {LocalizationProvider, DatePicker} from "@mui/lab";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import {useParams} from "react-router-dom";
 import {getJson, postJson} from "../../api/helpers";
 import InfoIcon from '@mui/icons-material/Info';
 
@@ -39,11 +38,11 @@ const ratingFormStyle = {
     // justifyContent: 'space-between',
 }
 
-export default function CourseRatings({courseName, insituteName}) {
+export default function CourseRatings({courseName: courseCode, instituteName}) {
 
     const [data, setData] = useState([]);
-    // setData();
-    async function getData(){
+
+    const getData = useCallback(async () => {
         console.log(instituteName);
         const url = '/api/rating?institute=' + instituteName + '&course=' + courseCode;
         const tmp = await getJson(url)
@@ -55,17 +54,12 @@ export default function CourseRatings({courseName, insituteName}) {
             console.log(tmp);
         }
         return tmp;
-    }
+    }, [courseCode, instituteName]);
 
-    useEffect(async () => {
-        async function callGetData(){
-            const tmp = await getData()
-        }
-        await callGetData()
-    }, [])
-    const params = useParams();
-    const instituteName = params.institute;
-    const courseCode = params.course;
+    useEffect(() => {
+        getData();
+    }, [getData]);
+
     const [semesters, setSemester] = useState(semesterOptions);
     const handleChangeSemesterMultiple = (event) => {
         setSemester(event.target.value);
@@ -80,7 +74,8 @@ export default function CourseRatings({courseName, insituteName}) {
     const [newProf, setNewProf] = useState("");
     const [newScore, setNewScore] = useState(0);
     const [newComment, setNewComment] = useState("");
-    const [newCourse, setNewCourse] = useState(""); // TODO: get this value props
+    // TODO: get this value props
+    // const [newCourse, setNewCourse] = useState("");
     const [newYear, setNewYear] = useState(new Date());
     const [newSemester, setNewSemester] = useState(semesterOptions[0]);
     const [onChain, setOnChain] = useState(false);
@@ -189,7 +184,7 @@ export default function CourseRatings({courseName, insituteName}) {
                                     <Typography fontWeight="fontWeightBold" pl={1} pr={1}>Semester:</Typography>
                                     <Typography>{rating.semester}</Typography>
                                     {rating.chainTransactionID &&
-                                        <Tooltip title={<a style={{color: 'white'}} target="_blank" href={cfxScanAddr + rating.chainTransactionID}>Visit comment content on chain</a>} placement="top-start">
+                                        <Tooltip title={<a style={{color: 'white'}} target="_blank" rel="noreferrer" href={cfxScanAddr + rating.chainTransactionID}>Visit comment content on chain</a>} placement="top-start">
                                             <InfoIcon />
                                         </Tooltip>}
                                 </Box>
