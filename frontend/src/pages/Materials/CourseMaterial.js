@@ -1,14 +1,14 @@
 import React, {useState, useEffect} from 'react';
 import {
   Button, Card, CardActions, CardContent, Grid, Typography, styled,
-  Popover, IconButton, Box, Chip
+  Popover, IconButton, Box, Chip, CardMedia, Divider
 } from "@mui/material"
 import Checkout from './Checkout.js'
 import RateMaterial from './RateMaterial.js'
 import RewardOfferer from './RewardOfferer'
 import {getMaterials} from "../../api/material"
 import {MATERIAL_TYPE} from "../../constants";
-import {Description, ThumbDown, ThumbUp} from "@mui/icons-material";
+import {ThumbDown, ThumbUp} from "@mui/icons-material";
 
 const StyledCard = styled(Card)(() => ({
   height: '100%',
@@ -104,13 +104,14 @@ export default function CourseMaterial({courseName, instituteName}) {
         {selectedMaterials.map((m) => (
           <Grid item key={m.id} xs={12} sm={6} md={4}>
             <StyledCard elevation={3}>
-              <Description sx={{fontSize: '10vw', width: 100, color: 'rgb(67,161,112)', height: 'initial'}}/>
+              {/*<Description sx={{fontSize: '10vw', width: 100, color: 'rgb(67,161,112)', height: 'initial'}}/>*/}
 
-              {/*<CardMedia*/}
-              {/*  style={{paddingTop: '56.25%'}}*/}
-              {/*  image={m.cover_page}*/}
-              {/*  title="Image title"*/}
-              {/*/>*/}
+              <CardMedia
+                sx={{paddingTop: '56.25%', filter: 'blur(1px) brightness(80%)'}}
+                image={process.env.PUBLIC_URL + '/blur-doc.png'}
+                title="Preview"
+              />
+              <Divider/>
               <CardContent style={{flexGrow: 1}}>
                 <Typography gutterBottom variant="h5" component="h2">
                   {m.semester[0].toUpperCase()}{m.semester.slice(1)} {m.year}
