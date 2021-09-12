@@ -222,7 +222,7 @@ export default function HomePage() {
 
               <Grid item xs={4} md={2}>
                 <Button
-                  sx={{mt: '-1px'}}
+                  sx={{mt: 1}}
                   size="large"
                   variant="contained"
                   color="primary"
