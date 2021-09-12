@@ -13,7 +13,7 @@ import {LocalizationProvider, DatePicker} from "@mui/lab";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import {getJson, postJson} from "../../api/helpers";
 import InfoIcon from '@mui/icons-material/Info';
-import {ThumbUp} from "@mui/icons-material";
+import {ThumbDown, ThumbUp} from "@mui/icons-material";
 
 const cfxScanAddr = "https://testnet.confluxscan.io/transaction/";
 
@@ -186,7 +186,7 @@ export default function CourseRatings({courseName: courseCode, instituteName, ad
                     </Box>
                     <Box pl={5}>
                       <IconButton size="large">
-                        <ThumbUp/>
+                        <ThumbDown/>
                       </IconButton>
                       <Typography align='center'>{rating.unlike}</Typography>
                     </Box>
