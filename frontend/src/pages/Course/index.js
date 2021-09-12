@@ -11,6 +11,9 @@ import {Add} from "@mui/icons-material";
 const StyledTab = styled(Tab)(({theme}) => ({
   textTransform: 'none',
   fontSize: 16,
+  '&.Mui-selected': {
+    backgroundColor: '#f1f8ff'
+  }
 }));
 
 export default function Course() {
@@ -67,13 +70,13 @@ export default function Course() {
       </Typography>
 
       <Box sx={{display: 'flex'}}>
-        <Box sx={{flexGrow: 1}}>
+        <Box sx={{flexGrow: 1, width: '80%'}}>
           {courseData?.professors?.length && <Typography variant={"h5"} color={"textSecondary"} sx={{pt: 1, pb: 1}}>
             professors: {courseData.professors.map((p, idx) =>
             <Link key={p} href={'/prof/' + p}>{p + (idx !== courseData.professors.length - 1 ? ', ' : '')}</Link>)}
           </Typography>}
 
-          {courseData?.description && <Typography variant={"h5"} color={"textSecondary"} sx={{pt: 1, pb: 1}}>
+          {courseData?.description && <Typography variant={"body1"} color={"textSecondary"} sx={{pt: 1, pb: 1}}>
             {courseData.description}
           </Typography>}
         </Box>
